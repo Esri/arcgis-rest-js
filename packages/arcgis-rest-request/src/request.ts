@@ -167,10 +167,10 @@ export class ArcGISAuthError extends ArcGISRequestError {
     Object.setPrototypeOf(this, actualProto);
   }
 
-  public retry(getSession: IRetryAuthError, retryLimit = 1) {
+  public retry<T = unknown>(getSession: IRetryAuthError, retryLimit = 1) {
     let tries = 0;
 
-    const retryRequest = async (): Promise<any> => {
+    const retryRequest = async (): Promise<T> => {
       tries = tries + 1;
 
       try {
@@ -180,7 +180,7 @@ export class ArcGISAuthError extends ArcGISRequestError {
           ...{ authentication: session }
         };
 
-        return await internalRequest(this.url, newOptions);
+        return await internalRequest<T>(this.url, newOptions);
       } catch (e: any) {
         if (e.name === "ArcGISAuthError" && tries < retryLimit) {
           return retryRequest();
@@ -557,7 +557,7 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
  * @returns A Promise that will resolve with the data from the response.
  * @internal
  */
-export async function internalRequest<T = any>(
+export async function internalRequest<T = unknown>(
   url: string,
   requestOptions: IRequestOptions
 ): Promise<T> {
@@ -669,7 +669,7 @@ export async function rawRequest(
  * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
  * @returns A Promise that will resolve with the data from the response.
  */
-export async function request<T = any>(
+export async function request<T = unknown>(
   url: string,
   requestOptions: IRequestOptions = { params: { f: "json" } }
 ): Promise<T> {
@@ -683,7 +683,7 @@ export async function request<T = any>(
       requestOptions.authentication.canRefresh &&
       requestOptions.authentication.refreshCredentials
     ) {
-      return e.retry(() => {
+      return e.retry<T>(() => {
         return (requestOptions.authentication as any).refreshCredentials();
       }, 1);
     }

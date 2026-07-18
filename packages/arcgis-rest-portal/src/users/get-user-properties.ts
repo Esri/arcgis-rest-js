@@ -21,6 +21,10 @@ export interface IUserProperties {
   [key: string]: unknown;
 }
 
+interface IGetUserPropertiesResponse {
+  properties: IUserProperties;
+}
+
 /**
  * Fetches the properties for a user
  * @param username The user whose properties to fetch
@@ -42,7 +46,7 @@ export async function getUserProperties(
       method: "GET"
     }
   };
-  const response = await request(url, options);
+  const response = await request<IGetUserPropertiesResponse>(url, options);
   if (!response.properties.mapViewer) {
     response.properties.mapViewer = "modern";
   }

@@ -93,7 +93,7 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
   const url = getPortalUrl(options) + path;
 
   // send the request
-  return request(url, options).then((r) => {
+  return request<ISearchResult<T>>(url, options).then((r) => {
     if (r.nextStart && r.nextStart !== -1) {
       r.nextPage = function () {
         let newOptions: ISearchOptions;

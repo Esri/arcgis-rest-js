@@ -19,7 +19,8 @@ import {
 import {
   IGetLayerOptions,
   ISharedQueryOptions,
-  IStatisticDefinition
+  IStatisticDefinition,
+  IFeatureServiceDefinition
 } from "./helpers.js";
 import pbfToGeoJSON, {
   EsriGeoJSONFeatureCollection
@@ -486,10 +487,13 @@ export async function queryAllFeatures(
     recordCountToUse = userRecordCount;
   } else {
     // retrieve the maxRecordCount for the service only if user did not provide resultRecordCount
-    const pageSizeResponse = await request(requestOptions.url, {
-      fetchOptions: { method: "GET" },
-      authentication: requestOptions.authentication
-    });
+    const pageSizeResponse = await request<IFeatureServiceDefinition>(
+      requestOptions.url,
+      {
+        fetchOptions: { method: "GET" },
+        authentication: requestOptions.authentication
+      }
+    );
     // default the pageSize to 2000 if it is not provided
     recordCountToUse = pageSizeResponse.maxRecordCount || 2000;
   }

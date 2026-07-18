@@ -121,7 +121,12 @@ function _sendSafeRequest(
   url: string,
   requestOptions: IRequestOptions
 ): Promise<ICreateOrgNotificationResult> {
-  return request(url, requestOptions).catch((error) => ({ errors: [error] }));
+  return request<ICreateOrgNotificationResult>(url, requestOptions).catch(
+    (error): ICreateOrgNotificationResult => ({
+      success: false,
+      errors: [error]
+    })
+  );
 }
 
 /**

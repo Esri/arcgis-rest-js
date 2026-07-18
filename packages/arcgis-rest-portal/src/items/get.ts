@@ -51,7 +51,7 @@ export function getItem(
     }
   };
 
-  return request(url, options).then(async (item: IItem) => {
+  return request<IItem>(url, options).then(async (item) => {
     const portal = requestOptions?.portal || getPortalUrl(requestOptions);
     let token: string | undefined;
 
@@ -214,7 +214,7 @@ export function getRelatedItems(
   delete options.direction;
   delete options.relationshipType;
 
-  return request(url, options);
+  return request<IGetRelatedItemsResponse>(url, options);
 }
 
 export interface IGetItemResourcesResponse {
@@ -253,7 +253,7 @@ export function getItemResources(
   };
   options.params = { num: 1000, ...options.params };
 
-  return request(url, options);
+  return request<IGetItemResourcesResponse>(url, options);
 }
 
 export interface IGetItemGroupsResponse {
@@ -331,7 +331,7 @@ export function getItemGroups(
 ): Promise<IGetItemGroupsResponse> {
   const url = `${getItemBaseUrl(id, requestOptions)}/groups`;
 
-  return request(url, requestOptions);
+  return request<IGetItemGroupsResponse>(url, requestOptions);
 }
 
 export interface IItemStatusOptions extends IUserItemOptions {
@@ -387,7 +387,7 @@ export function getItemStatus(
       }
     );
 
-    return request(url, options);
+    return request<IGetItemStatusResponse>(url, options);
   });
 }
 
@@ -418,7 +418,7 @@ export function getItemParts(
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/parts`;
-    return request(url, requestOptions);
+    return request<IGetItemPartsResponse>(url, requestOptions);
   });
 }
 
