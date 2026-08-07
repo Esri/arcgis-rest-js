@@ -1,5 +1,11 @@
 # @esri/arcgis-rest-feature-service Changelog
 
+## 4.11.0
+
+### Minor Changes
+
+- 7923ffe: queryAttachments update
+
 ## 4.10.3
 
 ## 4.10.2

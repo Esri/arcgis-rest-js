@@ -1,5 +1,11 @@
 # @esri/arcgis-rest-portal Changelog
 
+## 4.11.0
+
+### Patch Changes
+
+- 05b9926: Updates documentation to reflect correct addItemData parameters.
+
 ## 4.10.3
 
 ## 4.10.2
