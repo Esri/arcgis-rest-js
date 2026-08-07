@@ -1,5 +1,7 @@
 # @esri/arcgis-rest-form-data Changelog
 
+## 4.11.0
+
 ## 4.10.3
 
 ## 4.10.2

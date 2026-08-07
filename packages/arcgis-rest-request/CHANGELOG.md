@@ -1,5 +1,12 @@
 # @esri/arcgis-rest-request Changelog
 
+## 4.11.0
+
+### Patch Changes
+
+- @esri/arcgis-rest-fetch@4.11.0
+- @esri/arcgis-rest-form-data@4.11.0
+
 ## 4.10.3
 
 ### Patch Changes
