@@ -22,7 +22,7 @@ export interface IAddItemDataOptions extends IUserItemOptions {
    */
   file?: Blob | File;
   /**
-   * Text content to store/
+   * Text content to store.
    */
   text?: string;
 }
@@ -35,7 +35,7 @@ export interface IAddItemDataOptions extends IUserItemOptions {
  *
  * addItemData({
  *   id: '3ef',
- *   data: file,
+ *   file,
  *   authentication
  * })
  *   .then(response)
