@@ -2,7 +2,7 @@
 
 ## v4.x.x Maintenance Release
 
-On this `4.x.x` maintenance branch, ArcGIS REST JS packages are released automatically using the default [changeset action](https://github.com/changesets/action) in the [release workflow](./.github/workflows/release.yml) and published with npm dist-tag `v4`. When changes are merged to `4.x`, changesets will automatically create a release PR on `4.x` that, when merged, will trigger a new release of all packages, published with dist-tag `v4`.
+On this `4.x.x` maintenance branch, ArcGIS REST JS packages are released automatically using the default [changeset action](https://github.com/changesets/action) in the [release workflow](./.github/workflows/release.yml) and published with npm dist-tag `lts-v4.x`. When changes are merged to `4.x`, changesets will automatically create a release PR on `4.x` that, when merged, will trigger a new release of all packages, published with dist-tag `lts-v4.x`.
 
 ## December 2025/January 2026 Updates
 
