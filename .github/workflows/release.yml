@@ -49,7 +49,7 @@ jobs:
 
   # If the build and test works, run a release
   release:
-    name: Release v4 (dist-tag 4.x)
+    name: Release v4 (dist-tag v4)
     needs: [build_and_test]
     runs-on: ubuntu-latest
     permissions:
@@ -82,7 +82,8 @@ jobs:
         uses: changesets/action@v1.5.1 # workaround until fix for https://github.com/changesets/action/issues/501
         with:
           # build all packages and publish to the v4 maintenance dist-tag
-          publish: npx changeset publish --tag 4.x
+          # do not change this tag to latest or anything else
+          publish: npx changeset publish --tag v4
           # call changeset version and then update the lock file via yarn install
           version: npx changeset version
           cwd: "${{ github.workspace }}"
