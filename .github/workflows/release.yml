@@ -1,13 +1,11 @@
-name: Build, Test, Release
+name: Build, Test, Release v4 Maintenance Branch
 
-# On pushes to main (i.e. merging a PR)
+# On pushes to 4.x (i.e. merging a PR)
 # run all tests, on Ubuntu Node 24 and release if tests pass
 on:
   push:
     branches:
-      - main
-      - alpha
-      - beta
+      - 4.x
     paths-ignore:
       - "docs/**"
       - "demos/**"
@@ -22,7 +20,7 @@ jobs:
   # First, build and test on multiple os's
   # and multuple versions of node
   build_and_test:
-    name: Build and Test
+    name: Build and Test (v4)
 
     strategy:
       matrix:
@@ -51,7 +49,7 @@ jobs:
 
   # If the build and test works, run a release
   release:
-    name: Release
+    name: Release v4 (dist-tag 4.x)
     needs: [build_and_test]
     runs-on: ubuntu-latest
     permissions:
@@ -76,12 +74,15 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Create Release Pull Request or Publish to NPM
+      - name: Check & Log npm dist-tags and versions
+        run: npm dist-tag ls @esri/arcgis-rest-request
+
+      - name: Create Release Pull Request or Publish to NPM (v4)
         id: changesets
         uses: changesets/action@v1.5.1 # workaround until fix for https://github.com/changesets/action/issues/501
         with:
-          # build all packages and call changeset publish
-          publish: npx changeset publish
+          # build all packages and publish to the v4 maintenance dist-tag
+          publish: npx changeset publish --tag 4.x
           # call changeset version and then update the lock file via yarn install
           version: npx changeset version
           cwd: "${{ github.workspace }}"
