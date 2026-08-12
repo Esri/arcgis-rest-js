@@ -49,7 +49,7 @@ jobs:
 
   # If the build and test works, run a release
   release:
-    name: Release v4 (dist-tag v4)
+    name: Release v4 (dist-tag lts-v4.x)
     needs: [build_and_test]
     runs-on: ubuntu-latest
     permissions:
@@ -77,13 +77,13 @@ jobs:
       - name: Check & Log npm dist-tags and versions
         run: npm dist-tag ls @esri/arcgis-rest-request
 
-      - name: Create Release Pull Request or Publish to NPM (v4)
+      - name: Create Release Pull Request or Publish to NPM (lts-v4.x)
         id: changesets
         uses: changesets/action@v1.5.1 # workaround until fix for https://github.com/changesets/action/issues/501
         with:
-          # build all packages and publish to the v4 maintenance dist-tag
+          # build all packages and publish to the maintenance dist-tag lts-v4.x
           # do not change this tag to latest or anything else
-          publish: npx changeset publish --tag v4
+          publish: npx changeset publish --tag lts-v4.x
           # call changeset version and then update the lock file via yarn install
           version: npx changeset version
           cwd: "${{ github.workspace }}"
