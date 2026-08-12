@@ -1,5 +1,27 @@
 # @esri/arcgis-rest-request Changelog
 
+## 4.11.0
+
+### Patch Changes
+
+- @esri/arcgis-rest-fetch@4.11.0
+- @esri/arcgis-rest-form-data@4.11.0
+
+## 4.10.3
+
+### Patch Changes
+
+- 412188c: setDefaultRequestOptions and requests with rawResponse will honor suppressWarnings requestOptions
+  - @esri/arcgis-rest-fetch@4.10.3
+  - @esri/arcgis-rest-form-data@4.10.3
+
+## 4.10.2
+
+### Patch Changes
+
+- @esri/arcgis-rest-fetch@4.10.2
+- @esri/arcgis-rest-form-data@4.10.2
+
 ## 4.10.1
 
 ### Patch Changes

@@ -12,13 +12,16 @@ import {
   updateAttachment,
   IUpdateAttachmentOptions,
   deleteAttachments,
-  IDeleteAttachmentsOptions
+  IDeleteAttachmentsOptions,
+  queryAttachments,
+  IQueryAttachmentsOptions
 } from "../src/index.js";
 import {
   getAttachmentsResponse,
   addAttachmentResponse,
   updateAttachmentResponse,
   deleteAttachmentsResponse,
+  queryAttachmentsResponse,
   genericInvalidResponse
 } from "./mocks/feature.js";
 
@@ -138,5 +141,25 @@ describe("attachment methods", () => {
     expect(options.method).toBe("POST");
     expect(response.deleteAttachmentResults[0].objectId).toBe(1001);
     expect(response.deleteAttachmentResults[0].success).toBe(true);
+  });
+
+  test("should return attachment groups when queried by objectIds", async () => {
+    const requestOptions: IQueryAttachmentsOptions = {
+      url: serviceUrl,
+      objectIds: [2, 4],
+      returnUrl: true
+    };
+    fetchMock.once("*", queryAttachmentsResponse);
+    const response = await queryAttachments(requestOptions);
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toContain(`${serviceUrl}/queryAttachments`);
+    expect(url).toContain("objectIds=2%2C4");
+    expect(url).toContain("returnUrl=true");
+    expect(url).toContain("f=json");
+    expect(options.method).toBe("GET");
+    expect(response.attachmentGroups).toHaveLength(2);
+    expect(response.attachmentGroups[0].parentObjectId).toBe(2);
+    expect(response.attachmentGroups[0].attachmentInfos[0].id).toBe(1204);
   });
 });

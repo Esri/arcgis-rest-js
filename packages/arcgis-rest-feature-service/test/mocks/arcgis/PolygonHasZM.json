@@ -1,0 +1,259 @@
+{
+  "objectIdFieldName": "OBJECTID",
+  "uniqueIdField": {
+    "name": "OBJECTID",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "GlobalID",
+  "geometryProperties": {
+    "shapeAreaFieldName": "Shape__Area",
+    "shapeLengthFieldName": "Shape__Length",
+    "units": "esriMeters"
+  },
+  "hasZ": true,
+  "hasM": true,
+  "geometryType": "esriGeometryPolygon",
+  "spatialReference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "GlobalID",
+      "type": "esriFieldTypeGlobalID",
+      "alias": "GlobalID",
+      "sqlType": "sqlTypeOther",
+      "length": 38,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Shape__Area",
+      "type": "esriFieldTypeDouble",
+      "alias": "Shape__Area",
+      "sqlType": "sqlTypeDouble",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Shape__Length",
+      "type": "esriFieldTypeDouble",
+      "alias": "Shape__Length",
+      "sqlType": "sqlTypeDouble",
+      "domain": null,
+      "defaultValue": null
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "OBJECTID": 1,
+        "GlobalID": "1fb05466-ef23-4871-9bfb-a31f69b2e86f",
+        "Shape__Area": 741183929.375,
+        "Shape__Length": 148548.120261316
+      },
+      "geometry": {
+        "hasZ": true,
+        "hasM": true,
+        "rings": [
+          [
+            [
+              -13236199.1964564,
+              6040672.76896035,
+              1,
+              4
+            ],
+            [
+              -13168378.6516175,
+              6039976.47540582,
+              2,
+              2.2
+            ],
+            [
+              -13200350.2301906,
+              6018447.50865786,
+              3,
+              5.4
+            ],
+            [
+              -13236199.1964564,
+              6040672.76896035,
+              5026,
+              67
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 2,
+        "GlobalID": "2330fe88-a6d1-48fe-ab29-798092dc7f77",
+        "Shape__Area": 843660536.734375,
+        "Shape__Length": 234050.0137286346
+      },
+      "geometry": {
+        "hasZ": true,
+        "hasM": true,
+        "rings": [
+          [
+            [
+              -13233738.8796084,
+              6022515.39175692,
+              0,
+              0
+            ],
+            [
+              -13201425.1259009,
+              6006204.44651799,
+              0,
+              0
+            ],
+            [
+              -13164909.1271305,
+              6024011.88545131,
+              0,
+              0
+            ],
+            [
+              -13164903.1554876,
+              5997553.32754325,
+              0,
+              0
+            ],
+            [
+              -13239869.9653069,
+              6013466.56136937,
+              0,
+              0
+            ],
+            [
+              -13263155.1922126,
+              6021716.38594562,
+              0,
+              0
+            ],
+            [
+              -13233738.8796084,
+              6022515.39175692,
+              0,
+              0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 3,
+        "GlobalID": "cfbac851-7d61-4670-8118-38bd694e9624",
+        "Shape__Area": 2680883304.5234375,
+        "Shape__Length": 392883.0457855142
+      },
+      "geometry": {
+        "hasZ": true,
+        "hasM": true,
+        "rings": [
+          [
+            [
+              -13253015.9398434,
+              6000365.97131843,
+              0,
+              0
+            ],
+            [
+              -13166579.3956313,
+              5986390.53559219,
+              0,
+              0
+            ],
+            [
+              -13163133.1605514,
+              5960885.64904484,
+              0,
+              0
+            ],
+            [
+              -13197368.5889232,
+              5939270.69064006,
+              0,
+              0
+            ],
+            [
+              -13263624.5633394,
+              5978160.41743729,
+              0,
+              0
+            ],
+            [
+              -13186954.0438193,
+              5952674.64014701,
+              0,
+              0
+            ],
+            [
+              -13253015.9398434,
+              6000365.97131843,
+              0,
+              0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 4,
+        "GlobalID": "73ce9e9e-f592-4442-831b-a5c6d6bc0fff",
+        "Shape__Area": 2415083499.984375,
+        "Shape__Length": 261435.10612467656
+      },
+      "geometry": {
+        "hasZ": true,
+        "hasM": true,
+        "rings": [
+          [
+            [
+              -13148499.0526205,
+              6035824.3921428,
+              0,
+              0
+            ],
+            [
+              -13130950.1858219,
+              6035824.3921428,
+              0,
+              0
+            ],
+            [
+              -13133047.4267855,
+              5927270.67436357,
+              0,
+              0
+            ],
+            [
+              -13160132.4100269,
+              5928241.6634885,
+              0,
+              0
+            ],
+            [
+              -13148499.0526205,
+              6035824.3921428,
+              0,
+              0
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -17,6 +17,7 @@ export * from "./getServiceAdminInfo.js";
 export * from "./getViewSources.js";
 export * from "./helpers.js";
 export * from "./query.js";
+export * from "./queryAttachments.js";
 export * from "./queryRelated.js";
 export * from "./update.js";
 export * from "./updateAttachment.js";
