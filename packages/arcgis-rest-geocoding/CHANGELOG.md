@@ -1,5 +1,11 @@
 # @esri/arcgis-rest-geocoding Changelog
 
+## 4.11.1
+
+### Patch Changes
+
+- ef3d4db: publish lts-v4.x maintenance branch
+
 ## 4.11.0
 
 ## 4.10.3
