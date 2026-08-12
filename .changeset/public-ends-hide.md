@@ -14,4 +14,4 @@
 "@esri/arcgis-rest-routing": patch
 ---
 
-publish v4 lts maintenance branch
+publish lts-v4.x maintenance branch
