@@ -215,6 +215,52 @@ export const deleteAttachmentsResponse = {
   ]
 };
 
+export const queryAttachmentsResponse = {
+  fields: [
+    {
+      name: "OBJECTID",
+      type: "esriFieldTypeOID",
+      alias: "OBJECTID",
+      sqlType: "sqlTypeOther"
+    },
+    {
+      name: "GLOBALID",
+      type: "esriFieldTypeGlobalID",
+      alias: "GLOBALID",
+      sqlType: "sqlTypeOther",
+      length: 38
+    }
+  ],
+  attachmentGroups: [
+    {
+      parentObjectId: 2,
+      parentGlobalId: "{F62F4A99-FACB-459D-8E29-7A1044EE2065}",
+      attachmentInfos: [
+        {
+          id: 1204,
+          globalId: "{058333D1-D96C-4C19-A787-553FF119FD53}",
+          name: "red.png",
+          contentType: "image/png",
+          size: 381
+        }
+      ]
+    },
+    {
+      parentObjectId: 4,
+      parentGlobalId: "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}",
+      attachmentInfos: [
+        {
+          id: 1205,
+          globalId: "{12345678-90AB-CDEF-1234-567890ABCDEF}",
+          name: "blue.jpg",
+          contentType: "image/jpeg",
+          size: 1024
+        }
+      ]
+    }
+  ]
+};
+
 export const applyEditsResponse = {
   addResults: [
     {

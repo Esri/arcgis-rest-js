@@ -1,5 +1,11 @@
 # @esri/arcgis-rest-basemap-sessions Changelog
 
+## 4.11.0
+
+## 4.10.3
+
+## 4.10.2
+
 ## 4.10.1
 
 ## 4.10.0

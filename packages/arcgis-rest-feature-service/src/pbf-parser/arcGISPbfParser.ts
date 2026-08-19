@@ -57,13 +57,17 @@ export default function pbfToArcGIS(
     keyName: getKeyName(field)
   }));
   const geometryParser = getGeometryParser(geometryType);
+  const hasZ = featureResult.hasZ === true;
+  const hasM = featureResult.hasM === true;
 
   // Normalize Features
   out.features = featureResult.features.map(
     (f: any) =>
       ({
         attributes: collectAttributes(attributeFields, f.attributes),
-        geometry: ((f.geometry && geometryParser(f, transform)) as any) || null
+        geometry:
+          ((f.geometry && geometryParser(f, transform, hasZ, hasM)) as any) ||
+          null
       } as IFeature)
   );
 
@@ -218,13 +222,23 @@ function getGeometryParser(featureType: number) {
     case 3:
       return createPolygon;
     case 2:
-      return createLine;
+      return createPolyLine;
     case 0:
       return createPoint;
     /* istanbul ignore next --@preserve */
     default:
-      return createPolygon;
+      throw new ArcGISRequestError("Geometry type not supported.", 501);
   }
+}
+
+function getCoordinateDimensions(hasZ: boolean, hasM: boolean) {
+  if (hasZ && hasM) {
+    return 4;
+  }
+  if (hasZ || hasM) {
+    return 3;
+  }
+  return 2;
 }
 
 function getGeometryType(featureType: number): GeometryType {
@@ -241,183 +255,184 @@ function getGeometryType(featureType: number): GeometryType {
   }
 }
 
-function createPoint(f: any, transform: any) {
-  const p = {
-    type: "Point",
-    coordinates: transformTuple(f.geometry.coords, transform)
+function createPoint(f: any, transform: any, hasZ: boolean, hasM: boolean) {
+  const dimensions = getCoordinateDimensions(hasZ, hasM);
+  const coordinates = transformTuple(
+    f.geometry.coords.slice(0, dimensions),
+    transform,
+    hasZ,
+    hasM
+  );
+
+  const point: any = {
+    x: coordinates[0],
+    y: coordinates[1]
   };
-  const ret = {
-    x: p.coordinates[0],
-    y: p.coordinates[1]
-  };
-  // structure output according to arcgis point geometry spec
-  // istanbul ignore if else --@preserve
-  if (p.coordinates.length > 2) {
-    return { ...ret, z: p.coordinates[2] };
+
+  if (coordinates.length > 2) {
+    if (hasZ) {
+      point.z = coordinates[2];
+    }
+    if (hasM) {
+      point.m = coordinates[hasZ ? 3 : 2];
+    }
   }
-  return ret;
+
+  return point;
 }
 
-function createLine(f: any, transform: any) {
-  let l = null;
-  const lengths = f.geometry.lengths.length;
+function createPolyLine(f: any, transform: any, hasZ: boolean, hasM: boolean) {
+  const paths = [];
+  let startPoint = 0;
+  const dimensions = getCoordinateDimensions(hasZ, hasM);
 
-  /* istanbul ignore else if --@preserve */
-  if (lengths === 1) {
-    l = {
-      type: "LineString",
-      coordinates: createLinearRing(
-        f.geometry.coords,
-        transform,
-        0,
-        f.geometry.lengths[0] * 2
-      )
-    };
-    // structure output according to arcgis Polyline geometry spec
-    // https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths
-    return {
-      paths: [l.coordinates]
-    };
-  } else if (lengths > 1) {
-    l = {
-      type: "MultiLineString",
-      coordinates: []
-    };
-    let startPoint = 0;
-    for (let index = 0; index < lengths; index++) {
-      const stopPoint = startPoint + f.geometry.lengths[index] * 2;
-      const line = createLinearRing(
+  for (let i = 0; i < f.geometry.lengths.length; i++) {
+    const stopPoint = startPoint + f.geometry.lengths[i] * dimensions;
+    paths.push(
+      genericPartDecoder(
         f.geometry.coords,
         transform,
         startPoint,
-        stopPoint
-      );
-      l.coordinates.push(line);
-      startPoint = stopPoint;
-    }
-    return {
-      paths: l.coordinates
-    };
-  }
-}
-
-function createPolygon(f: any, transform: any) {
-  const lengths = f.geometry.lengths.length;
-
-  const p = {
-    type: "Polygon",
-    coordinates: [] as any[]
-  };
-
-  if (lengths === 1) {
-    p.coordinates.push(
-      createLinearRing(
-        f.geometry.coords,
-        transform,
-        0,
-        f.geometry.lengths[0] * 2
+        stopPoint,
+        dimensions,
+        hasZ,
+        hasM
       )
     );
-  } else {
-    p.type = "MultiPolygon";
+    startPoint = stopPoint;
+  }
 
-    let startPoint = 0;
-    for (let index = 0; index < lengths; index++) {
-      const stopPoint = startPoint + f.geometry.lengths[index] * 2;
-      const ring = createLinearRing(
-        f.geometry.coords,
-        transform,
-        startPoint,
-        stopPoint
-      );
+  return { paths };
+}
 
-      // Check if the ring is clockwise, if so it's an outer ring
-      // If it's counter-clockwise its a hole and so push it to the prev outer ring
-      // This is perhaps a bit naive
-      // see https://github.com/terraformer-js/terraformer/blob/master/packages/arcgis/src/geojson.js
-      // for a fuller example of doing this
-      /* istanbul ignore else if --@preserve */
-      if (ringIsClockwise(ring)) {
-        p.coordinates.push([ring]);
-      } else if (p.coordinates.length > 0) {
-        p.coordinates[p.coordinates.length - 1].push(ring);
-      }
-      startPoint = stopPoint;
+function createPolygon(f: any, transform: any, hasZ: boolean, hasM: boolean) {
+  const rings = [] as any[];
+  const lengths = f.geometry.lengths.length;
+  let startPoint = 0;
+  const dimensions = getCoordinateDimensions(hasZ, hasM);
+
+  for (let index = 0; index < lengths; index++) {
+    const stopPoint = startPoint + f.geometry.lengths[index] * dimensions;
+    const ring = genericPartDecoder(
+      f.geometry.coords,
+      transform,
+      startPoint,
+      stopPoint,
+      dimensions,
+      hasZ,
+      hasM
+    );
+
+    /* istanbul ignore else --@preserve */
+    if (ring.length > 0) {
+      rings.push(closeRing(ring));
     }
+
+    startPoint = stopPoint;
   }
-  // structure output according to arcgis polygon geometry spec
-  return {
-    rings: p.coordinates
-  };
+
+  return { rings };
 }
 
-function ringIsClockwise(ringToTest: any) {
-  let total = 0;
-  let i = 0;
-  const rLength = ringToTest.length;
-  let pt1 = ringToTest[i];
-  let pt2;
-  for (i; i < rLength - 1; i++) {
-    pt2 = ringToTest[i + 1];
-    total += (pt2[0] - pt1[0]) * (pt2[1] + pt1[1]);
-    pt1 = pt2;
-  }
-  return total >= 0;
-}
-
-function createLinearRing(
+/* istanbul ignore next --@preserve */
+function genericPartDecoder(
   arr: number[],
   transform: any,
   startPoint: number,
-  stopPoint: number
+  stopPoint: number,
+  dimensions: number,
+  hasZ: boolean,
+  hasM: boolean
 ) {
   const out = [] as any[];
-  /* istanbul ignore if --@preserve */
   if (arr.length === 0) return out;
 
-  const initialX = arr[startPoint];
-  const initialY = arr[startPoint + 1];
-  out.push(transformTuple([initialX, initialY], transform));
-  let prevX = initialX;
-  let prevY = initialY;
-  for (let i = startPoint + 2; i < stopPoint; i = i + 2) {
-    const x = difference(prevX, arr[i]);
-    const y = difference(prevY, arr[i + 1]);
-    const transformed = transformTuple([x, y], transform);
+  let prevCoords = arr.slice(startPoint, startPoint + dimensions);
+  if (prevCoords.length < 2) return out;
+
+  out.push(transformTuple(prevCoords, transform, hasZ, hasM));
+
+  for (let i = startPoint + dimensions; i < stopPoint; i = i + dimensions) {
+    const delta = arr.slice(i, i + dimensions);
+    if (delta.length < 2) {
+      continue;
+    }
+
+    const currentCoords = prevCoords.map((coordinate, index) =>
+      // x and y values are relative to the previous coordinate, while z and m values are absolute
+      // if idx is >= 2, we are handling z or m values so we should return the value only
+      // if idx is < 2, we are handling x and y values so we should sum the delta to the previous coordinate value
+      // since x and y values are encoded as deltas in the pbf
+      index < 2 ? sum(coordinate, delta[index]) : delta[index]
+    );
+
+    const transformed = transformTuple(currentCoords, transform, hasZ, hasM);
     out.push(transformed);
-    prevX = x;
-    prevY = y;
+    prevCoords = currentCoords;
   }
   return out;
 }
 
 /* istanbul ignore next --@preserve */
-function transformTuple(coords: any, transform: any) {
+function closeRing(ring: any[]) {
+  const first = ring[0];
+  const last = ring[ring.length - 1];
+  if (!first || !last) return ring;
+  if (first[0] === last[0] && first[1] === last[1]) return ring;
+  return [...ring, [...first]];
+}
+
+/* istanbul ignore next --@preserve */
+function transformTuple(
+  coords: any,
+  transform: any,
+  hasZ: boolean,
+  hasM: boolean
+) {
+  const scale = transform?.scale || {};
+  const translate = transform?.translate || {};
+
+  const xScale = scale.xScale ?? 1;
+  const yScale = scale.yScale ?? 1;
+  const zScale = scale.zScale ?? 1;
+  const mScale = scale.mScale ?? 1;
+
+  const xTranslate = translate.xTranslate ?? 0;
+  const yTranslate = translate.yTranslate ?? 0;
+  const zTranslate = translate.zTranslate ?? 0;
+  const mTranslate = translate.mTranslate ?? 0;
+
   let x = coords[0];
   let y = coords[1];
 
-  let z = coords[2] ? coords[2] : undefined;
-  if (transform.scale) {
-    x *= transform.scale.xScale;
-    y *= -transform.scale.yScale;
-    if (undefined !== z) {
-      z *= transform.scale.zScale;
+  let z = hasZ ? coords[2] : undefined;
+  let m = hasM ? coords[hasZ ? 3 : 2] : undefined;
+
+  x = x * xScale + xTranslate;
+  y = y * -yScale + yTranslate;
+
+  if (undefined !== z) {
+    z = z * zScale + zTranslate;
+  }
+
+  if (undefined !== m) {
+    if (m === 0) {
+      m = null;
+    } else {
+      m = m * mScale + mTranslate;
     }
   }
-  if (transform.translate) {
-    x += transform.translate.xTranslate;
-    y += transform.translate.yTranslate;
-    if (undefined !== z) {
-      z += transform.translate.zTranslate;
-    }
-  }
+
   const ret = [x, y];
   if (undefined !== z) {
     ret.push(z);
   }
+  if (undefined !== m) {
+    ret.push(m);
+  }
   return ret;
 }
 
-function difference(a: any, b: any) {
+function sum(a: any, b: any) {
   return a + b;
 }

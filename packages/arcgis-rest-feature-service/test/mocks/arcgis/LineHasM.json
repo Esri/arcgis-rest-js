@@ -1,0 +1,188 @@
+{
+  "objectIdFieldName": "OBJECTID",
+  "uniqueIdField": {
+    "name": "OBJECTID",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "GlobalID",
+  "geometryProperties": {
+    "shapeLengthFieldName": "Shape__Length",
+    "units": "esriMeters"
+  },
+  "hasM": true,
+  "geometryType": "esriGeometryPolyline",
+  "spatialReference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "GlobalID",
+      "type": "esriFieldTypeGlobalID",
+      "alias": "GlobalID",
+      "sqlType": "sqlTypeOther",
+      "length": 38,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Shape__Length",
+      "type": "esriFieldTypeDouble",
+      "alias": "Shape__Length",
+      "sqlType": "sqlTypeDouble",
+      "domain": null,
+      "defaultValue": null
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "OBJECTID": 4,
+        "GlobalID": "475349bb-7528-4ac4-8107-39d3f3c76805",
+        "Shape__Length": 8580.957386906637
+      },
+      "geometry": {
+        "hasM": true,
+        "paths": [
+          [
+            [
+              -13619145.1998251,
+              5696929.03324595,
+              3
+            ],
+            [
+              -13610565.7405644,
+              5696768.69463584,
+              5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 5,
+        "GlobalID": "e92801ce-be24-4368-ad7a-3284a94b61da",
+        "Shape__Length": 36184.72007503694
+      },
+      "geometry": {
+        "hasM": true,
+        "paths": [
+          [
+            [
+              -13619958.2389971,
+              5693157.04504937,
+              2.3
+            ],
+            [
+              -13606243.7640627,
+              5692978.19434647,
+              5.3
+            ],
+            [
+              -13597227.4791286,
+              5686710.35802709,
+              2.1
+            ],
+            [
+              -13585739.8298074,
+              5686595.40390252,
+              2.9
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 6,
+        "GlobalID": "cfe6b1c0-4377-4ded-a690-8c66cf783927",
+        "Shape__Length": 54937.80521521896
+      },
+      "geometry": {
+        "hasM": true,
+        "paths": [
+          [
+            [
+              -13622793.8735971,
+              5684395.74926433,
+              3
+            ],
+            [
+              -13608819.0350352,
+              5687289.9059642,
+              3
+            ],
+            [
+              -13601622.608255,
+              5680095.86784115,
+              3
+            ],
+            [
+              -13589600.7954822,
+              5679329.10890117,
+              3
+            ],
+            [
+              -13576711.6015876,
+              5679588.57678234,
+              3
+            ],
+            [
+              -13576502.5940884,
+              5674039.72626027,
+              3
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 7,
+        "GlobalID": "11e85060-f54c-4efd-be44-52a7dd9f64ea",
+        "Shape__Length": 158317.3684952521
+      },
+      "geometry": {
+        "hasM": true,
+        "paths": [
+          [
+            [
+              -13622194.9178208,
+              5701087.0881518,
+              3
+            ],
+            [
+              -13626629.1612078,
+              5679965.38744522,
+              3
+            ],
+            [
+              -13572293.1830542,
+              5670184.73222828,
+              3
+            ],
+            [
+              -13568453.1181293,
+              5697745.6554036,
+              3
+            ],
+            [
+              -13621980.386552,
+              5702034.78786968,
+              3
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
