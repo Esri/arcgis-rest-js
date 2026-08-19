@@ -433,14 +433,16 @@ describe("request()", () => {
       await request(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
         {
-          httpMethod: "GET",
+          fetchOptions: {
+            method: "GET"
+          },
           params: { where: "1=1", f: "geojson" },
           rawResponse: true
         }
       );
 
       expect(warnSpy).toHaveBeenCalledWith(
-        "rawResponse option is deprecated and will be removed in ArcGIS REST JS v5.0."
+        "rawResponse is no longer supported as a top-level request option. Use rawRequest() instead."
       );
     } finally {
       warnSpy.mockRestore();
@@ -456,7 +458,9 @@ describe("request()", () => {
       await request(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
         {
-          httpMethod: "GET",
+          fetchOptions: {
+            method: "GET"
+          },
           params: { where: "1=1", f: "geojson" },
           rawResponse: true,
           suppressWarnings: true
@@ -504,8 +508,10 @@ describe("request()", () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
     setDefaultRequestOptions({
-      headers: {
-        "Test-Header": "Test"
+      fetchOptions: {
+        headers: {
+          "Test-Header": "Test"
+        }
       }
     });
 
@@ -520,8 +526,10 @@ describe("request()", () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
     setDefaultRequestOptions({
-      headers: {
-        "Test-Header": "Test"
+      fetchOptions: {
+        headers: {
+          "Test-Header": "Test"
+        }
       },
       suppressWarnings: true
     });
