@@ -1,7 +1,7 @@
-import typescript from '@rollup/plugin-typescript';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
+import typescript from "@rollup/plugin-typescript";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 import filesize from "rollup-plugin-filesize";
-import terser from '@rollup/plugin-terser';
+import terser from "@rollup/plugin-terser";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -9,7 +9,10 @@ import * as fs from "fs";
  * Since Rollup runs inside each package we can just get the current
  * package we are bundling.
  */
-const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json")), "utf8");
+const pkg = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), "package.json")),
+  "utf8"
+);
 
 /**
  * and dig out its name.
@@ -34,17 +37,19 @@ const moduleName = "arcgisRest";
 
 /**
  * Now we need to discover all the `@esri/arcgis-rest-*` package names so we can create
- * the `globals` and `externals` to pass to Rollup. @esri/arcgis-rest-fetch is excluded
- * from this because we WANT to bundle it since it only contains references to global
- * fetch. process.cwd() will be the directory of each package
+ * the `globals` and `externals` to pass to Rollup. process.cwd() will be the directory
+ * of each package
  */
 const packageNames = fs
   .readdirSync(path.join(import.meta.dirname, "packages"))
   .filter((p) => p[0] !== ".")
-  .filter((p) => p !== "arcgis-rest-fetch")
-  .filter((p) => p !== "arcgis-rest-form-data")
   .map((p) => {
-    return JSON.parse(fs.readFileSync(path.join(import.meta.dirname, "packages", p, "package.json")), "utf8").name;
+    return JSON.parse(
+      fs.readFileSync(
+        path.join(import.meta.dirname, "packages", p, "package.json")
+      ),
+      "utf8"
+    ).name;
   }, {});
 
 /**

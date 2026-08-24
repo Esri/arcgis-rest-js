@@ -23,11 +23,18 @@ type successResponse =
  */
 export interface IFindElevationAtPointResponse extends successResponse {}
 
+type IRequestOptionsWithoutHttpMethod = Omit<
+  IRequestOptions,
+  "fetchOptions"
+> & {
+  fetchOptions?: Omit<RequestInit, "method">;
+};
+
 /**
  * Options for {@linkcode findElevationAtPoint}.
  */
 export interface IFindElevationAtPointOptions
-  extends Omit<IRequestOptions, "httpMethod" | "f">,
+  extends IRequestOptionsWithoutHttpMethod,
     queryParams {}
 
 /**
@@ -68,7 +75,10 @@ export function findElevationAtPoint(
   return (
     request(`${baseUrl}/elevation/at-point`, {
       ...options,
-      httpMethod: "GET"
+      fetchOptions: {
+        ...options.fetchOptions,
+        method: "GET"
+      }
     }) as Promise<successResponse>
   ).then((response) => {
     const r: IFindElevationAtPointResponse = {

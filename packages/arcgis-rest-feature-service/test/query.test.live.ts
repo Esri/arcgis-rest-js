@@ -3,9 +3,11 @@ import { describe, afterEach, test, expect } from "vitest";
 import {
   IQueryAllFeaturesOptions,
   IQueryFeaturesOptions,
+  IQueryFeaturesRawOptions,
   IQueryFeaturesResponse,
   queryAllFeatures,
-  queryFeatures
+  queryFeatures,
+  queryFeaturesRaw
 } from "../src/index.js";
 import pbfToArcGIS from "../src/pbf-parser/arcGISPbfParser.js";
 import { readEnvironmentFileToJSON } from "./utils/readFileArrayBuffer.js";
@@ -442,15 +444,14 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
       });
 
       test("LIVE TEST: should decode POINT pbf to arcgis", async () => {
-        const zipCodePointsPbfOptions: IQueryFeaturesOptions = {
+        const zipCodePointsPbfOptions: IQueryFeaturesRawOptions = {
           url: `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`,
           f: "pbf",
           where: "1=1",
           outFields: ["*"],
-          resultRecordCount: 1,
-          rawResponse: true
+          resultRecordCount: 1
         };
-        const response = await queryFeatures(zipCodePointsPbfOptions);
+        const response = await queryFeaturesRaw(zipCodePointsPbfOptions);
         const arrBuffer = await (response as any).arrayBuffer();
         const arcgis = pbfToArcGIS(arrBuffer);
 
@@ -484,15 +485,14 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
       });
 
       test("LIVE TEST: should decode LINE pbf to arcgis", async () => {
-        const trailsLinesPbfOptions: IQueryFeaturesOptions = {
+        const trailsLinesPbfOptions: IQueryFeaturesRawOptions = {
           url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0`,
           f: "pbf",
           where: "1=1",
           outFields: ["*"],
-          resultRecordCount: 1,
-          rawResponse: true
+          resultRecordCount: 1
         };
-        const response = await queryFeatures(trailsLinesPbfOptions);
+        const response = await queryFeaturesRaw(trailsLinesPbfOptions);
         const arrBuffer = await (response as any).arrayBuffer();
         const arcgis = pbfToArcGIS(arrBuffer);
 
@@ -518,15 +518,14 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
       });
 
       test("LIVE TEST: should decode POLYGON pbf to arcgis", async () => {
-        const parksPolygonsPbfOptions: IQueryFeaturesOptions = {
+        const parksPolygonsPbfOptions: IQueryFeaturesRawOptions = {
           url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/Parks_and_Open_Space_Styled/FeatureServer/0`,
           f: "pbf",
           where: "1=1",
           outFields: ["*"],
-          resultRecordCount: 1,
-          rawResponse: true
+          resultRecordCount: 1
         };
-        const response = await queryFeatures(parksPolygonsPbfOptions);
+        const response = await queryFeaturesRaw(parksPolygonsPbfOptions);
         const arrBuffer = await (response as any).arrayBuffer();
         const arcgis = pbfToArcGIS(arrBuffer);
         // required properties

@@ -61,7 +61,7 @@ export async function registerApp(
   stringifyArrays(options);
 
   const url = getPortalUrl(options) + "/oauth2/registerApp";
-  options.httpMethod = "POST";
+  options.fetchOptions.method = "POST";
   options.params.f = "json";
 
   const registeredAppResponse: IRegisteredAppResponse = await request(

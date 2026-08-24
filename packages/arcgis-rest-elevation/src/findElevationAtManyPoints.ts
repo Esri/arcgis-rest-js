@@ -23,11 +23,18 @@ type successResponse =
  */
 export interface IFindElevationAtManyPointsResponse extends successResponse {}
 
+type IRequestOptionsWithoutHttpMethod = Omit<
+  IRequestOptions,
+  "fetchOptions"
+> & {
+  fetchOptions?: Omit<RequestInit, "method">;
+};
+
 /**
  * Options for {@linkcode findElevationAtPoint}.
  */
 export interface IFindElevationAtManyPointsOptions
-  extends Omit<IRequestOptions, "httpMethod" | "f">,
+  extends IRequestOptionsWithoutHttpMethod,
     queryParams {}
 
 /**

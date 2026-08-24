@@ -21,11 +21,18 @@ type successResponse =
  */
 export interface IGetCategoryResponse extends successResponse {}
 
+type IRequestOptionsWithoutHttpMethod = Omit<
+  IRequestOptions,
+  "fetchOptions"
+> & {
+  fetchOptions?: Omit<RequestInit, "method">;
+};
+
 /**
  * Options for {@linkcode getCategory}.
  */
 export interface IGetCategoryOptions
-  extends Omit<IRequestOptions, "httpMethod">,
+  extends IRequestOptionsWithoutHttpMethod,
     queryParams {
   categoryId: string;
   icon?: IconOptions;
@@ -68,7 +75,10 @@ export function getCategory(
     requestOptions.endpoint || `${baseUrl}/categories/${categoryId}`,
     {
       ...options,
-      httpMethod: "GET"
+      fetchOptions: {
+        ...options.fetchOptions,
+        method: "GET"
+      }
     }
   );
 }

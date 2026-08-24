@@ -40,7 +40,7 @@
     "dev:esm": "tsc -w --outDir ./dist/esm --declaration"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "mitt": "^3.0.1",

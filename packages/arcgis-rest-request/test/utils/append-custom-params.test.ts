@@ -8,7 +8,7 @@ import { appendCustomParams } from "../../src/index.js";
 import { describe, test, expect } from "vitest";
 
 describe("appendCustomParams", () => {
-  test("merges custom options and base options, handles all value types, and omits invalid keys", () => {
+  test("merges custom options and base options, handles all value types, omits invalid keys, and normalizes legacy request options", () => {
     // this test should cover:
     // - omit keys not in keys
     // - deconstruct and merge customOptions into params
@@ -50,25 +50,25 @@ describe("appendCustomParams", () => {
       a: 1
     });
 
-    // baseOptions keys should be present
-    expect(result.httpMethod).toBe("POST");
-    expect(result.credentials).toBe("include");
+    // baseOptions keys should be normalized into fetchOptions
+    expect(result.fetchOptions).toEqual({
+      method: "POST",
+      credentials: "include",
+      headers: {}
+    });
+
+    // legacy keys should be normalized and removed
+    expect(result.httpMethod).toBeUndefined();
+    expect(result.credentials).toBeUndefined();
 
     // result should only retain keys listed in requestOptionsKeys
     Object.keys(result).forEach((key) => {
       expect([
         "params",
-        "httpMethod",
-        "rawResponse",
         "authentication",
-        "hideToken",
-        "portal",
-        "credentials",
-        "maxUrlLength",
-        "headers",
-        "signal",
-        "suppressWarnings",
-        "request"
+        "requestFlags",
+        "fetchOptions",
+        "portal"
       ]).toContain(key);
     });
   });

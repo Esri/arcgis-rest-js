@@ -24,11 +24,18 @@ type successResponse =
  */
 export interface IGetCategoriesResponse extends successResponse {}
 
+type IRequestOptionsWithoutHttpMethod = Omit<
+  IRequestOptions,
+  "fetchOptions"
+> & {
+  fetchOptions?: Omit<RequestInit, "method">;
+};
+
 /**
  * Options for {@linkcode getCategories}.
  */
 export interface IGetCategoriesOptions
-  extends Omit<IRequestOptions, "httpMethod" | "f">,
+  extends IRequestOptionsWithoutHttpMethod,
     queryParams {
   /**
    * Override the URL. This should be the full URL to the API endpoint you want to call. Used internally by Esri staff for testing.
@@ -73,6 +80,9 @@ export function getCategories(
 
   return request(requestOptions.endpoint || `${baseUrl}/categories`, {
     ...options,
-    httpMethod: "GET"
+    fetchOptions: {
+      ...options.fetchOptions,
+      method: "GET"
+    }
   });
 }

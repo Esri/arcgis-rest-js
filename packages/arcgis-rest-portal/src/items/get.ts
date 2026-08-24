@@ -5,14 +5,14 @@ import {
   request,
   IRequestOptions,
   appendCustomParams,
-  IGroup
+  IGroup,
+  rawRequest
 } from "@esri/arcgis-rest-request";
 import { IItem } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 import { scrubControlChars } from "../util/scrub-control-chars.js";
 import {
-  IItemDataOptions,
   IItemRelationshipOptions,
   IUserItemOptions,
   determineOwner,
@@ -44,8 +44,11 @@ export function getItem(
 
   // default to a GET request
   const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   };
 
   return request(url, options).then(async (item: IItem) => {
@@ -103,18 +106,18 @@ export const getItemBaseUrl = (
  */
 export function getItemData(
   id: string,
-  requestOptions?: IItemDataOptions
+  requestOptions?: IRequestOptions
 ): Promise<any> {
   const url = `${getItemBaseUrl(id, requestOptions)}/data`;
   // default to a GET request
-  const options: IItemDataOptions = {
-    ...{ httpMethod: "GET", params: {} },
-    ...requestOptions
+  const options: IRequestOptions = {
+    params: {},
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   };
-
-  if (options.file) {
-    options.params.f = null;
-  }
 
   return request(url, options).catch((err) => {
     /* if the item doesn't include data, the response will be empty
@@ -126,6 +129,44 @@ export function getItemData(
       return;
     } else throw err;
   });
+}
+
+/**
+ * ```
+ * import { getItemDataRaw } from "@esri/arcgis-rest-portal";
+ *
+ * const response = await getItemDataRaw("ae7");
+ * const data = await response.json();
+ * // or
+ * const data = await response.text();
+ * // or
+ * const data = await response.blob();
+ * // or
+ * const data = await response.arrayBuffer();
+ * ```
+ * Get the native response for an item's /data resource so callers can parse
+ * JSON, text, blobs, or array buffers themselves.
+ *
+ * @param id - Item Id
+ * @param requestOptions - Options for the request
+ * @returns A Promise that will resolve with the native response.
+ */
+export function getItemDataRaw(
+  id: string,
+  requestOptions?: IRequestOptions
+): Promise<Response> {
+  const url = `${getItemBaseUrl(id, requestOptions)}/data`;
+  const options: IRequestOptions = {
+    params: {},
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
+  };
+
+  options.params.f = null;
+  return rawRequest(url, options);
 }
 
 export interface IGetRelatedItemsResponse {
@@ -157,11 +198,15 @@ export function getRelatedItems(
   )}/relatedItems`;
 
   const options: IItemRelationshipOptions = {
-    httpMethod: "GET",
-    params: {
-      direction: requestOptions.direction
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions.fetchOptions
     },
-    ...requestOptions
+    params: {
+      ...requestOptions.params,
+      direction: requestOptions.direction
+    }
   };
 
   if (typeof requestOptions.relationshipType === "string") {
@@ -250,7 +295,7 @@ export interface IGetItemResourceOptions extends IRequestOptions {
  *  .then(resourceContents => {});
  *
  * // Get the response object instead
- * getItemResource("3ef",{ rawResponse: true, fileName: "resource.json" })
+ * getItemResource("3ef", { fileName: "resource.json" })
  *  .then(response => {})
  * ```
  *
@@ -413,8 +458,11 @@ export function getItemInfo(
 ): Promise<any> {
   const { fileName = "iteminfo.xml", readAs = "text" } = requestOptions || {};
   const options: IRequestOptions = {
-    httpMethod: "GET",
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   };
   return getItemFile(id, `/info/${fileName}`, readAs, options);
 }
@@ -448,7 +496,7 @@ export function getItemMetadata(
 // overrides request()'s default behavior for reading the response
 // which is based on `params.f` and defaults to JSON
 // Also adds JSON parse error protection by sanitizing out any unescaped control characters before parsing
-function getItemFile(
+async function getItemFile(
   id: string,
   // NOTE: fileName should include any folder/subfolders
   fileName: string,
@@ -456,24 +504,18 @@ function getItemFile(
   requestOptions?: IRequestOptions
 ): Promise<any> {
   const url = `${getItemBaseUrl(id, requestOptions)}${fileName}`;
-  // preserve escape hatch to let the consumer read the response
-  // and ensure the f param is not appended to the query string
+  // ensure f param is not appended to the query string for file endpoints
   const options: IRequestOptions = {
     params: {},
     ...requestOptions
   };
-  const justReturnResponse = options.rawResponse;
-  options.rawResponse = true;
   options.params.f = null;
 
-  return request(url, options).then((response) => {
-    if (justReturnResponse) {
-      return response;
-    }
-    return readMethod !== "json"
-      ? response[readMethod]()
-      : response
-          .text()
-          .then((text: string) => JSON.parse(scrubControlChars(text)));
-  });
+  const response = await rawRequest(url, options);
+
+  return readMethod !== "json"
+    ? response[readMethod]()
+    : response
+        .text()
+        .then((text: string) => JSON.parse(scrubControlChars(text)));
 }

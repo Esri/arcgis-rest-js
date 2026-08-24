@@ -672,7 +672,7 @@ export class ArcGISIdentityManager
 
       // exchange our auth code for a token + refresh token
       return fetchToken(tokenEndpoint, {
-        httpMethod: "POST",
+        fetchOptions: { method: "POST" },
         params: {
           client_id: clientId,
           code_verifier: codeVerifier,
@@ -1159,7 +1159,7 @@ export class ArcGISIdentityManager
    *   })
    * ```
    *
-   * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
+   * @param requestOptions - Options for the request.
    * @returns A Promise that will resolve with the data from the response.
    */
   public getPortal(requestOptions?: IRequestOptions): Promise<any> {
@@ -1171,11 +1171,14 @@ export class ArcGISIdentityManager
       const url = `${this.portal}/portals/self`;
 
       const options = {
-        httpMethod: "GET",
         authentication: this,
-        ...requestOptions,
-        rawResponse: false
+        ...requestOptions
       } as IRequestOptions;
+
+      options.fetchOptions = {
+        method: "GET",
+        ...requestOptions?.fetchOptions
+      };
 
       this._pendingPortalRequest = request(url, options).then((response) => {
         this._portalInfo = response;

@@ -5,7 +5,8 @@ import {
   request,
   cleanUrl,
   ISpatialReference,
-  IPoint
+  IPoint,
+  rawRequest
 } from "@esri/arcgis-rest-request";
 
 import {
@@ -67,9 +68,9 @@ export interface IBulkGeocodeResponse {
  * ```
  *
  * @param requestOptions - Request options to pass to the geocoder, including an array of addresses and authentication session.
- * @returns A Promise that will resolve with the data from the response. The spatial reference will be added to address locations unless `rawResponse: true` was passed.
+ * @returns A Promise that will resolve with the data from the response. The spatial reference will be added to address locations.
  */
-export function bulkGeocode(
+export async function bulkGeocode(
   requestOptions: IBulkGeocodeOptions // must POST, which is the default
 ): Promise<IBulkGeocodeResponse> {
   const options: IBulkGeocodeOptions = {
@@ -89,24 +90,20 @@ export function bulkGeocode(
     !requestOptions.authentication &&
     options.endpoint === ARCGIS_ONLINE_BULK_GEOCODING_URL
   ) {
-    return Promise.reject(
-      "bulk geocoding using the ArcGIS service requires authentication"
+    throw new Error(
+      "bulk geocoding using the ArcGIS service requires authentication."
     );
   }
 
-  return request(
+  const response = await request(
     `${cleanUrl(options.endpoint)}/geocodeAddresses`,
     options
-  ).then((response) => {
-    if (options.rawResponse) {
-      return response;
+  );
+  const sr = response.spatialReference;
+  response.locations.forEach(function (address: { location: IPoint }) {
+    if (address.location) {
+      address.location.spatialReference = sr;
     }
-    const sr = response.spatialReference;
-    response.locations.forEach(function (address: { location: IPoint }) {
-      if (address.location) {
-        address.location.spatialReference = sr;
-      }
-    });
-    return response;
   });
+  return response;
 }
