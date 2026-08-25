@@ -4,42 +4,50 @@ import { ILegacyRequestOptions, IRequestOptions } from "./IRequestOptions.js";
 
 // using PureRequestOptions to explicitly only support v5 requestOptions until legacy requestOptions are removed from IRequestOptions
 type PureRequestOptions = Omit<IRequestOptions, keyof ILegacyRequestOptions>;
-type RequestOptionsKeys = keyof IRequestOptions;
 
-// using ExtractableKey to explicitly define that only non IRequestOptions keys can be extracted to help avoid duplicate exports in props
+// using ExtractableKey to explicitly define that only non-IRequestOptions keys can be extracted to help avoid duplicate exports in props
 type ExtractableKey<T extends IRequestOptions> = Exclude<
   keyof T,
   keyof IRequestOptions
 >;
 
-type ProcessOptionsResult<T extends IRequestOptions> = {
-  requestOptions: Partial<IRequestOptions>;
-} & Partial<Pick<T, ExtractableKey<T>>>;
+type ProcessOptionsResult<
+  T extends IRequestOptions,
+  ToExtractKeys extends readonly ExtractableKey<T>[]
+> = {
+  requestOptions: IRequestOptions;
+} & Partial<Pick<T, ToExtractKeys[number]>>;
 
-interface ProcessOptionsConfig<T extends IRequestOptions> {
+interface ProcessOptionsConfig<
+  T extends IRequestOptions,
+  ToExtractKeys extends readonly ExtractableKey<T>[]
+> {
   paramKeys: Array<ExtractableKey<T>>;
-  extractKeys: Array<ExtractableKey<T>>;
+  extractKeys: ToExtractKeys;
   // Fallback values used only when the corresponding value is not provided in options.
   defaultOptions?: Partial<PureRequestOptions>;
 }
 
-export function processOptions<T extends IRequestOptions>(
+export function processOptions<
+  T extends IRequestOptions,
+  const ToExtractKeys extends readonly ExtractableKey<T>[]
+>(
   options: T,
-  optionsConfig: ProcessOptionsConfig<T>
-): ProcessOptionsResult<T> {
+  optionsConfig: ProcessOptionsConfig<T, ToExtractKeys>
+): ProcessOptionsResult<T, ToExtractKeys> {
   const { paramKeys, extractKeys, defaultOptions } = optionsConfig;
 
-  // internally redefine types as Record type for parsing and merging
-  const originalOptions = options as Record<string, any>;
-  const requestOptionsOut: Record<string, any> = {};
-  const defaultOptionsAs = (defaultOptions ?? {}) as Record<string, any>;
+  const requestOptionsOut: IRequestOptions = {};
+  const defaultOptionsAs: Partial<PureRequestOptions> = defaultOptions ?? {};
   const toParams: Record<string, any> = {};
-  const toExtract: Record<string, any> = {};
+  const toExtract: Partial<Pick<T, ToExtractKeys[number]>> = {};
 
-  const existsIn = (obj: Record<string, any>, key: string) =>
-    Object.prototype.hasOwnProperty.call(obj, key);
+  const existsIn = <O extends object>(
+    obj: O,
+    key: PropertyKey
+  ): key is keyof O => Object.prototype.hasOwnProperty.call(obj, key);
 
-  const REQUEST_OPTION_KEYS = new Set<RequestOptionsKeys>([
+  const REQUEST_OPTION_KEYS = new Set<string>([
     "authentication",
     "portal",
     "fetchOptions",
@@ -57,40 +65,51 @@ export function processOptions<T extends IRequestOptions>(
     "rawResponse"
   ]);
 
+  const assignDefaultIfPresent = <K extends keyof PureRequestOptions>(
+    key: K
+  ) => {
+    if (existsIn(defaultOptionsAs, key)) {
+      requestOptionsOut[key] = defaultOptionsAs[key];
+    }
+  };
+
+  const assignOptionIfPresent = <K extends keyof IRequestOptions>(key: K) => {
+    if (existsIn(options, key)) {
+      requestOptionsOut[key] = options[key];
+    }
+  };
+
   // a) move non-request-option paramkeys into params bucket
   paramKeys.forEach((key) => {
     const keyName = key as string;
     if (
-      existsIn(originalOptions, keyName) &&
+      existsIn(options, key) &&
       // requestOptions keys should not be able to be added to paramKeys, enforce here
-      !REQUEST_OPTION_KEYS.has(keyName as RequestOptionsKeys)
+      !REQUEST_OPTION_KEYS.has(keyName)
     ) {
-      toParams[keyName] = originalOptions[keyName];
+      toParams[keyName] = options[key];
     }
   });
 
   // b) move all keys to extract into extract bucket
   extractKeys.forEach((key) => {
-    const keyName = key as string;
-    if (existsIn(originalOptions, keyName)) {
-      toExtract[keyName] = originalOptions[keyName];
+    if (existsIn(options, key)) {
+      toExtract[key] = options[key];
     }
   });
 
   // 1) build requestOptions by applying default options first, then override with any existing option values.
   // start with top-level keys, then fetchOptions and requestFlags objects.
   (["authentication", "portal"] as const).forEach((key) => {
-    if (existsIn(defaultOptionsAs, key))
-      requestOptionsOut[key] = defaultOptionsAs[key];
-    if (existsIn(originalOptions, key))
-      requestOptionsOut[key] = originalOptions[key];
+    assignDefaultIfPresent(key);
+    assignOptionIfPresent(key);
   });
 
   (["fetchOptions", "requestFlags"] as const).forEach((key) => {
-    if (existsIn(originalOptions, key) || existsIn(defaultOptionsAs, key)) {
+    if (existsIn(options, key) || existsIn(defaultOptionsAs, key)) {
       requestOptionsOut[key] = {
         ...(defaultOptionsAs[key] ?? {}),
-        ...(originalOptions[key] ?? {})
+        ...(options[key] ?? {})
       };
     }
   });
@@ -109,13 +128,7 @@ export function processOptions<T extends IRequestOptions>(
       "maxUrlLength",
       "rawResponse"
     ] as const
-  ).forEach((key) => {
-    // this will only pass through legacy request options from the original options.
-    // default options will not allow legacy request options to be introduced
-    if (existsIn(originalOptions, key)) {
-      requestOptionsOut[key] = originalOptions[key];
-    }
-  });
+  ).forEach(assignOptionIfPresent);
 
   /**
    * if original options has a params object,
@@ -124,18 +137,18 @@ export function processOptions<T extends IRequestOptions>(
    */
   if (
     existsIn(defaultOptionsAs, "params") ||
-    existsIn(originalOptions, "params") ||
+    existsIn(options, "params") ||
     Object.keys(toParams).length > 0
   ) {
     requestOptionsOut.params = {
       ...(defaultOptionsAs.params ?? {}),
-      ...(originalOptions.params ?? {}),
+      ...(options.params ?? {}),
       ...toParams
     };
   }
 
   return {
-    ...(toExtract as Partial<Pick<T, ExtractableKey<T>>>),
-    requestOptions: requestOptionsOut as Partial<IRequestOptions>
+    ...toExtract,
+    requestOptions: requestOptionsOut
   };
 }

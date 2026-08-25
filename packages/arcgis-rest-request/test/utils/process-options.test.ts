@@ -490,16 +490,14 @@ describe("processOptions", () => {
       f: "json";
       token: "abc123";
     };
-    const result = processOptions<TestOptions>(
-      {
-        f: "json",
-        token: "abc123"
-      },
-      {
-        paramKeys: ["f", "token"],
-        extractKeys: []
-      }
-    );
+    const options: TestOptions = {
+      f: "json",
+      token: "abc123"
+    };
+    const result = processOptions(options, {
+      paramKeys: ["f", "token"],
+      extractKeys: []
+    });
 
     expect(result.requestOptions.params).toEqual({
       f: "json",
@@ -632,5 +630,94 @@ describe("processOptions", () => {
         extractKeys: []
       })
     ).toThrow();
+  });
+
+  test("should infer extracted return keys from inline extractKeys", () => {
+    interface TypedOptions extends IRequestOptions {
+      id: string;
+      routeType: "fastest" | "shortest";
+      f: string;
+      extra: string;
+    }
+
+    const options: TypedOptions = {
+      id: "route-id",
+      routeType: "fastest",
+      f: "json",
+      extra: "ignored"
+    };
+
+    const processed = processOptions(options, {
+      paramKeys: ["f"],
+      extractKeys: ["id", "routeType"]
+    });
+
+    type ExpectedAvailableProperties = {
+      requestOptions: IRequestOptions;
+      id?: string;
+      routeType?: "fastest" | "shortest";
+    };
+    const shapeCheck: ExpectedAvailableProperties = processed;
+    expect(shapeCheck).toEqual(
+      expect.objectContaining({
+        id: "route-id",
+        routeType: "fastest",
+        requestOptions: expect.objectContaining({
+          params: {
+            f: "json"
+          }
+        })
+      })
+    );
+
+    expect(processed).toEqual(shapeCheck);
+  });
+
+  test("should infer undefined but optional extracted return keys from inline extractKeys", () => {
+    interface TypedOptions extends IRequestOptions {
+      id: string;
+      routeType: "fastest" | "shortest";
+      f: string;
+      extra: string;
+      optional?: string;
+    }
+
+    // User defines object without defining optional keys
+    const options: TypedOptions = {
+      id: "route-id",
+      routeType: "fastest",
+      f: "json",
+      extra: "ignored"
+    };
+
+    // User tries to extract the optional key even though it is not defined at runtime.
+    const processed = processOptions(options, {
+      paramKeys: ["f"],
+      extractKeys: ["id", "routeType", "optional"]
+    });
+
+    expect(processed).not.toHaveProperty("optional");
+
+    // TypeScript returns the key as valid since it is valid on the interface and is provided in the extractKeys.
+    type ExpectedAvailableProperties = {
+      id?: string;
+      routeType?: "fastest" | "shortest";
+      optional?: string;
+      requestOptions: IRequestOptions;
+    };
+    const shapeCheck: ExpectedAvailableProperties = processed;
+    expect(shapeCheck).toEqual(
+      expect.objectContaining({
+        id: "route-id",
+        routeType: "fastest",
+        requestOptions: expect.objectContaining({
+          params: {
+            f: "json"
+          }
+        })
+      })
+    );
+
+    expect(processed).toEqual(shapeCheck);
   });
 });
