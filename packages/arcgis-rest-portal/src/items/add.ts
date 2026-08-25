@@ -86,11 +86,10 @@ export function addItemRelationship(
       requestOptions
     )}/content/users/${owner}/addRelationship`;
 
-    const { requestOptions: options } =
-      processOptions<IManageItemRelationshipOptions>(requestOptions, {
-        paramKeys: ["originItemId", "destinationItemId", "relationshipType"],
-        extractKeys: []
-      });
+    const { requestOptions: options } = processOptions(requestOptions, {
+      paramKeys: ["originItemId", "destinationItemId", "relationshipType"],
+      extractKeys: []
+    });
     return request(url, options);
   });
 }

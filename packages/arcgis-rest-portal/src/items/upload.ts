@@ -86,13 +86,10 @@ export function commitItemUpload(
       requestOptions.id
     }/commit`;
 
-    const { requestOptions: options } = processOptions<ICommitItemOptions>(
-      requestOptions,
-      {
-        paramKeys: [],
-        extractKeys: []
-      }
-    );
+    const { requestOptions: options } = processOptions(requestOptions, {
+      paramKeys: [],
+      extractKeys: []
+    });
 
     // Preserve prior helper behavior: item fields were only merged when params was not provided.
     if (!requestOptions.params) {

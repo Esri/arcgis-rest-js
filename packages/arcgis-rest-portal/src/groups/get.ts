@@ -190,25 +190,22 @@ export function searchGroupUsers(
   searchOptions?: ISearchGroupUsersOptions
 ): Promise<ISearchGroupUsersResult> {
   const url = `${getPortalUrl(searchOptions)}/community/groups/${id}/userlist`;
-  const { requestOptions: options } = processOptions<ISearchGroupUsersOptions>(
-    searchOptions || {},
-    {
-      paramKeys: [
-        "name",
-        "num",
-        "start",
-        "sortField",
-        "sortOrder",
-        "joined",
-        "memberType"
-      ],
-      extractKeys: [],
-      defaultOptions: {
-        fetchOptions: {
-          method: "GET"
-        }
+  const { requestOptions: options } = processOptions(searchOptions || {}, {
+    paramKeys: [
+      "name",
+      "num",
+      "start",
+      "sortField",
+      "sortOrder",
+      "joined",
+      "memberType"
+    ],
+    extractKeys: [],
+    defaultOptions: {
+      fetchOptions: {
+        method: "GET"
       }
     }
-  );
+  });
   return request(url, options);
 }

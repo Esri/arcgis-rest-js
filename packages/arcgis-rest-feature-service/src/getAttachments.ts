@@ -43,14 +43,16 @@ export interface IAttachmentInfo {
 export function getAttachments(
   requestOptions: IGetAttachmentsOptions
 ): Promise<{ attachmentInfos: IAttachmentInfo[] }> {
-  return request(
-    `${cleanUrl(requestOptions.url)}/${requestOptions.featureId}/attachments`,
-    {
-      ...requestOptions,
-      fetchOptions: {
-        method: "GET",
-        ...requestOptions.fetchOptions
-      }
+  const url = `${cleanUrl(requestOptions.url)}/${
+    requestOptions.featureId
+  }/attachments`;
+  const options: IGetAttachmentsOptions = {
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions.fetchOptions
     }
-  );
+  };
+
+  return request(url, options);
 }

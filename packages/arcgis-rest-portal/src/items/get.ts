@@ -379,13 +379,10 @@ export function getItemStatus(
       requestOptions.id
     }/status`;
 
-    const { requestOptions: options } = processOptions<IItemStatusOptions>(
-      requestOptions,
-      {
-        paramKeys: ["jobId", "jobType"],
-        extractKeys: []
-      }
-    );
+    const { requestOptions: options } = processOptions(requestOptions, {
+      paramKeys: ["jobId", "jobType"],
+      extractKeys: []
+    });
 
     return request<IGetItemStatusResponse>(url, options);
   });

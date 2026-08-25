@@ -110,23 +110,20 @@ export function createItemInFolder(
     }
 
     // serialize the item into something Portal will accept
-    const { requestOptions: options } = processOptions<ICreateItemOptions>(
-      requestOptions,
-      {
-        paramKeys: [
-          "owner",
-          "folderId",
-          "file",
-          "dataUrl",
-          "text",
-          "async",
-          "multipart",
-          "filename",
-          "overwrite"
-        ],
-        extractKeys: []
-      }
-    );
+    const { requestOptions: options } = processOptions(requestOptions, {
+      paramKeys: [
+        "owner",
+        "folderId",
+        "file",
+        "dataUrl",
+        "text",
+        "async",
+        "multipart",
+        "filename",
+        "overwrite"
+      ],
+      extractKeys: []
+    });
     return request(url, options);
   });
 }

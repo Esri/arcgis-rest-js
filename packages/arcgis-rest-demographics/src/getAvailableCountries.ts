@@ -99,11 +99,13 @@ export function getAvailableCountries(
       url = `${url}/${requestOptions.countryCode}`;
     }
 
-    const { requestOptions: processedOptions } =
-      processOptions<IGetAvailableCountriesOptions>(requestOptions, {
+    const { requestOptions: processedOptions } = processOptions(
+      requestOptions,
+      {
         paramKeys: [],
         extractKeys: []
-      });
+      }
+    );
     options = processedOptions;
   }
   return request(cleanUrl(url), options).then((response: any) => {
