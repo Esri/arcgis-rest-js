@@ -78,6 +78,25 @@ describe("attachment methods", () => {
     expect(response.addAttachmentResult.success).toBe(true);
   });
 
+  test("should add attachment without optional params", async () => {
+    const requestOptions: IAddAttachmentOptions = {
+      url: serviceUrl,
+      featureId: 42,
+      attachment: attachmentFile()
+    };
+    fetchMock.once("*", addAttachmentResponse);
+
+    const response = await addAttachment(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `${requestOptions.url}/${requestOptions.featureId}/addAttachment`
+    );
+    expect(options.method).toBe("POST");
+    expect(response.addAttachmentResult.success).toBe(true);
+  });
+
   test("should return an error for a service/feature which does not have attachments", async () => {
     const requestOptions: IAddAttachmentOptions = {
       url: "https://services.arcgis.com/f8b/arcgis/rest/services/NoAttachments/FeatureServer/0",
@@ -122,6 +141,26 @@ describe("attachment methods", () => {
     expect(response.updateAttachmentResult.success).toBe(true);
   });
 
+  test("should update attachment without optional params", async () => {
+    const requestOptions: IUpdateAttachmentOptions = {
+      url: serviceUrl,
+      featureId: 42,
+      attachmentId: 1001,
+      attachment: attachmentFile()
+    };
+    fetchMock.once("*", updateAttachmentResponse);
+
+    const response = await updateAttachment(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `${requestOptions.url}/${requestOptions.featureId}/updateAttachment`
+    );
+    expect(options.method).toBe("POST");
+    expect(response.updateAttachmentResult.success).toBe(true);
+  });
+
   test("should return objectId of the deleted attachment and a success state", async () => {
     const requestOptions: IDeleteAttachmentsOptions = {
       url: serviceUrl,
@@ -140,6 +179,26 @@ describe("attachment methods", () => {
     expect(options.body).toContain("returnEditMoment=true");
     expect(options.method).toBe("POST");
     expect(response.deleteAttachmentResults[0].objectId).toBe(1001);
+    expect(response.deleteAttachmentResults[0].success).toBe(true);
+  });
+
+  test("should delete attachments without optional params", async () => {
+    const requestOptions: IDeleteAttachmentsOptions = {
+      url: serviceUrl,
+      featureId: 42,
+      attachmentIds: [1001]
+    };
+    fetchMock.once("*", deleteAttachmentsResponse);
+
+    const response = await deleteAttachments(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `${requestOptions.url}/${requestOptions.featureId}/deleteAttachments`
+    );
+    expect(options.body).toContain("attachmentIds=1001");
+    expect(options.method).toBe("POST");
     expect(response.deleteAttachmentResults[0].success).toBe(true);
   });
 

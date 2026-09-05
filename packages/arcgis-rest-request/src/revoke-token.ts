@@ -58,7 +58,7 @@ export function revokeToken(
     }
   };
 
-  return request(url, options).then((response) => {
+  return request<IRevokeTokenResponse>(url, options).then((response) => {
     if (!response.success) {
       throw new ArcGISRequestError(
         "Unable to revoke token",

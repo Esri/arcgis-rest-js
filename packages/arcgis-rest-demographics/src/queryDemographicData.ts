@@ -1,11 +1,7 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  cleanUrl,
-  appendCustomParams
-} from "@esri/arcgis-rest-request";
+import { request, cleanUrl, processOptions } from "@esri/arcgis-rest-request";
 import {
   ARCGIS_ONLINE_GEOENRICHMENT_URL,
   IGeoenrichmentResult,
@@ -69,9 +65,15 @@ export interface IQueryDemographicDataResponse {
 export function queryDemographicData(
   requestOptions?: IQueryDemographicDataOptions
 ): Promise<IQueryDemographicDataResponse> {
-  const options = appendCustomParams<IQueryDemographicDataOptions>(
-    requestOptions,
-    [
+  // the SAAS service does not support anonymous requests
+  if (!requestOptions.authentication) {
+    return Promise.reject(
+      "Geoenrichment using the ArcGIS service requires authentication"
+    );
+  }
+
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: [
       "studyAreas",
       "dataCollections",
       "analysisVariables",
@@ -80,15 +82,8 @@ export function queryDemographicData(
       "inSR",
       "outSR"
     ],
-    { params: { ...requestOptions.params } }
-  );
-
-  // the SAAS service does not support anonymous requests
-  if (!requestOptions.authentication) {
-    return Promise.reject(
-      "Geoenrichment using the ArcGIS service requires authentication"
-    );
-  }
+    extractKeys: []
+  });
 
   // These parameters are passed as JSON-style strings:
   ["dataCollections", "analysisVariables"].forEach((parameter) => {

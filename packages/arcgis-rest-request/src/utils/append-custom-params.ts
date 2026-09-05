@@ -3,9 +3,14 @@
 
 import { IRequestOptions } from "./IRequestOptions.js";
 import { normalizeDeprecatedRequestOptions } from "./normalize-deprecated-request-options.js";
+import { warn } from "./warn.js";
+
+let hasWarnedAboutAppendCustomParams = false;
 
 /**
  * Appends selected custom option keys into `params` while preserving request options.
+ *
+ * @deprecated Use `processOptions()` instead. This helper will be removed in a future major release.
  *
  * @param customOptions Endpoint-specific options supplied by the caller.
  * @param keys Keys from `customOptions` that should be appended to `params`.
@@ -17,6 +22,17 @@ export function appendCustomParams<T extends IRequestOptions>(
   keys: Array<keyof T>,
   baseOptions?: Partial<T>
 ): IRequestOptions {
+  const suppressWarnings =
+    customOptions?.requestFlags?.suppressWarnings ??
+    customOptions?.suppressWarnings ??
+    false;
+  if (!hasWarnedAboutAppendCustomParams && !suppressWarnings) {
+    warn(
+      "appendCustomParams() is deprecated and will be removed in a future major release. Use processOptions() instead."
+    );
+    hasWarnedAboutAppendCustomParams = true;
+  }
+
   // NOTE: this must be kept in sync with the keys in IRequestOptions
   const requestOptionsKeys = [
     // request options

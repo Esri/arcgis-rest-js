@@ -1,7 +1,7 @@
 /* Copyright (c) 2023 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, appendCustomParams } from "@esri/arcgis-rest-request";
+import { request, processOptions } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "@esri/arcgis-rest-portal";
 import {
   IApp,
@@ -50,19 +50,28 @@ export async function registerApp(
   requestOptions: IRegisterAppOptions
 ): Promise<IApp> {
   // build params
-  const options = appendCustomParams(requestOptions, [
-    "itemId",
-    "appType",
-    "redirect_uris",
-    "httpReferrers",
-    "privileges"
-  ]);
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: [
+      "itemId",
+      "appType",
+      "redirect_uris",
+      "httpReferrers",
+      "privileges"
+    ],
+    extractKeys: [],
+    defaultOptions: {
+      params: {
+        f: "json"
+      },
+      fetchOptions: {
+        method: "POST"
+      }
+    }
+  });
   // encode special params value (e.g. array type...) in advance in order to make encodeQueryString() works correctly
   stringifyArrays(options);
 
   const url = getPortalUrl(options) + "/oauth2/registerApp";
-  options.fetchOptions.method = "POST";
-  options.params.f = "json";
 
   const registeredAppResponse: IRegisteredAppResponse = await request(
     url,

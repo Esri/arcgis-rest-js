@@ -16,7 +16,7 @@ import {
   buildExpirationDateParams
 } from "./shared/helpers.js";
 import { getItem, getPortalUrl, updateItem } from "@esri/arcgis-rest-portal";
-import { appendCustomParams, request } from "@esri/arcgis-rest-request";
+import { processOptions, request } from "@esri/arcgis-rest-request";
 import {
   IApp,
   IGetAppInfoOptions,
@@ -98,11 +98,15 @@ export async function updateApiKey(
     };
     const appResponse = await getRegisteredAppInfo(getAppOption);
     const clientId = appResponse.client_id;
-    const options = appendCustomParams(
-      { ...appResponse, ...requestOptions }, // object with the custom params to look in
-      ["privileges", "httpReferrers"] // keys you want copied to the params object
-    );
-    options.params.f = "json";
+
+    const mergedOptions = {
+      ...appResponse,
+      ...requestOptions
+    };
+    const { requestOptions: options } = processOptions(mergedOptions, {
+      paramKeys: ["privileges", "httpReferrers"],
+      extractKeys: []
+    });
 
     // encode special params value (e.g. array type...) in advance in order to make encodeQueryString() works correctly
     stringifyArrays(options);

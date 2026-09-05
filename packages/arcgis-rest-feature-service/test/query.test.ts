@@ -88,6 +88,39 @@ describe("getFeature() and queryFeatures()", () => {
     expect(options.method).toBe("GET");
   });
 
+  test("should query features as geojson when f=geojson", async () => {
+    const requestOptions: IQueryFeaturesOptions = {
+      url: serviceUrl,
+      f: "geojson",
+      where: "1=1",
+      outFields: ["*"]
+    };
+    fetchMock.once("*", {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          geometry: null,
+          properties: { OBJECTID: 1 }
+        }
+      ]
+    });
+
+    const response = (await queryFeatures(requestOptions)) as {
+      type: string;
+      features: Array<{ properties: { OBJECTID: number } }>;
+    };
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `${requestOptions.url}/query?f=geojson&where=1%3D1&outFields=*`
+    );
+    expect(options.method).toBe("GET");
+    expect(response.type).toBe("FeatureCollection");
+    expect(response.features[0].properties.OBJECTID).toBe(1);
+  });
+
   test("queryFeaturesRaw should return raw response for default json queries", async () => {
     const requestOptions: IQueryFeaturesOptions = {
       url: serviceUrl,

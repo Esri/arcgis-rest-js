@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  processOptions,
   IRequestOptions,
   ILocation,
   IPoint,
@@ -106,9 +106,8 @@ export function originDestinationMatrix(
     ...requestOptions.params
   };
 
-  const options = appendCustomParams<IOriginDestinationMatrixOptions>(
-    requestOptions,
-    [
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: [
       "outputType",
       "barriers",
       "polylineBarriers",
@@ -118,8 +117,9 @@ export function originDestinationMatrix(
       "returnBarriers",
       "returnPolylineBarriers",
       "returnPolygonBarriers"
-    ]
-  );
+    ],
+    extractKeys: []
+  });
 
   // the SAAS service does not support anonymous requests
   if (

@@ -1,11 +1,7 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  cleanUrl,
-  appendCustomParams
-} from "@esri/arcgis-rest-request";
+import { request, cleanUrl, processOptions } from "@esri/arcgis-rest-request";
 
 import {
   ARCGIS_ONLINE_GEOENRICHMENT_URL,
@@ -130,19 +126,20 @@ export function getAvailableDataCollections(
   let options: IGetAvailableDataCollectionsOptions = {};
   let endpoint = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/dataCollections`;
 
-  if (!requestOptions) {
-    options.params = {};
-  } else {
+  if (requestOptions) {
     if (requestOptions.endpoint) {
       endpoint = `${requestOptions.endpoint}/dataCollections`;
     }
-    options = appendCustomParams<IGetAvailableDataCollectionsOptions>(
+    const { requestOptions: processedOptions } = processOptions(
       requestOptions,
-      ["addDerivativeVariables", "suppressNullValues"],
-      { params: { ...requestOptions.params } }
+      {
+        paramKeys: ["addDerivativeVariables", "suppressNullValues"],
+        extractKeys: []
+      }
     );
+    options = processedOptions as IGetAvailableDataCollectionsOptions;
 
-    if (options.params.addDerivativeVariables) {
+    if (options.params?.addDerivativeVariables) {
       options.params.addDerivativeVariables = JSON.stringify(
         options.params.addDerivativeVariables
       );

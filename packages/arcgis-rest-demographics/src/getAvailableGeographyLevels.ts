@@ -1,11 +1,7 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  cleanUrl,
-  appendCustomParams
-} from "@esri/arcgis-rest-request";
+import { request, cleanUrl, processOptions } from "@esri/arcgis-rest-request";
 
 import {
   ARCGIS_ONLINE_GEOENRICHMENT_URL,
@@ -71,15 +67,18 @@ export function getAvailableGeographyLevels(
   let options: IEndpointOptions = {};
   let endpoint = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/StandardGeographyLevels`;
 
-  if (!requestOptions) {
-    options.params = {};
-  } else {
+  if (requestOptions) {
     if (requestOptions.endpoint) {
       endpoint = `${requestOptions.endpoint}/StandardGeographyLevels`;
     }
-    options = appendCustomParams<IEndpointOptions>(requestOptions, [], {
-      params: { ...requestOptions.params }
-    });
+    const { requestOptions: processedOptions } = processOptions(
+      requestOptions,
+      {
+        paramKeys: [],
+        extractKeys: []
+      }
+    );
+    options = processedOptions;
   }
 
   return request(`${cleanUrl(endpoint)}`, options).then((response: any) => {
