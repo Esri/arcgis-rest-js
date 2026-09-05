@@ -1,5 +1,19 @@
 # @esri/arcgis-rest-portal Changelog
 
+## 4.11.0
+
+### Patch Changes
+
+- 05b9926: Updates documentation to reflect correct addItemData parameters.
+
+## 4.10.3
+
+## 4.10.2
+
+### Patch Changes
+
+- 4cce28a: Fix a bug in `getItem()` when using LDAP or cookie-based auth.
+
 ## 4.10.1
 
 ## 4.10.0

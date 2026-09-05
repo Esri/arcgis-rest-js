@@ -39,6 +39,7 @@ export function decode(featureCollectionBuffer: any) {
   const featureResult = decodedObject.queryResult.featureResult;
   const transform = featureResult.transform;
   const geometryType = featureResult.geometryType;
+  const hasZ = featureResult.hasZ === true;
   const objectIdField = featureResult.objectIdFieldName;
 
   const out: EsriGeoJSONFeatureCollection = {
@@ -58,6 +59,14 @@ export function decode(featureCollectionBuffer: any) {
     field.keyName = getKeyName(field);
   });
 
+  // throw error if hasM is true
+  if (featureResult.hasM) {
+    throw new ArcGISRequestError(
+      "M values are not supported for GeoJSON.",
+      422
+    );
+  }
+
   // throw error if objectIdField does not exist in the fields
   if (fields.every((field: any) => field.name !== objectIdField)) {
     throw new ArcGISRequestError(
@@ -73,7 +82,7 @@ export function decode(featureCollectionBuffer: any) {
       type: "Feature",
       // deliberately not setting feature id here to improve performance
       properties: collectAttributes(fields, f.attributes),
-      geometry: (f.geometry && geometryParser(f, transform)) || null
+      geometry: (f.geometry && geometryParser(f, transform, hasZ)) || null
     });
   }
   // set feature ids after the fact here
@@ -101,21 +110,30 @@ function getGeometryParser(featureType: number) {
       return createPoint;
     /* istanbul ignore next --@preserve */
     default:
-      return createPolygon;
+      throw new ArcGISRequestError("Geometry type not supported.", 501);
   }
 }
 
-function createPoint(f: any, transform: any) {
+function getCoordinateDimensions(hasZ: boolean) {
+  return hasZ ? 3 : 2;
+}
+
+function createPoint(f: any, transform: any, hasZ: boolean) {
+  const dimensions = getCoordinateDimensions(hasZ);
   const p = {
     type: "Point",
-    coordinates: transformTuple(f.geometry.coords, transform)
+    coordinates: transformTuple(
+      f.geometry.coords.slice(0, dimensions),
+      transform
+    )
   };
   return p;
 }
 
-function createLine(f: any, transform: any) {
+function createLine(f: any, transform: any, hasZ: boolean) {
   let l = null;
   const lengths = f.geometry.lengths.length;
+  const dimensions = getCoordinateDimensions(hasZ);
 
   /* istanbul ignore else if --@preserve */
   if (lengths === 1) {
@@ -125,7 +143,8 @@ function createLine(f: any, transform: any) {
         f.geometry.coords,
         transform,
         0,
-        f.geometry.lengths[0] * 2
+        f.geometry.lengths[0] * dimensions,
+        hasZ
       )
     };
   } else if (lengths > 1) {
@@ -135,12 +154,13 @@ function createLine(f: any, transform: any) {
     };
     let startPoint = 0;
     for (let index = 0; index < lengths; index++) {
-      const stopPoint = startPoint + f.geometry.lengths[index] * 2;
+      const stopPoint = startPoint + f.geometry.lengths[index] * dimensions;
       const line = createLinearRing(
         f.geometry.coords,
         transform,
         startPoint,
-        stopPoint
+        stopPoint,
+        hasZ
       );
       l.coordinates.push(line);
       startPoint = stopPoint;
@@ -149,8 +169,9 @@ function createLine(f: any, transform: any) {
   return l;
 }
 
-function createPolygon(f: any, transform: any) {
+function createPolygon(f: any, transform: any, hasZ: boolean) {
   const lengths = f.geometry.lengths.length;
+  const dimensions = getCoordinateDimensions(hasZ);
 
   const p = {
     type: "Polygon",
@@ -163,7 +184,8 @@ function createPolygon(f: any, transform: any) {
         f.geometry.coords,
         transform,
         0,
-        f.geometry.lengths[0] * 2
+        f.geometry.lengths[0] * dimensions,
+        hasZ
       )
     );
   } else {
@@ -171,12 +193,13 @@ function createPolygon(f: any, transform: any) {
 
     let startPoint = 0;
     for (let index = 0; index < lengths; index++) {
-      const stopPoint = startPoint + f.geometry.lengths[index] * 2;
+      const stopPoint = startPoint + f.geometry.lengths[index] * dimensions;
       const ring = createLinearRing(
         f.geometry.coords,
         transform,
         startPoint,
-        stopPoint
+        stopPoint,
+        hasZ
       );
 
       // Check if the ring is clockwise, if so it's an outer ring
@@ -214,21 +237,29 @@ function createLinearRing(
   arr: number[],
   transform: any,
   startPoint: number,
-  stopPoint: number
+  stopPoint: number,
+  hasZ: boolean
 ) {
   const out = [] as any[];
   /* istanbul ignore if --@preserve */
   if (arr.length === 0) return out;
 
+  const dimensions = getCoordinateDimensions(hasZ);
+
   const initialX = arr[startPoint];
   const initialY = arr[startPoint + 1];
-  out.push(transformTuple([initialX, initialY], transform));
+  const initialCoords = hasZ
+    ? [initialX, initialY, arr[startPoint + 2]]
+    : [initialX, initialY];
+  out.push(transformTuple(initialCoords, transform));
+
   let prevX = initialX;
   let prevY = initialY;
-  for (let i = startPoint + 2; i < stopPoint; i = i + 2) {
+  for (let i = startPoint + dimensions; i < stopPoint; i = i + dimensions) {
     const x = difference(prevX, arr[i]);
     const y = difference(prevY, arr[i + 1]);
-    const transformed = transformTuple([x, y], transform);
+    const coords = hasZ ? [x, y, arr[i + 2]] : [x, y];
+    const transformed = transformTuple(coords, transform);
     out.push(transformed);
     prevX = x;
     prevY = y;
@@ -272,19 +303,29 @@ function transformTuple(coords: any, transform: any) {
   let x = coords[0];
   let y = coords[1];
 
-  let z = coords[2] ? coords[2] : undefined;
+  let z = coords.length > 2 ? coords[2] : undefined;
+  const scale = transform?.scale || {};
+  const translate = transform?.translate || {};
+
+  const xScale = scale.xScale ?? 1;
+  const yScale = scale.yScale ?? 1;
+  const zScale = scale.zScale ?? 1;
+  const xTranslate = translate.xTranslate ?? 0;
+  const yTranslate = translate.yTranslate ?? 0;
+  const zTranslate = translate.zTranslate ?? 0;
+
   if (transform.scale) {
-    x *= transform.scale.xScale;
-    y *= -transform.scale.yScale;
+    x *= xScale;
+    y *= -yScale;
     if (undefined !== z) {
-      z *= transform.scale.zScale;
+      z *= zScale;
     }
   }
   if (transform.translate) {
-    x += transform.translate.xTranslate;
-    y += transform.translate.yTranslate;
+    x += xTranslate;
+    y += yTranslate;
     if (undefined !== z) {
-      z += transform.translate.zTranslate;
+      z += zTranslate;
     }
   }
   const ret = [x, y];

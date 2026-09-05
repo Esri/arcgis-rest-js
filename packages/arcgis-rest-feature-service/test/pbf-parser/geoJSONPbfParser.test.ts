@@ -219,4 +219,65 @@ describe("precision: pbfToGeoJSON geometries coordinates should match geoJSON co
     // for this point feature the coordinates match exactly.
     expect(coordA).toEqual(coordB);
   });
+
+  test("precision: geojson Z POINT coordinates should match Z POINT pbf coordinates to a certain precision", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointHasZCRS4326.pbf"
+    );
+    const geoJSON = await readEnvironmentFileToJSON(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPointHasZCRS4326.json"
+    );
+    const pbfGeoJSON = pbfToGeoJSON(arrayBuffer);
+
+    const coordA = geoJSON.features[2].geometry.coordinates;
+    const coordB = pbfGeoJSON.features[2].geometry.coordinates;
+
+    const tolerance = CoordinateToleranceEnum.EPSG_4326;
+    const maxDrift = maxDifference(coordA, coordB);
+    expect(maxDrift.diff).toBeLessThan(tolerance);
+  });
+
+  test("precision: geojson Z LINE coordinates should match Z LINE pbf coordinates to a certain precision", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFLineHasZCRS4326.pbf"
+    );
+    const geoJSON = await readEnvironmentFileToJSON(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONLineHasZCRS4326.json"
+    );
+    const pbfGeoJSON = pbfToGeoJSON(arrayBuffer);
+    const geojsonCoords = geoJSON.features[2].geometry.coordinates;
+    const pbfCoords = pbfGeoJSON.features[2].geometry.coordinates;
+
+    const tolerance = CoordinateToleranceEnum.EPSG_4326;
+    const maxDrift = maxDifference(geojsonCoords, pbfCoords);
+    expect(maxDrift.diff).toBeLessThan(tolerance);
+  });
+
+  test("precision: geojson Z POLYGON coordinates should match Z POLYGON pbf coordinates to a certain precision", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPolygonHasZCRS4326.pbf"
+    );
+    const geoJSON = await readEnvironmentFileToJSON(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPolygonHasZCRS4326.json"
+    );
+    const pbfGeoJSON = pbfToGeoJSON(arrayBuffer);
+    console.log("geojson", JSON.stringify(pbfGeoJSON, null, 2));
+    const geojsonCoords = geoJSON.features[2].geometry.coordinates;
+    const pbfCoords = pbfGeoJSON.features[2].geometry.coordinates;
+
+    const tolerance = CoordinateToleranceEnum.EPSG_4326;
+    const maxDrift = maxDifference(geojsonCoords, pbfCoords);
+    expect(maxDrift.diff).toBeLessThan(tolerance);
+  });
+});
+
+describe("errors: pbfToGeoJSON should throw errors when given invalid input", () => {
+  test("should throw error if trying to parse M values in geoJSON", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonHasM.pbf"
+    );
+    expect(() => pbfToGeoJSON(arrayBuffer)).toThrowError(
+      "M values are not supported for GeoJSON."
+    );
+  });
 });
