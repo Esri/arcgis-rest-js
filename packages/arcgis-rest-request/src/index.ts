@@ -23,7 +23,6 @@ export * from "./utils/IParamsBuilder.js";
 export * from "./utils/IRequestOptions.js";
 export * from "./utils/ITokenRequestOptions.js";
 export * from "./utils/process-options.js";
-export * from "./utils/process-options-strict.js";
 export * from "./utils/process-params.js";
 export * from "./utils/ResponseFormats.js";
 export * from "./utils/retryAuthError.js";

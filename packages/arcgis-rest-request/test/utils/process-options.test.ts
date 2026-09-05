@@ -387,28 +387,6 @@ describe("processOptions", () => {
     expect(result.requestOptions.params).not.toHaveProperty("authentication");
   });
 
-  test("should ignore extractKeys that are not present on options", () => {
-    const result = processOptions(
-      {
-        f: "json",
-        params: {
-          outSR: 3857
-        }
-      },
-      {
-        paramKeys: ["f"],
-        extractKeys: ["id", "routeType"] as any
-      }
-    );
-
-    expect(result).not.toHaveProperty("id");
-    expect(result).not.toHaveProperty("routeType");
-    expect(result.requestOptions.params).toEqual({
-      outSR: 3857,
-      f: "json"
-    });
-  });
-
   test("should merge requestOptions with defaultOptions when original options dont overlap", () => {
     const options = {
       fetchOptions: {
@@ -632,19 +610,70 @@ describe("processOptions", () => {
     ).toThrow();
   });
 
-  test("should infer extracted return keys from inline extractKeys", () => {
+  test("should return present but explicitly undefined optional properties when included in extractKeys", () => {
     interface TypedOptions extends IRequestOptions {
       id: string;
       routeType: "fastest" | "shortest";
       f: string;
       extra: string;
+      optional?: string;
     }
 
+    // User defines object without explicit undefined value
     const options: TypedOptions = {
       id: "route-id",
       routeType: "fastest",
       f: "json",
-      extra: "ignored"
+      extra: "ignored",
+      optional: undefined
+    };
+
+    const processed = processOptions(options, {
+      paramKeys: ["f"],
+      extractKeys: ["id", "routeType", "optional"]
+    });
+
+    // since optional is on the object, it should be present in the result with a value of undefined
+    expect(processed).toHaveProperty("optional");
+    expect(processed.optional).toBeUndefined();
+  });
+
+  test("should throw when users bypass TypeScript to extractKeys that are not present on options", () => {
+    try {
+      processOptions(
+        {
+          f: "json",
+          params: {
+            outSR: 3857
+          }
+        },
+        {
+          paramKeys: ["f"],
+          // Simulate a user bypassing TypeScript constraints.
+          extractKeys: ["id", "routeType"] as any
+        }
+      );
+    } catch (e) {
+      expect(e).toBeInstanceOf(Error);
+      expect((e as Error).message).toBe(
+        'processOptions() expected extracted key "id" to exist on options.'
+      );
+    }
+  });
+});
+
+describe("processOptions strict type validation", () => {
+  test("should return extracted keys when all extractKeys are present", () => {
+    interface StrictOptions extends IRequestOptions {
+      id: string;
+      routeType?: "fastest" | "shortest";
+      f: string;
+    }
+
+    const options: StrictOptions = {
+      id: "route-id",
+      routeType: "fastest",
+      f: "json"
     };
 
     const processed = processOptions(options, {
@@ -652,72 +681,31 @@ describe("processOptions", () => {
       extractKeys: ["id", "routeType"]
     });
 
-    type ExpectedAvailableProperties = {
-      requestOptions: IRequestOptions;
-      id?: string;
-      routeType?: "fastest" | "shortest";
-    };
-    const shapeCheck: ExpectedAvailableProperties = processed;
-    expect(shapeCheck).toEqual(
-      expect.objectContaining({
-        id: "route-id",
-        routeType: "fastest",
-        requestOptions: expect.objectContaining({
-          params: {
-            f: "json"
-          }
-        })
-      })
-    );
-
-    expect(processed).toEqual(shapeCheck);
+    expect(processed).toHaveProperty("id");
+    expect(processed).toHaveProperty("routeType");
+    expect(processed).toHaveProperty("requestOptions");
   });
 
-  test("should infer undefined but optional extracted return keys from inline extractKeys", () => {
-    interface TypedOptions extends IRequestOptions {
+  test("should throw when a valid extractKey is missing from options at runtime", () => {
+    interface StrictOptions extends IRequestOptions {
       id: string;
-      routeType: "fastest" | "shortest";
+      routeType?: "fastest" | "shortest";
       f: string;
-      extra: string;
-      optional?: string;
     }
 
-    // User defines object without defining optional keys
-    const options: TypedOptions = {
-      id: "route-id",
-      routeType: "fastest",
-      f: "json",
-      extra: "ignored"
+    // routeType is missing from options, but included in extractKeys
+    const options: StrictOptions = {
+      id: "id",
+      f: "json"
     };
 
-    // User tries to extract the optional key even though it is not defined at runtime.
-    const processed = processOptions(options, {
-      paramKeys: ["f"],
-      extractKeys: ["id", "routeType", "optional"]
-    });
-
-    expect(processed).not.toHaveProperty("optional");
-
-    // TypeScript returns the key as valid since it is valid on the interface and is provided in the extractKeys.
-    type ExpectedAvailableProperties = {
-      id?: string;
-      routeType?: "fastest" | "shortest";
-      optional?: string;
-      requestOptions: IRequestOptions;
-    };
-    const shapeCheck: ExpectedAvailableProperties = processed;
-    expect(shapeCheck).toEqual(
-      expect.objectContaining({
-        id: "route-id",
-        routeType: "fastest",
-        requestOptions: expect.objectContaining({
-          params: {
-            f: "json"
-          }
-        })
+    expect(() =>
+      processOptions(options, {
+        paramKeys: ["f"],
+        extractKeys: ["id", "routeType"]
       })
+    ).toThrow(
+      'processOptions() expected extracted key "routeType" to exist on options.'
     );
-
-    expect(processed).toEqual(shapeCheck);
   });
 });
