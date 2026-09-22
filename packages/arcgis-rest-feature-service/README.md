@@ -36,69 +36,6 @@ queryFeatures(options).then((response) => {
 });
 ```
 
-### TypeScript return type narrowing
-
-`queryFeatures()` narrows its return type based on the literal value of `f`.
-When an options object is declared separately, TypeScript can widen `f` to `string`, which prevents overload narrowing.
-
-Use one of these patterns to preserve the literal value:
-
-```ts
-import {
-  queryFeatures,
-  IQueryFeaturesOptions
-} from "@esri/arcgis-rest-feature-service";
-
-const options = {
-  url: "https://services.arcgis.com/.../FeatureServer/0",
-  where: "1=1",
-  f: "geojson"
-} satisfies IQueryFeaturesOptions;
-
-const geojson = await queryFeatures(options);
-// geojson is EsriGeoJSONFeatureCollection
-```
-
-```ts
-import {
-  queryFeatures,
-  IQueryFeaturesOptions
-} from "@esri/arcgis-rest-feature-service";
-
-const options: IQueryFeaturesOptions & { f: "geojson" } = {
-  url: "https://services.arcgis.com/.../FeatureServer/0",
-  where: "1=1",
-  f: "geojson"
-};
-
-const geojson = await queryFeatures(options);
-// geojson is EsriGeoJSONFeatureCollection
-```
-
-```ts
-const options = {
-  url: "https://services.arcgis.com/.../FeatureServer/0",
-  where: "1=1",
-  f: "geojson" as const
-};
-```
-
-The same approach applies to `queryAllFeatures()` when requesting GeoJSON-style output:
-
-```ts
-import {
-  queryAllFeatures,
-  IQueryAllFeaturesOptions
-} from "@esri/arcgis-rest-feature-service";
-
-const options: IQueryAllFeaturesOptions & { f: "pbf-as-geojson" } = {
-  url: "https://services.arcgis.com/.../FeatureServer/0",
-  f: "pbf-as-geojson"
-};
-
-const geojson = await queryAllFeatures(options);
-```
-
 ### [API Reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-feature-service/)
 
 ### Issues
