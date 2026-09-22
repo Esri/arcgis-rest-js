@@ -13,7 +13,8 @@ import {
   IQueryFeaturesRawOptions,
   IQueryRelatedOptions,
   IQueryAllFeaturesOptions,
-  IQueryFeaturesResponse
+  IQueryFeaturesResponse,
+  processQueryFeaturesOptions
 } from "../src/index.js";
 import {
   featureResponse,
@@ -89,7 +90,7 @@ describe("getFeature() and queryFeatures()", () => {
   });
 
   test("should query features as geojson when f=geojson", async () => {
-    const requestOptions: IQueryFeaturesOptions = {
+    const requestOptions = {
       url: serviceUrl,
       f: "geojson",
       where: "1=1",
@@ -106,10 +107,7 @@ describe("getFeature() and queryFeatures()", () => {
       ]
     });
 
-    const response = (await queryFeatures(requestOptions)) as {
-      type: string;
-      features: Array<{ properties: { OBJECTID: number } }>;
-    };
+    const response = await queryFeatures(requestOptions);
 
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");

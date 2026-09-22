@@ -38,7 +38,7 @@ type ProcessOptionsLooseResult<
 
 // A strict type that enforces the presence of all extracted keys in the result.
 // This is the final type returned by processOptions() and is enforced at runtime.
-type ProcessOptionsResult<
+export type ProcessOptionsResult<
   T extends IRequestOptions,
   ToExtractKeys extends readonly ExtractableKey<T>[]
 > = {
