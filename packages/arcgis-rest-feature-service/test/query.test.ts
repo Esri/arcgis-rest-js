@@ -200,7 +200,9 @@ describe("queryFeatures(): pbf-as-geojson", () => {
       { sendAsJson: false }
     );
 
-    const testPublicFeatureServer: IQueryFeaturesOptions = {
+    const testPublicFeatureServer: IQueryFeaturesOptions & {
+      f: "pbf-as-geojson";
+    } = {
       url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
       f: "pbf-as-geojson",
       objectIds: [49481],
@@ -217,9 +219,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
       spatialRel: "esriSpatialRelIntersects",
       where: "1=1"
     };
-    const geojson = (await queryFeatures(
-      testPublicFeatureServer
-    )) as GeoJSON.FeatureCollection;
+    const geojson = await queryFeatures(testPublicFeatureServer);
 
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");
@@ -234,7 +234,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
     expect(geojson.features[0].properties.County).toBe("Nassau County");
     expect(geojson).not.toHaveProperty("crs");
     // queryFeatures should return exceededTransferLimit property of false
-    expect((geojson as any).properties.exceededTransferLimit).toBe(false);
+    expect(geojson.properties.exceededTransferLimit).toBe(false);
   });
 
   test("(valid) standard geojson query should not return crs property in response", async () => {
@@ -243,7 +243,9 @@ describe("queryFeatures(): pbf-as-geojson", () => {
       "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointResponseCRS4326.pbf"
     );
 
-    const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+    const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions & {
+      f: "pbf-as-geojson";
+    } = {
       url: serviceUrl,
       f: "pbf-as-geojson",
       where: "1=1",
@@ -262,9 +264,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
       { sendAsJson: false }
     );
 
-    const geojson = (await queryFeatures(
-      zipCodePointsPbfAsGeoJSONOptions
-    )) as any;
+    const geojson = await queryFeatures(zipCodePointsPbfAsGeoJSONOptions);
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");
     expect(options.method).toBe("GET");
@@ -507,7 +507,9 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
       { sendAsJson: false }
     );
 
-    const testPublicFeatureServer: IQueryFeaturesOptions = {
+    const testPublicFeatureServer: IQueryFeaturesOptions & {
+      f: "pbf-as-arcgis";
+    } = {
       url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
       f: "pbf-as-arcgis",
       objectIds: [49481],
@@ -526,9 +528,7 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
       where: "1=1"
     };
 
-    const response = (await queryFeatures(
-      testPublicFeatureServer
-    )) as IQueryFeaturesResponse;
+    const response = await queryFeatures(testPublicFeatureServer);
 
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");
@@ -553,14 +553,16 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
       { sendAsJson: false }
     );
 
-    const options: IQueryFeaturesOptions = {
+    const options: IQueryFeaturesOptions & {
+      f: "pbf-as-arcgis";
+    } = {
       url: "FeatureServer/LineHasM",
       returnM: true,
       returnGeometry: false,
       f: "pbf-as-arcgis"
     };
 
-    const response = (await queryFeatures(options)) as IQueryFeaturesResponse;
+    const response = await queryFeatures(options);
     expect(fetchMock.called()).toBeTruthy();
     expect(response.hasM).toBe(true);
     expect(response.hasZ).toBe(undefined);
@@ -581,14 +583,16 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
       { sendAsJson: false }
     );
 
-    const options: IQueryFeaturesOptions = {
+    const options: IQueryFeaturesOptions & {
+      f: "pbf-as-arcgis";
+    } = {
       url: "FeatureServer/LineHasZ",
       returnZ: true,
       returnGeometry: false,
       f: "pbf-as-arcgis"
     };
 
-    const response = (await queryFeatures(options)) as IQueryFeaturesResponse;
+    const response = await queryFeatures(options);
     expect(fetchMock.called()).toBeTruthy();
     expect(response.hasM).toBe(undefined);
     expect(response.hasZ).toBe(true);
@@ -793,14 +797,14 @@ describe("queryAllFeatures (default)", () => {
       }
     );
 
-    const result = await queryAllFeatures({
+    const geojson = await queryAllFeatures({
       url: serviceUrl,
       f: "geojson"
     });
 
-    expect((result as any).features.length).toBe(pageSize + 1);
-    expect((result as any).features[0].id).toBe(1);
-    expect((result as any).features[pageSize].id).toBe(2001);
+    expect(geojson.features.length).toBe(pageSize + 1);
+    expect(geojson.features[0].id).toBe(1);
+    expect(geojson.features[pageSize].id).toBe(2001);
   });
 
   describe("queryAllFeatures (pbf-as-geojson)", () => {
@@ -838,13 +842,13 @@ describe("queryAllFeatures (default)", () => {
       // expect fetch mock to only have been called twice: once for metadata, once for features
       expect(fetchMock.calls().length).toBe(2);
       expect(geojson.features.length).toBe(67);
-      expect((geojson.features[0] as any).id).toBe(23465);
+      expect(geojson.features[0].id).toBe(23465);
       expect(geojson.features[0]).toHaveProperty("properties");
       expect(geojson.features[0]).toHaveProperty("geometry");
       // default pbf-as-geojson responses should not have a crs property
       expect(geojson).not.toHaveProperty("crs");
       // since total features (67) is less than, exceededTransferLimit will be false
-      expect((geojson as any).properties.exceededTransferLimit).toBe(false);
+      expect(geojson.properties.exceededTransferLimit).toBe(false);
     });
 
     test("(valid equal to) should query only one page of pbf-as-geojson if total features equal page size", async () => {
@@ -878,11 +882,11 @@ describe("queryAllFeatures (default)", () => {
       // expect fetch mock to only have been called twice: once for metadata, once for features
       expect(fetchMock.calls().length).toBe(2);
       expect(geojson.features.length).toBe(67);
-      expect((geojson.features[0] as any).id).toBe(23465);
+      expect(geojson.features[0].id).toBe(23465);
       expect(geojson.features[0]).toHaveProperty("properties");
       expect(geojson.features[0]).toHaveProperty("geometry");
       // since max page size equals total features, exceededTransferLimit should be false
-      expect((geojson as any).properties.exceededTransferLimit).toBe(false);
+      expect(geojson.properties.exceededTransferLimit).toBe(false);
     });
 
     test("(valid exceeds) should query multiple pages of pbf-as-geojson if total features exceed page size", async () => {
@@ -928,14 +932,14 @@ describe("queryAllFeatures (default)", () => {
       });
 
       expect(geojson.features.length).toBe(567);
-      expect((geojson.features[0] as any).id).toBe(1);
-      expect((geojson.features[499] as any).id).toBe(500);
+      expect(geojson.features[0].id).toBe(1);
+      expect(geojson.features[499].id).toBe(500);
       //id's jump because we are using last page as partial which comes after page 5
-      expect((geojson.features[500] as any).id).toBe(23465);
+      expect(geojson.features[500].id).toBe(23465);
       expect(geojson.features[0]).toHaveProperty("properties");
       expect(geojson.features[0]).toHaveProperty("geometry");
       // exceededTransferLimit only gets set the first iteration on the response object so it will always be true in multi-page scenarios
-      expect((geojson as any).properties.exceededTransferLimit).toBe(true);
+      expect(geojson.properties.exceededTransferLimit).toBe(true);
     });
 
     test("(valid all) should query all pbf-as-geojson features as geojson objects", async () => {
@@ -983,7 +987,7 @@ describe("queryAllFeatures (default)", () => {
       expect(fetchMock.calls().length).toBe(4); // 1 for metadata + 6 pages
       expect(geojson.features.length).toBe(1067);
       // exceededTransferLimit only gets set the first iteration on the response object so it will always be true in multi-page scenarios
-      expect((geojson as any).properties.exceededTransferLimit).toBe(true);
+      expect(geojson.properties.exceededTransferLimit).toBe(true);
     });
 
     test("(invalid request) should throw 400 arcgis request error when objectIdFields fail to parse in pbf-to-geojson parser", async () => {
