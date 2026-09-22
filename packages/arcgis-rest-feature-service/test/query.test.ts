@@ -107,7 +107,12 @@ describe("getFeature() and queryFeatures()", () => {
       ]
     });
 
-    const response = await queryFeatures(requestOptions);
+    const response = await queryFeatures({
+      url: serviceUrl,
+      f: "geojson",
+      where: "1=1",
+      outFields: ["*"]
+    });
 
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");

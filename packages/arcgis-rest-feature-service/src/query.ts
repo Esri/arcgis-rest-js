@@ -174,42 +174,6 @@ export interface IQueryFeaturesRawOptions
 }
 
 function processQueryFeaturesOptions(
-  requestOptions: IQueryFeaturesOptions & {
-    f: "geojson" | "pbf-as-geojson";
-  }
-): ProcessOptionsResult<
-  IQueryFeaturesOptions & {
-    f: "geojson" | "pbf-as-geojson";
-  },
-  ["url", "f"]
->;
-function processQueryFeaturesOptions(
-  requestOptions: IQueryFeaturesOptions & {
-    f: "pbf-as-arcgis";
-  }
-): ProcessOptionsResult<
-  IQueryFeaturesOptions & {
-    f: "pbf-as-arcgis";
-  },
-  ["url", "f"]
->;
-function processQueryFeaturesOptions(
-  requestOptions: IQueryFeaturesOptions & {
-    f: "json";
-  }
-): ProcessOptionsResult<
-  IQueryFeaturesOptions & {
-    f: "json";
-  },
-  ["url", "f"]
->;
-function processQueryFeaturesOptions(
-  requestOptions: IQueryFeaturesOptions
-): ProcessOptionsResult<IQueryFeaturesOptions, ["url", "f"]>;
-function processQueryFeaturesOptions(
-  requestOptions: IQueryFeaturesRawOptions
-): ProcessOptionsResult<IQueryFeaturesRawOptions, ["url", "f"]>;
-function processQueryFeaturesOptions(
   requestOptions: IQueryFeaturesRawOptions | IQueryFeaturesOptions
 ) {
   return processOptions(requestOptions, {
