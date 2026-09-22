@@ -90,12 +90,6 @@ describe("getFeature() and queryFeatures()", () => {
   });
 
   test("should query features as geojson when f=geojson", async () => {
-    const requestOptions = {
-      url: serviceUrl,
-      f: "geojson",
-      where: "1=1",
-      outFields: ["*"]
-    };
     fetchMock.once("*", {
       type: "FeatureCollection",
       features: [
@@ -117,7 +111,7 @@ describe("getFeature() and queryFeatures()", () => {
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toEqual(
-      `${requestOptions.url}/query?f=geojson&where=1%3D1&outFields=*`
+      `${serviceUrl}/query?f=geojson&where=1%3D1&outFields=*`
     );
     expect(options.method).toBe("GET");
     expect(response.type).toBe("FeatureCollection");
@@ -834,14 +828,13 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      const geojson = await queryAllFeatures({
+        url: thisServiceUrl,
         f: "pbf-as-geojson"
         // not setting outSR should default to 4326 for pbf-as-geojson requests
         // setting outSR to 4326 explicitly will yield the same behavior
-      };
+      });
 
-      const geojson = await queryAllFeatures(docsPbfOptions);
       // expect fetch mock to only have been called twice: once for metadata, once for features
       expect(fetchMock.calls().length).toBe(2);
       expect(geojson.features.length).toBe(67);
@@ -878,12 +871,10 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      const geojson = await queryAllFeatures({
+        url: thisServiceUrl,
         f: "pbf-as-geojson"
-      };
-
-      const geojson = await queryAllFeatures(docsPbfOptions);
+      });
       // expect fetch mock to only have been called twice: once for metadata, once for features
       expect(fetchMock.calls().length).toBe(2);
       expect(geojson.features.length).toBe(67);
@@ -929,14 +920,13 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
+      const geojson = await queryAllFeatures({
         url: thisServiceUrl,
         f: "pbf-as-geojson",
         // explicitly setting outSR to 4326 for geojson standard will yield same behavior as default
         outSR: "4326"
-      };
+      });
 
-      const geojson = await queryAllFeatures(docsPbfOptions);
       expect(geojson.features.length).toBe(567);
       expect((geojson.features[0] as any).id).toBe(1);
       expect((geojson.features[499] as any).id).toBe(500);
@@ -982,10 +972,11 @@ describe("queryAllFeatures (default)", () => {
         );
       }
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
-        url: thisServiceUrl,
-        f: "pbf-as-geojson"
-      };
+      const docsPbfOptions: IQueryAllFeaturesOptions & { f: "pbf-as-geojson" } =
+        {
+          url: thisServiceUrl,
+          f: "pbf-as-geojson"
+        };
 
       const geojson = await queryAllFeatures(docsPbfOptions);
 
@@ -1015,7 +1006,9 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const noObjectFieldIdOptions: IQueryAllFeaturesOptions = {
+      const noObjectFieldIdOptions: IQueryAllFeaturesOptions & {
+        f: "pbf-as-geojson";
+      } = {
         url: thisServiceUrl,
         where: "HEIGHTROOF > 95",
         outFields: ["OBJECTID", "HEIGHTROOF", "GROUNDELEV", "CNSTRCT_YR"],
@@ -1062,13 +1055,11 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      const response = await queryAllFeatures({
+        url: thisServiceUrl,
         // request pbf-as-arcgis to rest-js to get all features as pbf then convert to arcgis json in rest-js
         f: "pbf-as-arcgis"
-      };
-
-      const response = await queryAllFeatures(docsPbfOptions);
+      });
       // expect fetch mock to only have been called twice: once for max page size, once for features
       expect(fetchMock.calls().length).toBe(2);
       expect(response.features.length).toBe(131);
@@ -1102,12 +1093,11 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      const response = await queryAllFeatures({
+        url: thisServiceUrl,
         f: "pbf-as-arcgis"
-      };
+      });
 
-      const response = await queryAllFeatures(docsPbfOptions);
       // expect fetch mock to only have been called twice: once for metadata, once for features
       expect(fetchMock.calls().length).toBe(2);
       expect(response.features.length).toBe(131);
@@ -1156,12 +1146,10 @@ describe("queryAllFeatures (default)", () => {
         );
       }
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
+      const response = await queryAllFeatures({
         url: thisServiceUrl,
         f: "pbf-as-arcgis"
-      };
-
-      const response = await queryAllFeatures(docsPbfOptions);
+      });
 
       expect(fetchMock.calls().length).toBe(7); // 1 for metadata + 6 for pages
       expect(response.features.length).toBe(2631);
@@ -1191,7 +1179,9 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const noObjectFieldIdOptions: IQueryAllFeaturesOptions = {
+      const noObjectFieldIdOptions: IQueryAllFeaturesOptions & {
+        f: "pbf-as-arcgis";
+      } = {
         url: thisServiceUrl,
         where: "HEIGHTROOF > 95",
         outFields: ["OBJECTID", "HEIGHTROOF", "GROUNDELEV", "CNSTRCT_YR"],

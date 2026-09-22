@@ -215,7 +215,7 @@ function processQueryFeaturesOptions(
       "returnExceededLimitFeatures",
       "f"
     ],
-    extractKeys: ["url", "f"],
+    extractKeys: ["url"],
     defaultOptions: {
       fetchOptions: {
         method: "GET"
@@ -249,7 +249,7 @@ function queryPbfAsGeoJSONOrArcGIS(
   }
   if (queryOptions.params.f === "pbf-as-geojson") {
     // if f=pbf-as-geojson, we need to set outSR=4326 to satisfy geojson crs standard
-    // if f-pbf-as-geojson, outSR should not be set, or should be 4326 otherwise throw error
+    // if f=pbf-as-geojson, outSR should not be set, or should be 4326 otherwise throw error
     if (
       !!queryOptions?.params?.outSR &&
       queryOptions.params.outSR !== "4326" &&
@@ -369,14 +369,47 @@ export function getFeature(
 /**
  * Query a feature service. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
  *
- * ```js
+ * ```ts
  * import { queryFeatures } from '@esri/arcgis-rest-feature-service';
  *
- * queryFeatures({
+ * const response = await queryFeatures({
  *   url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3",
  *   where: "STATE_NAME = 'Alaska'"
- * })
- *   .then(result)
+ * });
+ * ```
+ *
+ * TypeScript note: return types for `queryFeatures()` depend on the literal value of `f`.
+ * Inline objects infer literal `f` values automatically, but pre-declared objects may widen `f` to `string`.
+ * To preserve a narrow return type for pre-declared objects, use a const assertion, explicit type with a literal declaration, or a `satisfies` clause.
+ *
+ * ```ts
+ * const options = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: "geojson" as const
+ * };
+ *
+ * const response = await queryFeatures(options);
+ * // response is EsriGeoJSONFeatureCollection
+ * ```
+ *
+ * ```ts
+ * const typedOptions: IQueryFeaturesOptions & { f: "geojson" } = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: "geojson"
+ * };
+ *
+ * const typedResponse = await queryFeatures(typedOptions);
+ * // typedResponse is EsriGeoJSONFeatureCollection
+ * ```
+ *
+ * ```ts
+ * const options = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: "geojson"
+ * } satisfies IQueryFeaturesOptions;
+ *
+ * const response = await queryFeatures(options);
+ * // response is EsriGeoJSONFeatureCollection
  * ```
  *
  * @param requestOptions - Options for the request
@@ -443,14 +476,42 @@ function queryFeaturesRaw(
 /**
  * Query a feature service to retrieve all features. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
  *
- * ```js
+ * ```ts
  * import { queryAllFeatures } from '@esri/arcgis-rest-feature-service';
  *
- * queryAllFeatures({
+ * const response = await queryAllFeatures({
  *   url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3",
  *   where: "STATE_NAME = 'Alaska'"
- * })
- *   .then(result)
+ * });
+ * ```
+ *
+ * TypeScript note: if `f` is declared in a separate options object, preserve the literal value to match overloads.
+ *
+ * ```ts
+ * const options = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: "pbf-as-geojson" as const
+ * };
+ *
+ * const response = await queryAllFeatures(options);
+ * ```
+ *
+ * ```ts
+ * const typedOptions: IQueryAllFeaturesOptions & { f: "pbf-as-geojson" } = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: "pbf-as-geojson"
+ * };
+ *
+ * const typedResponse = await queryAllFeatures(typedOptions);
+ * ```
+ *
+ * ```ts
+ * const options = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: "pbf-as-geojson"
+ * } satisfies IQueryAllFeaturesOptions;
+ *
+ * const response = await queryAllFeatures(options);
  * ```
  *
  * @param requestOptions - Options for the request
