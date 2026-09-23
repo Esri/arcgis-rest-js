@@ -4,7 +4,8 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  processOptions,
+  ProcessOptionsResult,
   ISpatialReference,
   IFeatureSet,
   IFeature,
@@ -19,9 +20,12 @@ import {
 import {
   IGetLayerOptions,
   ISharedQueryOptions,
-  IStatisticDefinition
+  IStatisticDefinition,
+  IFeatureServiceDefinition
 } from "./helpers.js";
-import pbfToGeoJSON from "./pbf-parser/geoJSONPbfParser.js";
+import pbfToGeoJSON, {
+  EsriGeoJSONFeatureCollection
+} from "./pbf-parser/geoJSONPbfParser.js";
 import pbfToArcGIS from "./pbf-parser/arcGISPbfParser.js";
 
 /**
@@ -149,6 +153,11 @@ export interface IQueryAllFeaturesResponse extends IFeatureSet {
   exceededTransferLimit?: true;
 }
 
+type QueryAllFeatureTypes =
+  | IQueryFeaturesResponse
+  | IQueryAllFeaturesResponse
+  | EsriGeoJSONFeatureCollection;
+
 export interface IQueryResponse {
   count?: number;
   extent?: IExtent;
@@ -164,12 +173,11 @@ export interface IQueryFeaturesRawOptions
   f?: IQueryFeaturesOptions["f"] | "pbf";
 }
 
-function prepareQueryFeaturesOptions(
+function processQueryFeaturesOptions(
   requestOptions: IQueryFeaturesRawOptions | IQueryFeaturesOptions
-): IRequestOptions {
-  const queryOptions = appendCustomParams<IQueryFeaturesRawOptions>(
-    requestOptions,
-    [
+) {
+  return processOptions(requestOptions, {
+    paramKeys: [
       "where",
       "objectIds",
       "relationParam",
@@ -207,22 +215,18 @@ function prepareQueryFeaturesOptions(
       "returnExceededLimitFeatures",
       "f"
     ],
-    {
+    extractKeys: ["url"],
+    defaultOptions: {
+      fetchOptions: {
+        method: "GET"
+      },
       params: {
         // set default query parameters
         where: "1=1",
-        outFields: "*",
-        ...requestOptions.params
+        outFields: "*"
       }
     }
-  );
-
-  queryOptions.fetchOptions = {
-    method: "GET",
-    ...queryOptions.fetchOptions
-  };
-
-  return queryOptions;
+  });
 }
 
 /**
@@ -230,14 +234,14 @@ function prepareQueryFeaturesOptions(
  * Handles both f=pbf-as-geojson and f=pbf-as-arcgis format query params and handles errors.
  *
  * @param url - A feature service url
- * @param queryOptions - Options for the request that has been passed through appendCustomParams
+ * @param queryOptions - Options for the request that has been passed through processOptions
  * @returns A Promise that will resolve with the query response.
  */
 
-export function queryPbfAsGeoJSONOrArcGIS(
+function queryPbfAsGeoJSONOrArcGIS(
   url: string,
   queryOptions: IRequestOptions
-): Promise<IQueryFeaturesResponse | IQueryAllFeaturesResponse> {
+): Promise<IQueryFeaturesResponse | EsriGeoJSONFeatureCollection> {
   // check for unsupported query options
   let message = "";
   if (queryOptions.params.returnTrueCurves) {
@@ -245,7 +249,7 @@ export function queryPbfAsGeoJSONOrArcGIS(
   }
   if (queryOptions.params.f === "pbf-as-geojson") {
     // if f=pbf-as-geojson, we need to set outSR=4326 to satisfy geojson crs standard
-    // if f-pbf-as-geojson, outSR should not be set, or should be 4326 otherwise throw error
+    // if f=pbf-as-geojson, outSR should not be set, or should be 4326 otherwise throw error
     if (
       !!queryOptions?.params?.outSR &&
       queryOptions.params.outSR !== "4326" &&
@@ -365,30 +369,94 @@ export function getFeature(
 /**
  * Query a feature service. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
  *
- * ```js
+ * ```ts
  * import { queryFeatures } from '@esri/arcgis-rest-feature-service';
  *
- * queryFeatures({
+ * const response = await queryFeatures({
  *   url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3",
  *   where: "STATE_NAME = 'Alaska'"
- * })
- *   .then(result)
+ * });
+ * ```
+ *
+ * TypeScript note: return types for `queryFeatures()` depend on the literal value of `f`.
+ * Inline objects infer literal `f` values automatically, but pre-declared objects may widen `f` to `string`.
+ * To preserve a narrow return type for pre-declared objects, use a const assertion, explicit type with a literal declaration, or a `satisfies` clause.
+ *
+ * ```ts
+ * const options = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: "geojson" as const
+ * };
+ *
+ * const response = await queryFeatures(options);
+ * // response is EsriGeoJSONFeatureCollection
+ * ```
+ *
+ * ```ts
+ * const typedOptions: IQueryFeaturesOptions & { f: "geojson" } = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: "geojson"
+ * };
+ *
+ * const typedResponse = await queryFeatures(typedOptions);
+ * // typedResponse is EsriGeoJSONFeatureCollection
+ * ```
+ *
+ * ```ts
+ * const options = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: "geojson"
+ * } satisfies IQueryFeaturesOptions;
+ *
+ * const response = await queryFeatures(options);
+ * // response is EsriGeoJSONFeatureCollection
  * ```
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the query response.
  */
-export function queryFeatures(
-  requestOptions: IQueryFeaturesOptions
-): Promise<IQueryFeaturesResponse | IQueryResponse> {
-  const queryOptions = prepareQueryFeaturesOptions(requestOptions);
-  if (
-    queryOptions.params?.f === "pbf-as-geojson" ||
-    queryOptions.params?.f === "pbf-as-arcgis"
-  ) {
-    return queryPbfAsGeoJSONOrArcGIS(requestOptions.url, queryOptions);
+
+function queryFeatures(
+  requestOptions: IQueryFeaturesOptions & {
+    f: "json";
   }
-  return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
+): Promise<IQueryFeaturesResponse | IQueryResponse>;
+function queryFeatures(
+  requestOptions: IQueryFeaturesOptions & {
+    f: "geojson" | "pbf-as-geojson";
+  }
+): Promise<EsriGeoJSONFeatureCollection>;
+function queryFeatures(
+  requestOptions: IQueryFeaturesOptions & {
+    f: "pbf-as-arcgis";
+  }
+): Promise<IQueryFeaturesResponse>;
+function queryFeatures(
+  requestOptions: IQueryFeaturesOptions
+): Promise<IQueryFeaturesResponse | IQueryResponse>;
+function queryFeatures(
+  requestOptions: IQueryFeaturesOptions
+): Promise<
+  IQueryFeaturesResponse | IQueryResponse | EsriGeoJSONFeatureCollection
+> {
+  const processedOptions = processQueryFeaturesOptions(requestOptions);
+  const queryOptions = processedOptions.requestOptions;
+  if (queryOptions.params?.f === "geojson") {
+    return request<EsriGeoJSONFeatureCollection>(
+      `${cleanUrl(processedOptions.url)}/query`,
+      queryOptions
+    );
+  }
+  if (queryOptions.params?.f === "pbf-as-geojson") {
+    return queryPbfAsGeoJSONOrArcGIS(processedOptions.url, queryOptions);
+  }
+  if (queryOptions.params?.f === "pbf-as-arcgis") {
+    return queryPbfAsGeoJSONOrArcGIS(processedOptions.url, queryOptions);
+  }
+  return request<IQueryFeaturesResponse | IQueryResponse>(
+    `${cleanUrl(processedOptions.url)}/query`,
+    queryOptions
+  );
 }
 
 /**
@@ -397,36 +465,75 @@ export function queryFeatures(
  * @param requestOptions - Options for the request
  * @returns A Promise that resolves with the native response.
  */
-export function queryFeaturesRaw(
+function queryFeaturesRaw(
   requestOptions: IQueryFeaturesRawOptions
 ): Promise<Response> {
-  const queryOptions = prepareQueryFeaturesOptions(requestOptions);
-  return rawRequest(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
+  const processedOptions = processQueryFeaturesOptions(requestOptions);
+  const queryOptions = processedOptions.requestOptions;
+  return rawRequest(`${cleanUrl(processedOptions.url)}/query`, queryOptions);
 }
 
 /**
  * Query a feature service to retrieve all features. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
  *
- * ```js
+ * ```ts
  * import { queryAllFeatures } from '@esri/arcgis-rest-feature-service';
  *
- * queryAllFeatures({
+ * const response = await queryAllFeatures({
  *   url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3",
  *   where: "STATE_NAME = 'Alaska'"
- * })
- *   .then(result)
+ * });
+ * ```
+ *
+ * TypeScript note: if `f` is declared in a separate options object, preserve the literal value to match overloads.
+ *
+ * ```ts
+ * const options = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: "pbf-as-geojson" as const
+ * };
+ *
+ * const response = await queryAllFeatures(options);
+ * ```
+ *
+ * ```ts
+ * const typedOptions: IQueryAllFeaturesOptions & { f: "pbf-as-geojson" } = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: "pbf-as-geojson"
+ * };
+ *
+ * const typedResponse = await queryAllFeatures(typedOptions);
+ * ```
+ *
+ * ```ts
+ * const options = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: "pbf-as-geojson"
+ * } satisfies IQueryAllFeaturesOptions;
+ *
+ * const response = await queryAllFeatures(options);
  * ```
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the query response.
  */
+export function queryAllFeatures(
+  requestOptions: IQueryAllFeaturesOptions & {
+    f: "geojson" | "pbf-as-geojson";
+  }
+): Promise<EsriGeoJSONFeatureCollection>;
+export function queryAllFeatures(
+  requestOptions: IQueryAllFeaturesOptions & {
+    f?: "json" | "pbf-as-arcgis";
+  }
+): Promise<IQueryAllFeaturesResponse | IQueryFeaturesResponse>;
 export async function queryAllFeatures(
   requestOptions: IQueryAllFeaturesOptions
-): Promise<IQueryAllFeaturesResponse> {
+): Promise<QueryAllFeatureTypes> {
   let firstResponse = true;
   let offset = 0;
   let hasMore = true;
-  let allFeaturesResponse: IQueryAllFeaturesResponse | null = null;
+  let allFeaturesResponse: QueryAllFeatureTypes | null = null;
 
   const userRecordCount =
     requestOptions.resultRecordCount ||
@@ -449,10 +556,13 @@ export async function queryAllFeatures(
     recordCountToUse = userRecordCount;
   } else {
     // retrieve the maxRecordCount for the service only if user did not provide resultRecordCount
-    const pageSizeResponse = await request(requestOptions.url, {
-      fetchOptions: { method: "GET" },
-      authentication: requestOptions.authentication
-    });
+    const pageSizeResponse = await request<IFeatureServiceDefinition>(
+      requestOptions.url,
+      {
+        fetchOptions: { method: "GET" },
+        authentication: requestOptions.authentication
+      }
+    );
     // default the pageSize to 2000 if it is not provided
     recordCountToUse = pageSizeResponse.maxRecordCount || 2000;
   }
@@ -469,9 +579,8 @@ export async function queryAllFeatures(
       }
     };
 
-    const queryOptions = appendCustomParams<IQueryAllFeaturesOptions>(
-      pagedOptions,
-      [
+    const { requestOptions: queryOptions } = processOptions(pagedOptions, {
+      paramKeys: [
         "where",
         "objectIds",
         "relationParam",
@@ -504,32 +613,37 @@ export async function queryAllFeatures(
         "sqlFormat",
         "f"
       ],
-      {
+      extractKeys: [],
+      defaultOptions: {
+        fetchOptions: {
+          method: "GET"
+        },
         params: {
+          // set default query parameters
           where: "1=1",
-          outFields: "*",
-          returnExceededLimitFeatures: true,
-          ...pagedOptions.params
+          outFields: "*"
         }
       }
-    );
+    });
 
-    queryOptions.fetchOptions = {
-      method: "GET",
-      ...queryOptions.fetchOptions
-    };
-
-    let response: IQueryAllFeaturesResponse;
-    if (
-      queryOptions.params?.f === "pbf-as-geojson" ||
-      queryOptions.params?.f === "pbf-as-arcgis"
-    ) {
-      response = (await queryPbfAsGeoJSONOrArcGIS(
+    let response: QueryAllFeatureTypes;
+    if (queryOptions.params?.f === "pbf-as-geojson") {
+      response = await queryPbfAsGeoJSONOrArcGIS(
         requestOptions.url,
         queryOptions
-      )) as IQueryAllFeaturesResponse;
+      );
+    } else if (queryOptions.params?.f === "pbf-as-arcgis") {
+      response = await queryPbfAsGeoJSONOrArcGIS(
+        requestOptions.url,
+        queryOptions
+      );
+    } else if (queryOptions.params?.f === "geojson") {
+      response = await request<EsriGeoJSONFeatureCollection>(
+        `${cleanUrl(requestOptions.url)}/query`,
+        queryOptions
+      );
     } else {
-      response = await request(
+      response = await request<IQueryAllFeaturesResponse>(
         `${cleanUrl(requestOptions.url)}/query`,
         queryOptions
       );
@@ -540,9 +654,10 @@ export async function queryAllFeatures(
       allFeaturesResponse = { ...response };
     } else {
       // append features of subsequent requests
-      allFeaturesResponse.features = allFeaturesResponse.features.concat(
-        response.features
-      );
+      allFeaturesResponse.features = [
+        ...allFeaturesResponse.features,
+        ...response.features
+      ];
     }
 
     const returnedCount = response.features.length;
@@ -557,9 +672,11 @@ export async function queryAllFeatures(
 
     const exceededTransferLimit =
       // ArcGIS JSON | pbf-as-arcgis: exceededTransferLimit is on the response object
-      response.exceededTransferLimit ||
+      ("exceededTransferLimit" in response &&
+        !!response.exceededTransferLimit) ||
       // GeoJSON | pbf-as-geojson: exceededTransferLimit is on properties in the response object
-      (response as any).properties?.exceededTransferLimit;
+      ("properties" in response &&
+        !!response.properties?.exceededTransferLimit);
 
     // check if there are more features
     if (returnedCount < recordCountToUse || !exceededTransferLimit) {
@@ -570,3 +687,5 @@ export async function queryAllFeatures(
   }
   return allFeaturesResponse;
 }
+
+export { queryFeatures, queryFeaturesRaw, processQueryFeaturesOptions };

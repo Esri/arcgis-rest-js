@@ -1,6 +1,6 @@
 import {
   request,
-  appendCustomParams,
+  processOptions,
   IRequestOptions
 } from "@esri/arcgis-rest-request";
 
@@ -9,7 +9,7 @@ import { baseUrl, hasNextPage, getNextPageParams } from "./utils.js";
 import { IconOptions } from "./iconOptions.js";
 
 // determine the list of allowed params we want to allow as options
-// this should match the array given to appendCustomParams below
+// this should match the array given to processOptions below
 type queryParams = Pick<
   operations["withinExtentGet"]["parameters"]["query"],
   | "xmin"
@@ -94,9 +94,8 @@ export interface IFindPlaceWithinExtentOptions
 export function findPlacesWithinExtent(
   requestOptions: IFindPlaceWithinExtentOptions
 ): Promise<IFindPlacesWithinExtentResponse> {
-  const options = appendCustomParams<IFindPlaceWithinExtentOptions>(
-    requestOptions,
-    [
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: [
       "xmin",
       "ymin",
       "xmax",
@@ -107,10 +106,8 @@ export function findPlacesWithinExtent(
       "searchText",
       "icon"
     ],
-    {
-      ...requestOptions
-    }
-  );
+    extractKeys: []
+  });
 
   return (
     request(requestOptions.endpoint || `${baseUrl}/places/within-extent`, {

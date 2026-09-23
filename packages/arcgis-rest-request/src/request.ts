@@ -169,10 +169,10 @@ export class ArcGISAuthError extends ArcGISRequestError {
     Object.setPrototypeOf(this, actualProto);
   }
 
-  public retry(getSession: IRetryAuthError, retryLimit = 1) {
+  public retry<T = unknown>(getSession: IRetryAuthError, retryLimit = 1) {
     let tries = 0;
 
-    const retryRequest = async (): Promise<any> => {
+    const retryRequest = async (): Promise<T> => {
       tries = tries + 1;
 
       try {
@@ -182,7 +182,7 @@ export class ArcGISAuthError extends ArcGISRequestError {
           ...{ authentication: session }
         };
 
-        return await internalRequest(this.url, newOptions);
+        return await internalRequest<T>(this.url, newOptions);
       } catch (e: any) {
         if (e.name === "ArcGISAuthError" && tries < retryLimit) {
           return retryRequest();
@@ -559,10 +559,10 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
  * @returns A Promise that will resolve with the data from the response.
  * @internal
  */
-export async function internalRequest(
+export async function internalRequest<T = unknown>(
   url: string,
   requestOptions: IRequestOptions
-): Promise<any> {
+): Promise<T> {
   // -----------------------------
   const suppressWarnings =
     requestOptions.requestFlags?.suppressWarnings ??
@@ -643,7 +643,7 @@ export async function internalRequest(
 export async function rawRequest(
   url: string,
   requestOptions: IRequestOptions = { params: { f: "json" } }
-): Promise<any> {
+): Promise<Response> {
   const { response } = await executeRequest(url, requestOptions);
   return response;
 }
@@ -671,12 +671,12 @@ export async function rawRequest(
  * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
  * @returns A Promise that will resolve with the data from the response.
  */
-export async function request(
+export async function request<T = unknown>(
   url: string,
   requestOptions: IRequestOptions = { params: { f: "json" } }
-): Promise<any> {
+): Promise<T> {
   try {
-    return await internalRequest(url, requestOptions);
+    return await internalRequest<T>(url, requestOptions);
   } catch (e: any) {
     if (
       e instanceof ArcGISAuthError &&
@@ -685,7 +685,7 @@ export async function request(
       requestOptions.authentication.canRefresh &&
       requestOptions.authentication.refreshCredentials
     ) {
-      return e.retry(() => {
+      return e.retry<T>(() => {
         return (requestOptions.authentication as any).refreshCredentials();
       }, 1);
     }

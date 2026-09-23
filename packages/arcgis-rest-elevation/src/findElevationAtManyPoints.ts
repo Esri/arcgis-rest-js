@@ -1,6 +1,6 @@
 import {
   request,
-  appendCustomParams,
+  processOptions,
   IRequestOptions
 } from "@esri/arcgis-rest-request";
 
@@ -8,7 +8,7 @@ import { operations } from "./openapi-types.js";
 import { baseUrl } from "./utils.js";
 
 // determine the list of allowed params we want to allow as options
-// this should match the array given to appendCustomParams below
+// this should match the array given to processOptions below
 type queryParams = Pick<
   operations["ElevationAtManyPointsPost"]["requestBody"]["content"]["application/json"],
   "coordinates" | "relativeTo"
@@ -69,28 +69,20 @@ export interface IFindElevationAtManyPointsOptions
  * console.log(results)
  * ```
  */
-export function findElevationAtManyPoints(
+export async function findElevationAtManyPoints(
   requestOptions: IFindElevationAtManyPointsOptions
 ): Promise<IFindElevationAtManyPointsResponse> {
-  const options: any = appendCustomParams<IFindElevationAtManyPointsOptions>(
-    requestOptions,
-    ["relativeTo"],
-    {
-      ...requestOptions
-    }
-  );
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: ["relativeTo", "coordinates"],
+    extractKeys: []
+  });
 
-  options.params.coordinates = JSON.stringify(requestOptions.coordinates);
+  // if coordinates were provided, we need to stringify them for the request body
+  if (options.params?.coordinates) {
+    options.params.coordinates = JSON.stringify(options.params.coordinates);
+  }
 
-  return (
-    request(`${baseUrl}/elevation/at-many-points`, {
-      ...options
-    }) as Promise<successResponse>
-  ).then((response) => {
-    const r: IFindElevationAtManyPointsResponse = {
-      ...response
-    };
-
-    return r;
+  return request(`${baseUrl}/elevation/at-many-points`, {
+    ...options
   });
 }

@@ -4,7 +4,7 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams,
+  processOptions,
   IGroup,
   IUser
 } from "@esri/arcgis-rest-request";
@@ -190,13 +190,22 @@ export function searchGroupUsers(
   searchOptions?: ISearchGroupUsersOptions
 ): Promise<ISearchGroupUsersResult> {
   const url = `${getPortalUrl(searchOptions)}/community/groups/${id}/userlist`;
-  const options = appendCustomParams<ISearchGroupUsersOptions>(
-    searchOptions || {},
-    ["name", "num", "start", "sortField", "sortOrder", "joined", "memberType"]
-  );
-  options.fetchOptions = {
-    method: "GET",
-    ...options.fetchOptions
-  };
+  const { requestOptions: options } = processOptions(searchOptions || {}, {
+    paramKeys: [
+      "name",
+      "num",
+      "start",
+      "sortField",
+      "sortOrder",
+      "joined",
+      "memberType"
+    ],
+    extractKeys: [],
+    defaultOptions: {
+      fetchOptions: {
+        method: "GET"
+      }
+    }
+  });
   return request(url, options);
 }

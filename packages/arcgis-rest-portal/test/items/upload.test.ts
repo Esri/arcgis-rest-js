@@ -77,6 +77,35 @@ describe("search", () => {
       expect(options.body).toContain("token=fake-token");
     });
 
+    test("should commit upload using provided params without auto-merging item fields", async () => {
+      fetchMock.once("*", ItemSuccessResponse);
+
+      await commitItemUpload({
+        id: "3ef",
+        item: {
+          title: "test",
+          type: "PDF"
+        },
+        params: {
+          someonePutAParamInHere: true
+        },
+        ...MOCK_USER_REQOPTS
+      });
+
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/commit"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("someonePutAParamInHere=true");
+      expect(options.body).toContain("token=fake-token");
+      // should not contain item data, since providing params precludes auto-merging item fields
+      expect(options.body).not.toContain("title=test");
+      expect(options.body).not.toContain("type=PDF");
+    });
+
     test("should cancel the item upload", async () => {
       fetchMock.once("*", ItemSuccessResponse);
 

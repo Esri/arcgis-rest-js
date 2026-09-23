@@ -5,9 +5,24 @@
  */
 
 import { appendCustomParams } from "../../src/index.js";
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 
 describe("appendCustomParams", () => {
+  test("warns once that appendCustomParams is deprecated", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {
+      // no-op
+    });
+
+    appendCustomParams({ params: {}, f: "json" } as any, ["f"]);
+    appendCustomParams({ params: {}, f: "json" } as any, ["f"]);
+
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy.mock.calls[0][0]).toContain("appendCustomParams()");
+    expect(warnSpy.mock.calls[0][0]).toContain("deprecated");
+
+    warnSpy.mockRestore();
+  });
+
   test("merges custom options and base options, handles all value types, omits invalid keys, and normalizes legacy request options", () => {
     // this test should cover:
     // - omit keys not in keys
@@ -71,5 +86,41 @@ describe("appendCustomParams", () => {
         "portal"
       ]).toContain(key);
     });
+  });
+
+  test("does not warn when suppressWarnings is true", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {
+      // no-op
+    });
+
+    appendCustomParams(
+      {
+        params: {},
+        f: "json",
+        suppressWarnings: true
+      } as any,
+      ["f"]
+    );
+
+    expect(warnSpy).not.toHaveBeenCalled();
+    warnSpy.mockRestore();
+  });
+
+  test("does not warn when requestFlags.suppressWarnings is true", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {
+      // no-op
+    });
+
+    appendCustomParams(
+      {
+        params: {},
+        f: "json",
+        requestFlags: { suppressWarnings: true }
+      } as any,
+      ["f"]
+    );
+
+    expect(warnSpy).not.toHaveBeenCalled();
+    warnSpy.mockRestore();
   });
 });

@@ -39,16 +39,16 @@ export interface IAddAttachmentOptions extends IGetLayerOptions {
 export function addAttachment(
   requestOptions: IAddAttachmentOptions
 ): Promise<{ addAttachmentResult: IEditFeatureResult }> {
+  const url = `${cleanUrl(requestOptions.url)}/${
+    requestOptions.featureId
+  }/addAttachment`;
   const options: IAddAttachmentOptions = {
-    params: {},
-    ...requestOptions
+    ...requestOptions,
+    params: {
+      ...(requestOptions.params || {}),
+      attachment: requestOptions.attachment
+    }
   };
 
-  // `attachment` --> params: {}
-  options.params.attachment = requestOptions.attachment;
-
-  return request(
-    `${cleanUrl(options.url)}/${options.featureId}/addAttachment`,
-    options
-  );
+  return request(url, options);
 }

@@ -29,7 +29,7 @@ export async function setUserProperties(
     ...requestOptions
   };
   try {
-    const response = await request(url, options);
+    const response = await request<{ success: boolean }>(url, options);
     if (!response.success) {
       throw new Error("Success was false");
     }

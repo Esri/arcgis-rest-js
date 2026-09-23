@@ -169,8 +169,7 @@ describe("registerApp()", () => {
       redirect_uris: [],
       httpReferrers: ["https://www.esri.com/en-us/home"],
       privileges: [],
-      authentication: authOnline,
-      fetchOptions: { method: "GET" }
+      authentication: authOnline
     };
 
     const appResponse = await registerApp(requestOptions);

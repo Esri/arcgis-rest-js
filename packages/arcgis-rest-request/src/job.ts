@@ -192,7 +192,7 @@ export class Job {
     const processedParams = processJobParams(params);
     const baseUrl = cleanUrl(url.replace(/\/submitJob\/?/, ""));
     const submitUrl = baseUrl + "/submitJob";
-    return request(submitUrl, {
+    return request<{ jobId: string }>(submitUrl, {
       params: processedParams,
       authentication
     }).then(
