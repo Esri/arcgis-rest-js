@@ -87,15 +87,9 @@ export function extractBaseRequestOptions<T extends IRequestOptions>(
   options: T
 ): Partial<IRequestOptions> {
   const requestOptionsProperties: Array<keyof T> = [
-    "credentials",
-    "headers",
-    "hideToken",
-    "httpMethod",
-    "maxUrlLength",
     "portal",
-    "rawResponse",
-    "signal",
-    "suppressWarnings"
+    "requestFlags",
+    "fetchOptions"
   ];
 
   return filterKeys(options, requestOptionsProperties);

@@ -151,7 +151,7 @@ describe("registerApp()", () => {
     const requestOptions: IGetAppInfoOptions = {
       itemId: "fake-itemID",
       authentication: authOnline,
-      httpMethod: "GET"
+      fetchOptions: { method: "GET" }
     };
 
     const appResponse = await getRegisteredAppInfo(requestOptions);

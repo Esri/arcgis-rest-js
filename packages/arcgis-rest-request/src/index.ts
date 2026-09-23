@@ -22,6 +22,7 @@ export * from "./utils/IParamBuilder.js";
 export * from "./utils/IParamsBuilder.js";
 export * from "./utils/IRequestOptions.js";
 export * from "./utils/ITokenRequestOptions.js";
+export * from "./utils/process-options.js";
 export * from "./utils/process-params.js";
 export * from "./utils/ResponseFormats.js";
 export * from "./utils/retryAuthError.js";
@@ -37,7 +38,6 @@ export * from "./validate-app-access.js";
 export * from "./federation-utils.js";
 export * from "./revoke-token.js";
 export * from "./job.js";
-export * from "./utils/with-options.js";
 
 export * from "./types/feature.js";
 export * from "./types/geometry.js";
@@ -47,6 +47,3 @@ export * from "./types/group.js";
 export * from "./types/user.js";
 export * from "./types/job-statuses.js";
 export * from "./types/oauthState.js";
-
-export * from "@esri/arcgis-rest-fetch";
-export * from "@esri/arcgis-rest-form-data";

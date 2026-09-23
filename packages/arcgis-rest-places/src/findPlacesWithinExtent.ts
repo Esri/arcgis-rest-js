@@ -1,6 +1,6 @@
 import {
   request,
-  appendCustomParams,
+  processOptions,
   IRequestOptions
 } from "@esri/arcgis-rest-request";
 
@@ -9,7 +9,7 @@ import { baseUrl, hasNextPage, getNextPageParams } from "./utils.js";
 import { IconOptions } from "./iconOptions.js";
 
 // determine the list of allowed params we want to allow as options
-// this should match the array given to appendCustomParams below
+// this should match the array given to processOptions below
 type queryParams = Pick<
   operations["withinExtentGet"]["parameters"]["query"],
   | "xmin"
@@ -33,11 +33,18 @@ export interface IFindPlacesWithinExtentResponse extends successResponse {
   nextPage?: () => Promise<IFindPlacesWithinExtentResponse>;
 }
 
+type IRequestOptionsWithoutHttpMethod = Omit<
+  IRequestOptions,
+  "fetchOptions"
+> & {
+  fetchOptions?: Omit<RequestInit, "method">;
+};
+
 /**
  * Options for {@linkcode findPlacesNearPoint}.
  */
 export interface IFindPlaceWithinExtentOptions
-  extends Omit<IRequestOptions, "httpMethod" | "f">,
+  extends IRequestOptionsWithoutHttpMethod,
     queryParams {
   /**
    * Override the URL. This should be the full URL to the API endpoint you want to call. Used internally by Esri staff for testing.
@@ -87,9 +94,8 @@ export interface IFindPlaceWithinExtentOptions
 export function findPlacesWithinExtent(
   requestOptions: IFindPlaceWithinExtentOptions
 ): Promise<IFindPlacesWithinExtentResponse> {
-  const options = appendCustomParams<IFindPlaceWithinExtentOptions>(
-    requestOptions,
-    [
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: [
       "xmin",
       "ymin",
       "xmax",
@@ -100,15 +106,16 @@ export function findPlacesWithinExtent(
       "searchText",
       "icon"
     ],
-    {
-      ...requestOptions
-    }
-  );
+    extractKeys: []
+  });
 
   return (
     request(requestOptions.endpoint || `${baseUrl}/places/within-extent`, {
       ...options,
-      httpMethod: "GET"
+      fetchOptions: {
+        ...options.fetchOptions,
+        method: "GET"
+      }
     }) as Promise<successResponse>
   ).then((response) => {
     const r: IFindPlacesWithinExtentResponse = {

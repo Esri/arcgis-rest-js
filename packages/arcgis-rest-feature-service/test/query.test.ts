@@ -6,12 +6,15 @@ import fetchMock from "fetch-mock";
 import {
   getFeature,
   queryFeatures,
+  queryFeaturesRaw,
   queryAllFeatures,
   queryRelated,
   IQueryFeaturesOptions,
+  IQueryFeaturesRawOptions,
   IQueryRelatedOptions,
   IQueryAllFeaturesOptions,
-  IQueryFeaturesResponse
+  IQueryFeaturesResponse,
+  processQueryFeaturesOptions
 } from "../src/index.js";
 import {
   featureResponse,
@@ -51,28 +54,6 @@ describe("getFeature() and queryFeatures()", () => {
     expect(response.attributes.FID).toBe(42);
   });
 
-  test("return rawResponse when getting a feature", async () => {
-    const requestOptions = {
-      url: serviceUrl,
-      id: 42,
-      rawResponse: true
-    };
-    fetchMock.once("*", featureResponse);
-
-    const response: any = await getFeature(requestOptions);
-
-    expect(fetchMock.called()).toBeTruthy();
-    const [url, options] = fetchMock.lastCall("*");
-    expect(url).toBe(`${requestOptions.url}/42?f=json`);
-    expect(options.method).toBe("GET");
-    expect(response.status).toBe(200);
-    expect(response.ok).toBe(true);
-    expect(response.body.Readable).not.toBe(null);
-
-    const raw = await response.json();
-    expect(raw).toEqual(featureResponse);
-  });
-
   test("should supply default query parameters", async () => {
     const requestOptions: IQueryFeaturesOptions = {
       url: serviceUrl
@@ -108,6 +89,60 @@ describe("getFeature() and queryFeatures()", () => {
     expect(options.method).toBe("GET");
   });
 
+  test("should query features as geojson when f=geojson", async () => {
+    fetchMock.once("*", {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          geometry: null,
+          properties: { OBJECTID: 1 }
+        }
+      ]
+    });
+
+    const response = await queryFeatures({
+      url: serviceUrl,
+      f: "geojson",
+      where: "1=1",
+      outFields: ["*"]
+    });
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `${serviceUrl}/query?f=geojson&where=1%3D1&outFields=*`
+    );
+    expect(options.method).toBe("GET");
+    expect(response.type).toBe("FeatureCollection");
+    expect(response.features[0].properties.OBJECTID).toBe(1);
+  });
+
+  test("queryFeaturesRaw should return raw response for default json queries", async () => {
+    const requestOptions: IQueryFeaturesOptions = {
+      url: serviceUrl,
+      where: "1=1",
+      outFields: ["*"]
+    };
+    fetchMock.once("*", queryResponse);
+
+    const response: any = await queryFeaturesRaw(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `${requestOptions.url}/query?f=json&where=1%3D1&outFields=*`
+    );
+    expect(options.method).toBe("GET");
+
+    expect(response.status).toBe(200);
+    expect(response.ok).toBe(true);
+
+    // convert the raw response to json and verify the json is as expected
+    const json = await response.json();
+    expect(json.features[0].attributes.FID).toBe(1);
+  });
+
   test("should supply default query related parameters", async () => {
     const requestOptions: IQueryRelatedOptions = {
       url: serviceUrl
@@ -129,7 +164,7 @@ describe("getFeature() and queryFeatures()", () => {
       relationshipId: 1,
       definitionExpression: "APPROXACRE<10000",
       outFields: ["APPROXACRE", "FIELD_NAME"],
-      httpMethod: "POST"
+      fetchOptions: { method: "POST" }
     };
     fetchMock.once("*", queryRelatedResponse);
     const response = await queryRelated(requestOptions);
@@ -165,7 +200,9 @@ describe("queryFeatures(): pbf-as-geojson", () => {
       { sendAsJson: false }
     );
 
-    const testPublicFeatureServer: IQueryFeaturesOptions = {
+    const testPublicFeatureServer: IQueryFeaturesOptions & {
+      f: "pbf-as-geojson";
+    } = {
       url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
       f: "pbf-as-geojson",
       objectIds: [49481],
@@ -182,9 +219,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
       spatialRel: "esriSpatialRelIntersects",
       where: "1=1"
     };
-    const geojson = (await queryFeatures(
-      testPublicFeatureServer
-    )) as GeoJSON.FeatureCollection;
+    const geojson = await queryFeatures(testPublicFeatureServer);
 
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");
@@ -199,7 +234,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
     expect(geojson.features[0].properties.County).toBe("Nassau County");
     expect(geojson).not.toHaveProperty("crs");
     // queryFeatures should return exceededTransferLimit property of false
-    expect((geojson as any).properties.exceededTransferLimit).toBe(false);
+    expect(geojson.properties.exceededTransferLimit).toBe(false);
   });
 
   test("(valid) standard geojson query should not return crs property in response", async () => {
@@ -208,7 +243,9 @@ describe("queryFeatures(): pbf-as-geojson", () => {
       "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointResponseCRS4326.pbf"
     );
 
-    const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+    const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions & {
+      f: "pbf-as-geojson";
+    } = {
       url: serviceUrl,
       f: "pbf-as-geojson",
       where: "1=1",
@@ -227,9 +264,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
       { sendAsJson: false }
     );
 
-    const geojson = (await queryFeatures(
-      zipCodePointsPbfAsGeoJSONOptions
-    )) as any;
+    const geojson = await queryFeatures(zipCodePointsPbfAsGeoJSONOptions);
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");
     expect(options.method).toBe("GET");
@@ -472,7 +507,9 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
       { sendAsJson: false }
     );
 
-    const testPublicFeatureServer: IQueryFeaturesOptions = {
+    const testPublicFeatureServer: IQueryFeaturesOptions & {
+      f: "pbf-as-arcgis";
+    } = {
       url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
       f: "pbf-as-arcgis",
       objectIds: [49481],
@@ -491,9 +528,7 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
       where: "1=1"
     };
 
-    const response = (await queryFeatures(
-      testPublicFeatureServer
-    )) as IQueryFeaturesResponse;
+    const response = await queryFeatures(testPublicFeatureServer);
 
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");
@@ -518,14 +553,16 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
       { sendAsJson: false }
     );
 
-    const options: IQueryFeaturesOptions = {
+    const options: IQueryFeaturesOptions & {
+      f: "pbf-as-arcgis";
+    } = {
       url: "FeatureServer/LineHasM",
       returnM: true,
       returnGeometry: false,
       f: "pbf-as-arcgis"
     };
 
-    const response = (await queryFeatures(options)) as IQueryFeaturesResponse;
+    const response = await queryFeatures(options);
     expect(fetchMock.called()).toBeTruthy();
     expect(response.hasM).toBe(true);
     expect(response.hasZ).toBe(undefined);
@@ -546,14 +583,16 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
       { sendAsJson: false }
     );
 
-    const options: IQueryFeaturesOptions = {
+    const options: IQueryFeaturesOptions & {
+      f: "pbf-as-arcgis";
+    } = {
       url: "FeatureServer/LineHasZ",
       returnZ: true,
       returnGeometry: false,
       f: "pbf-as-arcgis"
     };
 
-    const response = (await queryFeatures(options)) as IQueryFeaturesResponse;
+    const response = await queryFeatures(options);
     expect(fetchMock.called()).toBeTruthy();
     expect(response.hasM).toBe(undefined);
     expect(response.hasZ).toBe(true);
@@ -758,14 +797,14 @@ describe("queryAllFeatures (default)", () => {
       }
     );
 
-    const result = await queryAllFeatures({
+    const geojson = await queryAllFeatures({
       url: serviceUrl,
       f: "geojson"
     });
 
-    expect((result as any).features.length).toBe(pageSize + 1);
-    expect((result as any).features[0].id).toBe(1);
-    expect((result as any).features[pageSize].id).toBe(2001);
+    expect(geojson.features.length).toBe(pageSize + 1);
+    expect(geojson.features[0].id).toBe(1);
+    expect(geojson.features[pageSize].id).toBe(2001);
   });
 
   describe("queryAllFeatures (pbf-as-geojson)", () => {
@@ -793,24 +832,23 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      const geojson = await queryAllFeatures({
+        url: thisServiceUrl,
         f: "pbf-as-geojson"
         // not setting outSR should default to 4326 for pbf-as-geojson requests
         // setting outSR to 4326 explicitly will yield the same behavior
-      };
+      });
 
-      const geojson = await queryAllFeatures(docsPbfOptions);
       // expect fetch mock to only have been called twice: once for metadata, once for features
       expect(fetchMock.calls().length).toBe(2);
       expect(geojson.features.length).toBe(67);
-      expect((geojson.features[0] as any).id).toBe(23465);
+      expect(geojson.features[0].id).toBe(23465);
       expect(geojson.features[0]).toHaveProperty("properties");
       expect(geojson.features[0]).toHaveProperty("geometry");
       // default pbf-as-geojson responses should not have a crs property
       expect(geojson).not.toHaveProperty("crs");
       // since total features (67) is less than, exceededTransferLimit will be false
-      expect((geojson as any).properties.exceededTransferLimit).toBe(false);
+      expect(geojson.properties.exceededTransferLimit).toBe(false);
     });
 
     test("(valid equal to) should query only one page of pbf-as-geojson if total features equal page size", async () => {
@@ -837,20 +875,18 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      const geojson = await queryAllFeatures({
+        url: thisServiceUrl,
         f: "pbf-as-geojson"
-      };
-
-      const geojson = await queryAllFeatures(docsPbfOptions);
+      });
       // expect fetch mock to only have been called twice: once for metadata, once for features
       expect(fetchMock.calls().length).toBe(2);
       expect(geojson.features.length).toBe(67);
-      expect((geojson.features[0] as any).id).toBe(23465);
+      expect(geojson.features[0].id).toBe(23465);
       expect(geojson.features[0]).toHaveProperty("properties");
       expect(geojson.features[0]).toHaveProperty("geometry");
       // since max page size equals total features, exceededTransferLimit should be false
-      expect((geojson as any).properties.exceededTransferLimit).toBe(false);
+      expect(geojson.properties.exceededTransferLimit).toBe(false);
     });
 
     test("(valid exceeds) should query multiple pages of pbf-as-geojson if total features exceed page size", async () => {
@@ -888,23 +924,22 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
+      const geojson = await queryAllFeatures({
         url: thisServiceUrl,
         f: "pbf-as-geojson",
         // explicitly setting outSR to 4326 for geojson standard will yield same behavior as default
         outSR: "4326"
-      };
+      });
 
-      const geojson = await queryAllFeatures(docsPbfOptions);
       expect(geojson.features.length).toBe(567);
-      expect((geojson.features[0] as any).id).toBe(1);
-      expect((geojson.features[499] as any).id).toBe(500);
+      expect(geojson.features[0].id).toBe(1);
+      expect(geojson.features[499].id).toBe(500);
       //id's jump because we are using last page as partial which comes after page 5
-      expect((geojson.features[500] as any).id).toBe(23465);
+      expect(geojson.features[500].id).toBe(23465);
       expect(geojson.features[0]).toHaveProperty("properties");
       expect(geojson.features[0]).toHaveProperty("geometry");
       // exceededTransferLimit only gets set the first iteration on the response object so it will always be true in multi-page scenarios
-      expect((geojson as any).properties.exceededTransferLimit).toBe(true);
+      expect(geojson.properties.exceededTransferLimit).toBe(true);
     });
 
     test("(valid all) should query all pbf-as-geojson features as geojson objects", async () => {
@@ -941,17 +976,18 @@ describe("queryAllFeatures (default)", () => {
         );
       }
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
-        url: thisServiceUrl,
-        f: "pbf-as-geojson"
-      };
+      const docsPbfOptions: IQueryAllFeaturesOptions & { f: "pbf-as-geojson" } =
+        {
+          url: thisServiceUrl,
+          f: "pbf-as-geojson"
+        };
 
       const geojson = await queryAllFeatures(docsPbfOptions);
 
       expect(fetchMock.calls().length).toBe(4); // 1 for metadata + 6 pages
       expect(geojson.features.length).toBe(1067);
       // exceededTransferLimit only gets set the first iteration on the response object so it will always be true in multi-page scenarios
-      expect((geojson as any).properties.exceededTransferLimit).toBe(true);
+      expect(geojson.properties.exceededTransferLimit).toBe(true);
     });
 
     test("(invalid request) should throw 400 arcgis request error when objectIdFields fail to parse in pbf-to-geojson parser", async () => {
@@ -974,7 +1010,9 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const noObjectFieldIdOptions: IQueryAllFeaturesOptions = {
+      const noObjectFieldIdOptions: IQueryAllFeaturesOptions & {
+        f: "pbf-as-geojson";
+      } = {
         url: thisServiceUrl,
         where: "HEIGHTROOF > 95",
         outFields: ["OBJECTID", "HEIGHTROOF", "GROUNDELEV", "CNSTRCT_YR"],
@@ -1021,13 +1059,11 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      const response = await queryAllFeatures({
+        url: thisServiceUrl,
         // request pbf-as-arcgis to rest-js to get all features as pbf then convert to arcgis json in rest-js
         f: "pbf-as-arcgis"
-      };
-
-      const response = await queryAllFeatures(docsPbfOptions);
+      });
       // expect fetch mock to only have been called twice: once for max page size, once for features
       expect(fetchMock.calls().length).toBe(2);
       expect(response.features.length).toBe(131);
@@ -1061,12 +1097,11 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      const response = await queryAllFeatures({
+        url: thisServiceUrl,
         f: "pbf-as-arcgis"
-      };
+      });
 
-      const response = await queryAllFeatures(docsPbfOptions);
       // expect fetch mock to only have been called twice: once for metadata, once for features
       expect(fetchMock.calls().length).toBe(2);
       expect(response.features.length).toBe(131);
@@ -1115,12 +1150,10 @@ describe("queryAllFeatures (default)", () => {
         );
       }
 
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
+      const response = await queryAllFeatures({
         url: thisServiceUrl,
         f: "pbf-as-arcgis"
-      };
-
-      const response = await queryAllFeatures(docsPbfOptions);
+      });
 
       expect(fetchMock.calls().length).toBe(7); // 1 for metadata + 6 for pages
       expect(response.features.length).toBe(2631);
@@ -1150,7 +1183,9 @@ describe("queryAllFeatures (default)", () => {
         { sendAsJson: false }
       );
 
-      const noObjectFieldIdOptions: IQueryAllFeaturesOptions = {
+      const noObjectFieldIdOptions: IQueryAllFeaturesOptions & {
+        f: "pbf-as-arcgis";
+      } = {
         url: thisServiceUrl,
         where: "HEIGHTROOF > 95",
         outFields: ["OBJECTID", "HEIGHTROOF", "GROUNDELEV", "CNSTRCT_YR"],
@@ -1408,5 +1443,94 @@ describe("queryAllFeatures (custom pagination)", () => {
       expect(error).toBeInstanceOf(ArcGISRequestError);
       expect((error as any).code).toBe(400);
     }
+  });
+});
+
+describe("queryFeaturesRaw() and queryFeatures(): pbf", () => {
+  afterEach(() => {
+    fetchMock.restore();
+  });
+
+  test("queryFeaturesRaw should return raw response for f=pbf without decoding", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointResponseCRS4326.pbf"
+    );
+
+    fetchMock.once(
+      "*",
+      {
+        status: 200,
+        headers: { "content-type": "application/x-protobuf" },
+        body: arrayBuffer
+      },
+      { sendAsJson: false }
+    );
+
+    const requestOptions: IQueryFeaturesRawOptions = {
+      url: serviceUrl,
+      f: "pbf",
+      where: "1=1",
+      outFields: ["*"],
+      resultRecordCount: 1
+    };
+
+    const response: any = await queryFeaturesRaw(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toBe(
+      `${serviceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultRecordCount=1`
+    );
+    expect(options.method).toBe("GET");
+
+    // rawRequest path should return a Response-like object
+    expect(response.status).toBe(200);
+    expect(response.ok).toBe(true);
+
+    const rawBuffer = (await response.arrayBuffer()) as ArrayBuffer;
+    // expect the raw buffer to have a byte length of 443, which is the length of the mock pbf file
+    expect(rawBuffer.byteLength).toBe(443);
+  });
+
+  test("queryFeatures with f=pbf should warn, but will query json and return typed json for f=pbf queries", async () => {
+    // create console spy to check if warning is logged for f=pbf queries
+    const consoleWarn = console.warn;
+    const warnSpy = vi.fn();
+    console.warn = warnSpy;
+
+    fetchMock.once("*", {
+      features: [
+        {
+          attributes: { name: "Feature 1" }
+        }
+      ],
+      exceededTransferLimit: true
+    });
+
+    const requestOptions: IQueryFeaturesRawOptions = {
+      url: serviceUrl,
+      f: "pbf",
+      where: "1=1",
+      outFields: ["*"],
+      resultRecordCount: 1
+    };
+
+    const response = (await queryFeatures(
+      // typescript should warn here if user passes in f=pbf, but this test is asserting the behavior in which case they try and override it
+      requestOptions as any
+    )) as IQueryFeaturesResponse;
+
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    // expect warn spy with message that includes
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining(
+        "request() only supports 'json' formats and responses. Provided value 'pbf' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values."
+      )
+    );
+    expect(response.features.length).toBe(1);
+    expect(response.features[0].attributes.name).toBe("Feature 1"); // dummy assertion to ensure test passes if no error is thrown
+
+    // reset console.warn to default behavior
+    console.warn = consoleWarn;
   });
 });

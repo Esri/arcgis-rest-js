@@ -1,6 +1,6 @@
 import {
   request,
-  appendCustomParams,
+  processOptions,
   IRequestOptions
 } from "@esri/arcgis-rest-request";
 
@@ -8,7 +8,7 @@ import { operations } from "./openapi-types.js";
 import { baseUrl } from "./utils.js";
 
 // determine the list of allowed params we want to allow as options
-// this should match the array given to appendCustomParams below
+// this should match the array given to processOptions below
 type queryParams = Pick<
   operations["ElevationAtPointGet"]["parameters"]["query"],
   "lon" | "lat" | "relativeTo"
@@ -23,11 +23,18 @@ type successResponse =
  */
 export interface IFindElevationAtPointResponse extends successResponse {}
 
+type IRequestOptionsWithoutHttpMethod = Omit<
+  IRequestOptions,
+  "fetchOptions"
+> & {
+  fetchOptions?: Omit<RequestInit, "method">;
+};
+
 /**
  * Options for {@linkcode findElevationAtPoint}.
  */
 export interface IFindElevationAtPointOptions
-  extends Omit<IRequestOptions, "httpMethod" | "f">,
+  extends IRequestOptionsWithoutHttpMethod,
     queryParams {}
 
 /**
@@ -57,18 +64,18 @@ export interface IFindElevationAtPointOptions
 export function findElevationAtPoint(
   requestOptions: IFindElevationAtPointOptions
 ): Promise<IFindElevationAtPointResponse> {
-  const options = appendCustomParams<IFindElevationAtPointOptions>(
-    requestOptions,
-    ["lon", "lat", "relativeTo"],
-    {
-      ...requestOptions
-    }
-  );
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: ["lon", "lat", "relativeTo"],
+    extractKeys: []
+  });
 
   return (
     request(`${baseUrl}/elevation/at-point`, {
       ...options,
-      httpMethod: "GET"
+      fetchOptions: {
+        ...options.fetchOptions,
+        method: "GET"
+      }
     }) as Promise<successResponse>
   ).then((response) => {
     const r: IFindElevationAtPointResponse = {

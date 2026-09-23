@@ -29,7 +29,8 @@ export interface IAllLayersAndTablesResponse {
 export function getAllLayersAndTables(
   options: IGetLayerOptions
 ): Promise<IAllLayersAndTablesResponse> {
-  const { url, ...requestOptions } = options;
-  const layersUrl = `${parseServiceUrl(url)}/layers`;
+  const layersUrl = `${parseServiceUrl(options.url)}/layers`;
+  const requestOptions = { ...options };
+  delete (requestOptions as Partial<IGetLayerOptions>).url;
   return request(layersUrl, requestOptions);
 }

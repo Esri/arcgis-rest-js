@@ -23,6 +23,9 @@ coverage
 # vitest browser screenshots
 **/__screenshots__/
 
+# vitest attachment files
+.vitest-attachments/
+
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 

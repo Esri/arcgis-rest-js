@@ -48,7 +48,10 @@ import { ICreateOAuthAppOption, IOAuthApp } from "./shared/types/oAuthType.js";
 export async function createOAuthApp(
   requestOptions: ICreateOAuthAppOption
 ): Promise<IOAuthApp> {
-  requestOptions.httpMethod = "POST";
+  requestOptions.fetchOptions = {
+    ...requestOptions.fetchOptions,
+    method: "POST"
+  };
 
   // filter param buckets:
 

@@ -2,13 +2,13 @@
  * Apache-2.0 */
 
 import { describe, test, afterEach, expect } from "vitest";
-import { Blob } from "@esri/arcgis-rest-form-data";
 import fetchMock from "fetch-mock";
 import {
   IGetItemInfoOptions,
   getItemBaseUrl,
   getItem,
   getItemData,
+  getItemDataRaw,
   getItemResources,
   getItemGroups,
   getItemStatus,
@@ -36,7 +36,11 @@ import {
   IAuthenticationManager
 } from "@esri/arcgis-rest-request";
 
-import { TOMORROW } from "../../../../scripts/test-helpers.js";
+import {
+  isNode,
+  isBrowser,
+  TOMORROW
+} from "../../../../scripts/test-helpers.js";
 
 describe("get base url", () => {
   test("should return base url when passed a portal url", () => {
@@ -74,21 +78,48 @@ describe("get", () => {
     expect(options.method).toBe("GET");
   });
 
-  test("should return binary item data by id", async () => {
-    // using Blob from ponyfill to test in node and be consistent with other instances of testing file attachments
-    fetchMock.once("*", {
-      sendAsJson: false,
-      headers: { "Content-Type": "application/zip" },
-      body: new Blob()
-    });
-    const response = await getItemData("3ef", { file: true });
+  test("should return raw item data by id", async () => {
+    fetchMock.once(
+      "*",
+      {
+        headers: { "Content-Type": "application/zip" },
+        body: new Blob(["abcd"])
+      },
+      {
+        sendAsJson: false
+      }
+    );
+    const response = await getItemDataRaw("3ef");
     expect(fetchMock.called()).toEqual(true);
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toEqual(
       "https://www.arcgis.com/sharing/rest/content/items/3ef/data"
     );
     expect(options.method).toBe("GET");
-    expect(response instanceof Blob).toBeTruthy();
+    expect(response.ok).toBe(true);
+    expect(response.status).toBe(200);
+    const blob = await response.blob();
+    if (isBrowser) {
+      expect(blob).toBeInstanceOf(Blob);
+    }
+    if (isNode) {
+      expect(blob.size).toBe(4);
+      const bytes = new Uint8Array(await blob.arrayBuffer());
+      expect(Array.from(bytes)).toEqual([97, 98, 99, 100]);
+    }
+  });
+
+  test("should return parsed json item data even when file is requested", async () => {
+    fetchMock.once("*", ItemDataResponse);
+
+    const response = await getItemData("3ef", { file: true } as any);
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://www.arcgis.com/sharing/rest/content/items/3ef/data?f=json"
+    );
+    expect(options.method).toBe("GET");
+    expect(response).toEqual(ItemDataResponse);
   });
 
   test("should return a valid response even when no data is retrieved", async () => {
@@ -156,22 +187,6 @@ describe("get", () => {
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toEqual(
       "https://www.arcgis.com/sharing/rest/content/items/3ef/info/iteminfo.xml"
-    );
-    expect(options.method).toBe("GET");
-  });
-
-  test("should return raw response item info if desired", async () => {
-    fetchMock.once("*", ItemFormJsonResponse);
-    const response = await getItemInfo("3ef", {
-      fileName: "form.json",
-      rawResponse: true
-    } as IGetItemInfoOptions);
-    const formJson = await response.json();
-    expect(formJson).toEqual(ItemFormJsonResponse);
-    expect(fetchMock.called()).toEqual(true);
-    const [url, options] = fetchMock.lastCall("*");
-    expect(url).toEqual(
-      "https://www.arcgis.com/sharing/rest/content/items/3ef/info/form.json"
     );
     expect(options.method).toBe("GET");
   });
@@ -402,24 +417,6 @@ describe("get", () => {
         );
         expect(options.method).toBe("POST");
         expect(resource.foo).toEqual("foobarbaz");
-      });
-
-      test("respects rawResponse setting with JSON resource", async () => {
-        const badJsonString = '{"foo":"foobarbaz"}';
-        fetchMock.once("*", badJsonString);
-
-        const response = await getItemResource("3ef", {
-          fileName: "resource.json",
-          rawResponse: true,
-          ...MOCK_USER_REQOPTS
-        });
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
-        );
-        expect(options.method).toBe("POST");
-        expect(response.json).toBeDefined();
-        await expect(response.json()).rejects.toBeDefined();
       });
     });
 

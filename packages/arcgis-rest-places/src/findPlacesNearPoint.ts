@@ -1,6 +1,6 @@
 import {
   request,
-  appendCustomParams,
+  processOptions,
   IRequestOptions
 } from "@esri/arcgis-rest-request";
 
@@ -9,7 +9,7 @@ import { baseUrl, hasNextPage, getNextPageParams } from "./utils.js";
 import { IconOptions } from "./iconOptions.js";
 
 // determine the list of allowed params we want to allow as options
-// this should match the array given to appendCustomParams below
+// this should match the array given to processOptions below
 type queryParams = Pick<
   operations["nearPointGet"]["parameters"]["query"],
   "x" | "y" | "radius" | "categoryIds" | "pageSize" | "offset" | "searchText"
@@ -26,11 +26,18 @@ export interface IFindPlacesNearPointResponse extends successResponse {
   nextPage?: () => Promise<IFindPlacesNearPointResponse>;
 }
 
+type IRequestOptionsWithoutHttpMethod = Omit<
+  IRequestOptions,
+  "fetchOptions"
+> & {
+  fetchOptions?: Omit<RequestInit, "method">;
+};
+
 /**
  * Options for {@linkcode findPlacesNearPoint}.
  */
 export interface IFindPlacesNearPointOptions
-  extends Omit<IRequestOptions, "httpMethod" | "f">,
+  extends IRequestOptionsWithoutHttpMethod,
     queryParams {
   /**
    * Override the URL. This should be the full URL to the API endpoint you want to call. Used internally by Esri staff for testing.
@@ -79,9 +86,8 @@ export interface IFindPlacesNearPointOptions
 export function findPlacesNearPoint(
   requestOptions: IFindPlacesNearPointOptions
 ): Promise<IFindPlacesNearPointResponse> {
-  const options = appendCustomParams<IFindPlacesNearPointOptions>(
-    requestOptions,
-    [
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: [
       "x",
       "y",
       "radius",
@@ -91,15 +97,16 @@ export function findPlacesNearPoint(
       "searchText",
       "icon"
     ],
-    {
-      ...requestOptions
-    }
-  );
+    extractKeys: []
+  });
 
   return (
     request(requestOptions.endpoint || `${baseUrl}/places/near-point`, {
       ...options,
-      httpMethod: "GET"
+      fetchOptions: {
+        ...options.fetchOptions,
+        method: "GET"
+      }
     }) as Promise<successResponse>
   ).then((response) => {
     const r: IFindPlacesNearPointResponse = {

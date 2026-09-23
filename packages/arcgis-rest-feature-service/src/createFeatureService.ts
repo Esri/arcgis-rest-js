@@ -172,7 +172,7 @@ export interface ICreateServiceResult {
  * });
  * ```
  *
- * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
+ * @param requestOptions - Options for the request.
  * @returns A Promise that resolves with service details once the service has been created
  */
 export function createFeatureService(
@@ -180,8 +180,7 @@ export function createFeatureService(
 ): Promise<ICreateServiceResult> {
   return determineOwner(requestOptions).then((owner) => {
     const options: ICreateServiceOptions = {
-      ...requestOptions,
-      rawResponse: false
+      ...requestOptions
     };
     const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
     const folder =
