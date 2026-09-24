@@ -131,14 +131,14 @@ describe("getFeature() and queryFeatures()", () => {
       ]
     });
 
-    const optionsd = {
+    const enumOptions = {
       url: serviceUrl,
-      f: QueryFeaturesFormat.GeoJSON,
+      f: QueryFeaturesFormat.GeoJSON as const,
       where: "1=1",
       outFields: ["*"]
     };
 
-    const response = await queryFeatures(optionsd);
+    const response = await queryFeatures(enumOptions);
 
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");
