@@ -14,7 +14,8 @@ import {
   IQueryRelatedOptions,
   IQueryAllFeaturesOptions,
   IQueryFeaturesResponse,
-  processQueryFeaturesOptions
+  processQueryFeaturesOptions,
+  QueryFeaturesFormat
 } from "../src/index.js";
 import {
   featureResponse,
@@ -116,6 +117,37 @@ describe("getFeature() and queryFeatures()", () => {
     expect(options.method).toBe("GET");
     expect(response.type).toBe("FeatureCollection");
     expect(response.features[0].properties.OBJECTID).toBe(1);
+  });
+
+  test("should query features as geojson when f=QueryFeaturesFormat.GeoJSON", async () => {
+    fetchMock.once("*", {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          geometry: null,
+          properties: { OBJECTID: 2 }
+        }
+      ]
+    });
+
+    const optionsd = {
+      url: serviceUrl,
+      f: QueryFeaturesFormat.GeoJSON,
+      where: "1=1",
+      outFields: ["*"]
+    };
+
+    const response = await queryFeatures(optionsd);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `${serviceUrl}/query?f=geojson&where=1%3D1&outFields=*`
+    );
+    expect(options.method).toBe("GET");
+    expect(response.type).toBe("FeatureCollection");
+    expect(response.features[0].properties.OBJECTID).toBe(2);
   });
 
   test("queryFeaturesRaw should return raw response for default json queries", async () => {
@@ -807,6 +839,51 @@ describe("queryAllFeatures (default)", () => {
     expect(geojson.features[pageSize].id).toBe(2001);
   });
 
+  test("paginates over services using f=QueryFeaturesFormat.GeoJSON", async () => {
+    const page1Features = Array.from({ length: pageSize }, (_, i) => ({
+      id: i + 1,
+      type: "Feature",
+      properties: { name: `Feature ${i + 1}` }
+    }));
+
+    const page2Features = [
+      { id: 2001, type: "Feature", properties: { name: "Feature 2001" } }
+    ];
+
+    fetchMock.mock(`${serviceUrl}?f=json`, {
+      maxRecordCount: 2000
+    });
+
+    fetchMock.mock(
+      `${serviceUrl}/query?f=geojson&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
+      {
+        features: page1Features,
+        properties: {
+          exceededTransferLimit: true
+        }
+      }
+    );
+
+    fetchMock.mock(
+      `${serviceUrl}/query?f=geojson&where=1%3D1&outFields=*&resultOffset=2000&resultRecordCount=2000`,
+      {
+        features: page2Features,
+        properties: {
+          exceededTransferLimit: false
+        }
+      }
+    );
+
+    const geojson = await queryAllFeatures({
+      url: serviceUrl,
+      f: QueryFeaturesFormat.GeoJSON
+    });
+
+    expect(geojson.features.length).toBe(pageSize + 1);
+    expect(geojson.features[0].id).toBe(1);
+    expect(geojson.features[pageSize].id).toBe(2001);
+  });
+
   describe("queryAllFeatures (pbf-as-geojson)", () => {
     test("(valid less than) should query only one page of pbf-as-geojson if total features are less than page size", async () => {
       const thisServiceUrl =
@@ -1489,6 +1566,45 @@ describe("queryFeaturesRaw() and queryFeatures(): pbf", () => {
 
     const rawBuffer = (await response.arrayBuffer()) as ArrayBuffer;
     // expect the raw buffer to have a byte length of 443, which is the length of the mock pbf file
+    expect(rawBuffer.byteLength).toBe(443);
+  });
+
+  test("queryFeaturesRaw should return raw response for f=QueryFeaturesFormat.Pbf without decoding", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointResponseCRS4326.pbf"
+    );
+
+    fetchMock.once(
+      "*",
+      {
+        status: 200,
+        headers: { "content-type": "application/x-protobuf" },
+        body: arrayBuffer
+      },
+      { sendAsJson: false }
+    );
+
+    const requestOptions: IQueryFeaturesRawOptions = {
+      url: serviceUrl,
+      f: QueryFeaturesFormat.Pbf,
+      where: "1=1",
+      outFields: ["*"],
+      resultRecordCount: 1
+    };
+
+    const response: any = await queryFeaturesRaw(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toBe(
+      `${serviceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultRecordCount=1`
+    );
+    expect(options.method).toBe("GET");
+
+    expect(response.status).toBe(200);
+    expect(response.ok).toBe(true);
+
+    const rawBuffer = (await response.arrayBuffer()) as ArrayBuffer;
     expect(rawBuffer.byteLength).toBe(443);
   });
 

@@ -28,6 +28,29 @@ import pbfToGeoJSON, {
 } from "./pbf-parser/geoJSONPbfParser.js";
 import pbfToArcGIS from "./pbf-parser/arcGISPbfParser.js";
 
+export const enum QueryFeaturesFormat {
+  Json = "json",
+  GeoJSON = "geojson",
+  PbfAsGeoJSON = "pbf-as-geojson",
+  PbfAsArcGIS = "pbf-as-arcgis",
+  Pbf = "pbf"
+}
+
+export type QueryFeaturesRequestFormat =
+  | "json"
+  | "geojson"
+  | "pbf-as-geojson"
+  | "pbf-as-arcgis"
+  | QueryFeaturesFormat.Json
+  | QueryFeaturesFormat.GeoJSON
+  | QueryFeaturesFormat.PbfAsGeoJSON
+  | QueryFeaturesFormat.PbfAsArcGIS;
+
+export type QueryFeaturesRawRequestFormat =
+  | QueryFeaturesRequestFormat
+  | "pbf"
+  | QueryFeaturesFormat.Pbf;
+
 /**
  * Request options to fetch a feature by id.
  */
@@ -84,7 +107,7 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   /**
    * Response format. Defaults to "json".
    */
-  f?: "json" | "geojson" | "pbf-as-geojson" | "pbf-as-arcgis";
+  f?: QueryFeaturesRequestFormat;
   /**
    * someday...
    *
@@ -140,7 +163,7 @@ export interface IQueryAllFeaturesOptions extends ISharedQueryOptions {
    * NOTE: for "f=pbf" you must use the method `queryFeaturesRaw()`
    * and parse the response yourself using `response.arrayBuffer()`
    */
-  f?: "json" | "geojson" | "pbf-as-geojson" | "pbf-as-arcgis";
+  f?: QueryFeaturesRequestFormat;
   /**
    * someday...
    *
@@ -170,7 +193,7 @@ export interface IQueryFeaturesRawOptions
   /**
    * Response format for raw queries. Includes "pbf" for callers that need direct binary handling.
    */
-  f?: IQueryFeaturesOptions["f"] | "pbf";
+  f?: QueryFeaturesRawRequestFormat;
 }
 
 function processQueryFeaturesOptions(
@@ -247,7 +270,7 @@ function queryPbfAsGeoJSONOrArcGIS(
   if (queryOptions.params.returnTrueCurves) {
     message = "True-curve geometries are not supported.";
   }
-  if (queryOptions.params.f === "pbf-as-geojson") {
+  if (queryOptions.params.f === QueryFeaturesFormat.PbfAsGeoJSON) {
     // if f=pbf-as-geojson, we need to set outSR=4326 to satisfy geojson crs standard
     // if f=pbf-as-geojson, outSR should not be set, or should be 4326 otherwise throw error
     if (
@@ -266,14 +289,16 @@ function queryPbfAsGeoJSONOrArcGIS(
   }
   // default pbf request to EPSG:4326 if requesting pbf-as-geojson to satisfy geojson crs standard
   const geoJSONSpatialReference =
-    queryOptions.params.f === "pbf-as-geojson" ? { outSR: "4326" } : {};
+    queryOptions.params.f === QueryFeaturesFormat.PbfAsGeoJSON
+      ? { outSR: "4326" }
+      : {};
   // query with f=pbf and rawRequest on behalf of the user to fetch metadata with the pbf response
   const customOptions = {
     ...queryOptions,
     params: {
       ...queryOptions.params,
       ...geoJSONSpatialReference,
-      f: "pbf"
+      f: QueryFeaturesFormat.Pbf
     } as any
   };
   return rawRequest(`${cleanUrl(url)}/query`, customOptions).then(
@@ -302,11 +327,11 @@ function queryPbfAsGeoJSONOrArcGIS(
       try {
         const arrayBuffer = await response.arrayBuffer();
         /* istanbul ignore else --@preserve */
-        if (queryOptions.params.f === "pbf-as-arcgis") {
+        if (queryOptions.params.f === QueryFeaturesFormat.PbfAsArcGIS) {
           return pbfToArcGIS(arrayBuffer);
         }
         /* istanbul ignore else --@preserve */
-        if (queryOptions.params.f === "pbf-as-geojson") {
+        if (queryOptions.params.f === QueryFeaturesFormat.PbfAsGeoJSON) {
           return pbfToGeoJSON(arrayBuffer);
         }
       } catch (error) {
@@ -393,6 +418,18 @@ export function getFeature(
  * ```
  *
  * ```ts
+ * import { QueryFeaturesFormat } from '@esri/arcgis-rest-feature-service';
+ *
+ * const enumOptions = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: QueryFeaturesFormat.GeoJSON as const
+ * };
+ *
+ * const enumResponse = await queryFeatures(enumOptions);
+ * // enumResponse is EsriGeoJSONFeatureCollection
+ * ```
+ *
+ * ```ts
  * const typedOptions: IQueryFeaturesOptions & { f: "geojson" } = {
  *   url: "https://.../FeatureServer/0",
  *   f: "geojson"
@@ -418,17 +455,21 @@ export function getFeature(
 
 function queryFeatures(
   requestOptions: IQueryFeaturesOptions & {
-    f: "json";
+    f: "json" | QueryFeaturesFormat.Json;
   }
 ): Promise<IQueryFeaturesResponse | IQueryResponse>;
 function queryFeatures(
   requestOptions: IQueryFeaturesOptions & {
-    f: "geojson" | "pbf-as-geojson";
+    f:
+      | "geojson"
+      | "pbf-as-geojson"
+      | QueryFeaturesFormat.GeoJSON
+      | QueryFeaturesFormat.PbfAsGeoJSON;
   }
 ): Promise<EsriGeoJSONFeatureCollection>;
 function queryFeatures(
   requestOptions: IQueryFeaturesOptions & {
-    f: "pbf-as-arcgis";
+    f: "pbf-as-arcgis" | QueryFeaturesFormat.PbfAsArcGIS;
   }
 ): Promise<IQueryFeaturesResponse>;
 function queryFeatures(
@@ -441,16 +482,16 @@ function queryFeatures(
 > {
   const processedOptions = processQueryFeaturesOptions(requestOptions);
   const queryOptions = processedOptions.requestOptions;
-  if (queryOptions.params?.f === "geojson") {
+  if (queryOptions.params?.f === QueryFeaturesFormat.GeoJSON) {
     return request<EsriGeoJSONFeatureCollection>(
       `${cleanUrl(processedOptions.url)}/query`,
       queryOptions
     );
   }
-  if (queryOptions.params?.f === "pbf-as-geojson") {
+  if (queryOptions.params?.f === QueryFeaturesFormat.PbfAsGeoJSON) {
     return queryPbfAsGeoJSONOrArcGIS(processedOptions.url, queryOptions);
   }
-  if (queryOptions.params?.f === "pbf-as-arcgis") {
+  if (queryOptions.params?.f === QueryFeaturesFormat.PbfAsArcGIS) {
     return queryPbfAsGeoJSONOrArcGIS(processedOptions.url, queryOptions);
   }
   return request<IQueryFeaturesResponse | IQueryResponse>(
@@ -514,17 +555,36 @@ function queryFeaturesRaw(
  * const response = await queryAllFeatures(options);
  * ```
  *
+ * ```ts
+ * import { QueryFeaturesFormat } from '@esri/arcgis-rest-feature-service';
+ *
+ * const enumOptions = {
+ *   url: "https://.../FeatureServer/0",
+ *   f: QueryFeaturesFormat.PbfAsGeoJSON as const
+ * };
+ *
+ * const enumResponse = await queryAllFeatures(enumOptions);
+ * ```
+ *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the query response.
  */
 export function queryAllFeatures(
   requestOptions: IQueryAllFeaturesOptions & {
-    f: "geojson" | "pbf-as-geojson";
+    f:
+      | "geojson"
+      | "pbf-as-geojson"
+      | QueryFeaturesFormat.GeoJSON
+      | QueryFeaturesFormat.PbfAsGeoJSON;
   }
 ): Promise<EsriGeoJSONFeatureCollection>;
 export function queryAllFeatures(
   requestOptions: IQueryAllFeaturesOptions & {
-    f?: "json" | "pbf-as-arcgis";
+    f?:
+      | "json"
+      | "pbf-as-arcgis"
+      | QueryFeaturesFormat.Json
+      | QueryFeaturesFormat.PbfAsArcGIS;
   }
 ): Promise<IQueryAllFeaturesResponse | IQueryFeaturesResponse>;
 export async function queryAllFeatures(
@@ -627,17 +687,17 @@ export async function queryAllFeatures(
     });
 
     let response: QueryAllFeatureTypes;
-    if (queryOptions.params?.f === "pbf-as-geojson") {
+    if (queryOptions.params?.f === QueryFeaturesFormat.PbfAsGeoJSON) {
       response = await queryPbfAsGeoJSONOrArcGIS(
         requestOptions.url,
         queryOptions
       );
-    } else if (queryOptions.params?.f === "pbf-as-arcgis") {
+    } else if (queryOptions.params?.f === QueryFeaturesFormat.PbfAsArcGIS) {
       response = await queryPbfAsGeoJSONOrArcGIS(
         requestOptions.url,
         queryOptions
       );
-    } else if (queryOptions.params?.f === "geojson") {
+    } else if (queryOptions.params?.f === QueryFeaturesFormat.GeoJSON) {
       response = await request<EsriGeoJSONFeatureCollection>(
         `${cleanUrl(requestOptions.url)}/query`,
         queryOptions
