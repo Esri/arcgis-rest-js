@@ -38,7 +38,7 @@ export function isItemSharedWithGroup(
       result = searchResponse.results.some((itm: any) => {
         return itm.id === requestOptions.id;
       });
-      return result;
     }
+    return result;
   });
 }
