@@ -198,7 +198,69 @@ describe("request()", () => {
     expect(response).toEqual(WebMapAsJSON);
   });
 
-  test("should remove token from params when UseAuthorizationHeader and UseXEsriAuthorizationHeader flags are used in both Node and browser environments", async () => {
+  test("should move token to Authorization header for GET when useAuthorizationHeader is enabled", async () => {
+    fetchMock.once("*", SharingRestInfo);
+
+    const MOCK_AUTH = {
+      portal: "https://www.arcgis.com/sharing/rest",
+      getToken() {
+        return Promise.resolve("token");
+      }
+    };
+
+    const response = await request("https://www.arcgis.com/sharing/rest/info", {
+      authentication: MOCK_AUTH,
+      fetchOptions: {
+        method: "GET"
+      },
+      requestFlags: {
+        useAuthorizationHeader: true
+      }
+    });
+
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toContain("https://www.arcgis.com/sharing/rest/info");
+    expect(url).toContain("f=json");
+    expect(url).not.toContain("token=");
+    expect(options.method).toBe("GET");
+    expect((options.headers as any)["Authorization"]).toBe("Bearer token");
+    expect((options.headers as any)["X-Esri-Authorization"]).toBe(undefined);
+    expect(response).toEqual(SharingRestInfo);
+  });
+
+  test("should move token to X-Esri-Authorization header for GET when useXEsriAuthorizationHeader is enabled", async () => {
+    fetchMock.once("*", SharingRestInfo);
+
+    const MOCK_AUTH = {
+      portal: "https://www.arcgis.com/sharing/rest",
+      getToken() {
+        return Promise.resolve("token");
+      }
+    };
+
+    const response = await request("https://www.arcgis.com/sharing/rest/info", {
+      authentication: MOCK_AUTH,
+      fetchOptions: {
+        method: "GET"
+      },
+      requestFlags: {
+        useXEsriAuthorizationHeader: true
+      }
+    });
+
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toContain("https://www.arcgis.com/sharing/rest/info");
+    expect(url).toContain("f=json");
+    expect(url).not.toContain("token=");
+    expect(options.method).toBe("GET");
+    expect((options.headers as any)["X-Esri-Authorization"]).toBe(
+      "Bearer token"
+    );
+    expect((options.headers as any)["Authorization"]).toBe(undefined);
+    expect(response).toEqual(SharingRestInfo);
+  });
+
+  test("should move token to both headers for GET when both header flags are enabled", async () => {
     fetchMock.once("*", SharingRestInfo);
 
     const MOCK_AUTH = {
@@ -222,11 +284,83 @@ describe("request()", () => {
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toContain("https://www.arcgis.com/sharing/rest/info");
     expect(url).toContain("f=json");
+    expect(url).not.toContain("token=");
     expect(options.method).toBe("GET");
     expect((options.headers as any)["X-Esri-Authorization"]).toBe(
       "Bearer token"
     );
     expect((options.headers as any)["Authorization"]).toBe("Bearer token");
+    expect(response).toEqual(SharingRestInfo);
+  });
+
+  test("should move token out of POST body and into headers when header flags are enabled", async () => {
+    fetchMock.once("*", SharingRestInfo);
+
+    const MOCK_AUTH = {
+      portal: "https://www.arcgis.com/sharing/rest",
+      getToken() {
+        return Promise.resolve("token");
+      }
+    };
+
+    const response = await request("https://www.arcgis.com/sharing/rest/info", {
+      authentication: MOCK_AUTH,
+      fetchOptions: {
+        method: "POST"
+      },
+      requestFlags: {
+        useXEsriAuthorizationHeader: true
+      }
+    });
+
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).not.toContain("token=");
+    expect((options.headers as any)["X-Esri-Authorization"]).toBe(
+      "Bearer token"
+    );
+    expect((options.headers as any)["Authorization"]).toBe(undefined);
+    expect(response).toEqual(SharingRestInfo);
+  });
+
+  test("should prefer caller-provided auth headers over generated token headers", async () => {
+    fetchMock.once("*", SharingRestInfo);
+
+    const MOCK_AUTH = {
+      portal: "https://www.arcgis.com/sharing/rest",
+      getToken() {
+        return Promise.resolve("token");
+      }
+    };
+
+    const response = await request("https://www.arcgis.com/sharing/rest/info", {
+      authentication: MOCK_AUTH,
+      fetchOptions: {
+        method: "GET",
+        headers: {
+          Authorization: "user-set-authorization-token",
+          "X-Esri-Authorization": "user-set-x-esri-authorization-token"
+        }
+      },
+      requestFlags: {
+        useAuthorizationHeader: true,
+        useXEsriAuthorizationHeader: true
+      }
+    });
+
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toContain("https://www.arcgis.com/sharing/rest/info");
+    expect(url).toContain("f=json");
+    expect(url).not.toContain("token=");
+    expect(options.method).toBe("GET");
+    expect((options.headers as any)["Authorization"]).toBe(
+      "user-set-authorization-token"
+    );
+    expect((options.headers as any)["X-Esri-Authorization"]).toBe(
+      "user-set-x-esri-authorization-token"
+    );
     expect(response).toEqual(SharingRestInfo);
   });
 
@@ -299,6 +433,44 @@ describe("request()", () => {
     expect(options.body).toContain("token=token");
     expect((options.headers as any)["X-Esri-Authorization"]).toBe(undefined);
 
+    expect(response).toEqual(SharingRestInfo);
+  });
+
+  test("should force POST for long GET urls and keep token in header when header flags are enabled", async () => {
+    fetchMock.once("*", SharingRestInfo);
+    const longQueryUrl =
+      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query";
+    const longWhereClause = `1=1${" AND 1=1".repeat(500)}`;
+
+    const MOCK_AUTH = {
+      portal: "https://www.arcgis.com/sharing/rest",
+      getToken() {
+        return Promise.resolve("token");
+      }
+    };
+
+    const response = await request(longQueryUrl, {
+      authentication: MOCK_AUTH,
+      fetchOptions: {
+        method: "GET"
+      },
+      params: {
+        where: longWhereClause
+      },
+      requestFlags: {
+        useXEsriAuthorizationHeader: true
+      }
+    });
+
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(longQueryUrl);
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain("where=1%3D1");
+    expect(options.body).not.toContain("token=");
+    expect((options.headers as any)["X-Esri-Authorization"]).toBe(
+      "Bearer token"
+    );
     expect(response).toEqual(SharingRestInfo);
   });
 
@@ -419,7 +591,7 @@ describe("request()", () => {
       );
 
       expect(warnSpy).toHaveBeenCalledWith(
-        "rawResponse is no longer supported as a top-level request option. Use rawRequest() instead."
+        "rawResponse is no longer supported. Use rawRequest() instead."
       );
     } finally {
       warnSpy.mockRestore();
