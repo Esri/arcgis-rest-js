@@ -21,7 +21,7 @@ export interface ILegacyRequestOptions {
    */
   rawResponse?: boolean;
   /**
-   * Prevented the token from being passed in a URL Query param that is saved in browser history.
+   * Prevents the token from being passed in a URL query parameter that is saved in browser history.
    * @deprecated Use the `useAuthorizationHeader` or `useXEsriAuthorizationHeader` flags in @linkcode{IRequestFlags} to send the token in only the request headers.
    */
   hideToken?: boolean;
@@ -60,12 +60,12 @@ export interface ILegacyRequestOptions {
  */
 export interface IRequestFlags {
   /**
-   * Use the `Authorization` header to send the token.
+   * Use the `Authorization` header to send the token in request headers.
    * Using this flag will move the token out of the URL query parameters in GET requests and out of the request body in POST requests.
    */
   useAuthorizationHeader?: boolean;
   /**
-   * Use the `X-Esri-Authorization` header to send the token.
+   * Use the `X-Esri-Authorization` header to send the token in request headers.
    * Using this flag will move the token out of the URL query parameters in GET requests and out of the request body in POST requests.
    */
   useXEsriAuthorizationHeader?: boolean;

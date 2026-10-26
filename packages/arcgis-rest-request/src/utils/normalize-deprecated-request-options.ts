@@ -45,7 +45,7 @@ export function normalizeDeprecatedRequestOptions(
     fetchOptions: fetchOptions
   };
 
-  // we are outright dropping support for maxUrlLength, rawResponse, and hideToken as top-level options and warning users separately
+  // we are dropping support for maxUrlLength, rawResponse, and hideToken as top-level options and warning users separately
   delete (normalizedOptions as any).maxUrlLength;
   delete (normalizedOptions as any).rawResponse;
   delete (normalizedOptions as any).hideToken;
