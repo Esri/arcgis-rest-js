@@ -325,7 +325,7 @@ describe("request()", () => {
     expect(response).toEqual(SharingRestInfo);
   });
 
-  test("should prefer caller-provided auth headers over generated token headers", async () => {
+  test("will prefer manually-provided auth token in headers over auth token", async () => {
     fetchMock.once("*", SharingRestInfo);
 
     const MOCK_AUTH = {
