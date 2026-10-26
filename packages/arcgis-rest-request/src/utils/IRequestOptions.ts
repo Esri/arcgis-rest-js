@@ -21,10 +21,8 @@ export interface ILegacyRequestOptions {
    */
   rawResponse?: boolean;
   /**
-   * Prevents the token from being passed in a URL Query param that is saved in browser history.
-   * Instead, the token will be passed in POST request body or through X-Esri-Authorization header.
-   * NOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS.
-   * @deprecated Use `requestFlags.hideToken` in @linkcode{IRequestOptions} instead.
+   * Prevented the token from being passed in a URL Query param that is saved in browser history.
+   * @deprecated Use the `useAuthorizationHeader` or `useXEsriAuthorizationHeader` flags in @linkcode{IRequestFlags} to send the token in only the request headers.
    */
   hideToken?: boolean;
   /**
@@ -62,13 +60,15 @@ export interface ILegacyRequestOptions {
  */
 export interface IRequestFlags {
   /**
-   * Attempts to keep authentication tokens out of URL query params.
-   *
-   * For GET requests in Node.js, REST JS may use the `X-Esri-Authorization` header.
-   * In browser flows where that header path is not used, REST JS may switch to POST
-   * so the token is sent in the request body instead of the URL.
+   * Use the `Authorization` header to send the token.
+   * Using this flag will move the token out of the URL query parameters in GET requests and out of the request body in POST requests.
    */
-  hideToken?: boolean;
+  useAuthorizationHeader?: boolean;
+  /**
+   * Use the `X-Esri-Authorization` header to send the token.
+   * Using this flag will move the token out of the URL query parameters in GET requests and out of the request body in POST requests.
+   */
+  useXEsriAuthorizationHeader?: boolean;
   /**
    * Suppresses ArcGIS REST JS request warnings for this call, including deprecation
    * and format-related warnings emitted during request processing.
@@ -83,8 +83,6 @@ export interface IRequestFlags {
   injectRequestHeaders?: boolean;
   /**
    * Disables automatic GET -> POST conversion based solely on URL length (2000+ chars).
-   *
-   * Other request rules may still result in POST (for example token-hiding behavior).
    */
   ignoreMaxUrlLength?: boolean;
 }

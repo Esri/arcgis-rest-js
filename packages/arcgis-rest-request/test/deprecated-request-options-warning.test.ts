@@ -68,13 +68,11 @@ describe("deprecated request option warnings", () => {
       )
     );
     expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
-        "rawResponse is no longer supported as a top-level request option"
-      )
+      expect.stringContaining("rawResponse is no longer supported.")
     );
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining(
-        "hideToken is deprecated as a top-level request option"
+        "hideToken is no longer supported and is ignored."
       )
     );
     expect(warnSpy).toHaveBeenCalledWith(
@@ -83,9 +81,7 @@ describe("deprecated request option warnings", () => {
       )
     );
     expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
-        "maxUrlLength is no longer supported as a top-level request option"
-      )
+      expect.stringContaining("maxUrlLength is no longer supported")
     );
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining(
