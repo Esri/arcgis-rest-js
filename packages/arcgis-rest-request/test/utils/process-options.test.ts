@@ -35,7 +35,9 @@ describe("processOptions", () => {
       httpMethod: "POST",
       credentials: "include",
       headers: { "X-Custom-Header": "value" },
+      // unsupported request options should still be included but request will warn about them and normalize to fulfill the current interface.
       hideToken: true,
+      rawResponse: true,
       // requestOptions fetch options that will come through the final requestOptions object, unless absent and filled by defaultOptions
       fetchOptions: {
         method: "POST",
@@ -80,6 +82,7 @@ describe("processOptions", () => {
       headers: {
         "X-Custom-Header": "value"
       },
+      rawResponse: true,
       hideToken: true,
       fetchOptions: {
         method: "POST",

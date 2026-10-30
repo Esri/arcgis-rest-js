@@ -18,12 +18,10 @@ export function normalizeDeprecatedRequestOptions(
     headers,
     signal,
     // request options
-    hideToken,
     suppressWarnings
   } = requestOptions;
 
   const requestFlags = {
-    ...(hideToken !== undefined ? { hideToken } : {}),
     ...(suppressWarnings !== undefined ? { suppressWarnings } : {}),
     ...requestOptions.requestFlags
   };
@@ -47,15 +45,15 @@ export function normalizeDeprecatedRequestOptions(
     fetchOptions: fetchOptions
   };
 
-  // we are outright dropping support for maxUrlLength and rawResponse as top-level options and warning users separately
+  // we are dropping support for maxUrlLength, rawResponse, and hideToken as top-level options and warning users separately
   delete (normalizedOptions as any).maxUrlLength;
   delete (normalizedOptions as any).rawResponse;
+  delete (normalizedOptions as any).hideToken;
   // delete the deprecated options from the normalized options to avoid confusion and duplication with the new options
   delete (normalizedOptions as any).httpMethod;
   delete (normalizedOptions as any).credentials;
   delete (normalizedOptions as any).headers;
   delete (normalizedOptions as any).signal;
-  delete (normalizedOptions as any).hideToken;
   delete (normalizedOptions as any).suppressWarnings;
   return normalizedOptions;
 }

@@ -8,13 +8,13 @@ import { warn } from "./warn.js";
 const DEPRECATED_REQUEST_OPTION_KEYS: Array<keyof ILegacyRequestOptions> = [
   // request options
   "suppressWarnings",
-  "hideToken",
   // fetch options
   "httpMethod",
   "credentials",
   "headers",
   "signal",
-  // RESTJS options
+  // removed options
+  "hideToken",
   "maxUrlLength",
   "rawResponse"
 ];
@@ -22,7 +22,6 @@ const DEPRECATED_REQUEST_OPTION_KEYS: Array<keyof ILegacyRequestOptions> = [
 const DEPRECATED_REQUEST_OPTION_REPLACEMENTS: Partial<
   Record<keyof ILegacyRequestOptions, string>
 > = {
-  hideToken: "requestFlags.hideToken",
   suppressWarnings: "requestFlags.suppressWarnings",
   httpMethod: "fetchOptions.method",
   credentials: "fetchOptions.credentials",
@@ -33,10 +32,11 @@ const DEPRECATED_REQUEST_OPTION_REPLACEMENTS: Partial<
 const UNSUPPORTED_REQUEST_OPTION_WARNINGS: Partial<
   Record<keyof ILegacyRequestOptions, string>
 > = {
+  hideToken:
+    "hideToken is no longer supported and is ignored. Use requestFlags.useAuthorizationHeader or requestFlags.useXEsriAuthorizationHeader to control token placement in request headers",
   maxUrlLength:
-    "maxUrlLength is no longer supported as a top-level request option and is ignored. Use requestFlags.ignoreMaxUrlLength to control URL length handling behavior.",
-  rawResponse:
-    "rawResponse is no longer supported as a top-level request option. Use rawRequest() instead."
+    "maxUrlLength is no longer supported and is ignored. Use requestFlags.ignoreMaxUrlLength to control URL length handling behavior.",
+  rawResponse: "rawResponse is no longer supported. Use rawRequest() instead."
 };
 
 function getDeprecatedRequestOptionWarning(

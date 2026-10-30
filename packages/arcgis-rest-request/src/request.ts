@@ -290,27 +290,12 @@ function buildAuthenticationManager(
 function resolveGetRequestPostFallback(options: {
   url: string;
   params: IParams;
-  token: string;
   requestFlags: IRequestOptions["requestFlags"];
-  isNode: boolean;
 }): {
   method: "GET" | "POST";
   url: string;
-  requestHeaders: {
-    [key: string]: any;
-  };
 } {
-  const { url, token, params, requestFlags, isNode } = options;
-  const requestHeaders: {
-    [key: string]: any;
-  } = {};
-
-  // Prevents token from being passed in query params when hideToken option is used.
-  /* istanbul ignore if --@preserve - window is always defined in a browser. */
-  if (isNode && params.token && requestFlags?.hideToken) {
-    requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`;
-    delete params.token;
-  }
+  const { url, params, requestFlags } = options;
 
   // encode the parameters into the query string
   const queryParams = encodeQueryString(params);
@@ -326,29 +311,16 @@ function resolveGetRequestPostFallback(options: {
     urlWithQueryString.length > ENTERPRISE_MAX_URL_LENGTH &&
     !requestFlags?.ignoreMaxUrlLength;
 
-  // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
-  const hideTokenInRequest = requestFlags?.hideToken && params.token;
-
-  if (exceedsMaxUrlLength || hideTokenInRequest) {
-    // If the token was already added as a Auth header, add the token back to body with other params instead of header
-    if (token.length && requestFlags?.hideToken) {
-      params.token = token;
-      // Remove existing header that was added before url query length was checked
-      delete requestHeaders["X-Esri-Authorization"];
-    }
-
-    // convert to POST request with params in the body instead of query string
+  if (exceedsMaxUrlLength) {
+    // convert to POST request (with params and token in the body instead of query string)
     return {
       method: "POST",
-      url,
-      requestHeaders
+      url
     };
   }
-
   return {
     method: "GET",
-    url: urlWithQueryString,
-    requestHeaders
+    url: urlWithQueryString
   };
 }
 
@@ -453,22 +425,32 @@ async function executeRequest(
 
   // Custom headers to add to request. IRequestOptions.fetchOptions.headers
   // will merge over these request headers.
-  let requestHeaders: {
+  const requestHeaders: {
     [key: string]: any;
   } = {};
 
+  // Moves token from params to headers when request flags are used.
+  const useHeader =
+    requestFlags?.useAuthorizationHeader ||
+    requestFlags?.useXEsriAuthorizationHeader;
+  // On both Node.js and browser environments, move token from query params to requested headers
+  if (params.token && useHeader) {
+    if (requestFlags?.useAuthorizationHeader) {
+      requestHeaders["Authorization"] = `Bearer ${params.token}`;
+    }
+    if (requestFlags?.useXEsriAuthorizationHeader) {
+      requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`;
+    }
+    delete params.token;
+  }
+
   if (fetchOptions.method === "GET") {
+    // in GET requests, determine if we need to fallback to POST based on URL length.
     // destructure resolved values from resolveGetRequestPostFallback back into fetchOptions and params
-    ({
-      method: fetchOptions.method,
-      url,
-      requestHeaders
-    } = resolveGetRequestPostFallback({
+    ({ method: fetchOptions.method, url } = resolveGetRequestPostFallback({
       url,
       params,
-      token,
-      requestFlags,
-      isNode: typeof window === "undefined"
+      requestFlags
     }));
   }
 
