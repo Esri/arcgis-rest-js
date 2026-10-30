@@ -23,7 +23,7 @@ Added `IRequestFlags` interface.
 
 `request()` control options are moved under `requestFlags`:
 
-- `hideToken` is deprecated and is being moved to `requestFlags.hideToken`.
+- `hideToken` is deprecated and will be removed in an upcoming release.
 - `suppressWarnings` is deprecated and is being moved to `requestFlags.suppressWarnings`.
 - `maxUrlLength` is deprecated and is being moved to a boolean flag under `requestFlags.ignoreMaxUrlLength` which will allow user to enforce custom limits within fetch.
 
@@ -48,14 +48,12 @@ Update all `IRequestOptions` objects to the new nested shape:
 ```ts
 // Before
 const options: IRequestOptions = {
-  hideToken: true,
   suppressWarnings: true,
   maxUrlLength: 5000 // some number
 }
 
 // After
 const requestFlags: IRequestFlags = {
-  hideToken: true,
   suppressWarnings: true,
   ignoreMaxUrlLength: true
 }
