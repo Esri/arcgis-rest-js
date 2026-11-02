@@ -23,7 +23,7 @@ Added `IRequestFlags` interface.
 
 `request()` control options are moved under `requestFlags`:
 
-- `hideToken` is deprecated and will be removed in an upcoming release.
+- `hideToken` is has been removed. Use `requestFlags.useAuthorizationHeader` or `requestFlags.useXEsriAuthorizationHeader`
 - `suppressWarnings` is deprecated and is being moved to `requestFlags.suppressWarnings`.
 - `maxUrlLength` is deprecated and is being moved to a boolean flag under `requestFlags.ignoreMaxUrlLength` which will allow user to enforce custom limits within fetch.
 
