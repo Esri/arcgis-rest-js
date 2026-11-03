@@ -19,7 +19,6 @@ describe("normalizeDeprecatedRequestOptions", () => {
     const controller = new AbortController();
 
     const normalized = normalizeDeprecatedRequestOptions({
-      hideToken: true,
       suppressWarnings: true,
       httpMethod: "GET",
       credentials: "include",
@@ -30,7 +29,6 @@ describe("normalizeDeprecatedRequestOptions", () => {
     });
 
     expect(normalized.requestFlags).toEqual({
-      hideToken: true,
       suppressWarnings: true
     });
     expect(normalized.fetchOptions).toEqual({
@@ -41,7 +39,6 @@ describe("normalizeDeprecatedRequestOptions", () => {
         "X-Test": "deprecated-header"
       }
     });
-    expect(normalized.hideToken).toBeUndefined();
     expect(normalized.suppressWarnings).toBeUndefined();
     expect(normalized.httpMethod).toBeUndefined();
     expect(normalized.credentials).toBeUndefined();
@@ -53,7 +50,6 @@ describe("normalizeDeprecatedRequestOptions", () => {
     const controller = new AbortController();
 
     const normalized = normalizeDeprecatedRequestOptions({
-      hideToken: false,
       suppressWarnings: false,
       httpMethod: "POST",
       credentials: "omit",
@@ -63,7 +59,6 @@ describe("normalizeDeprecatedRequestOptions", () => {
       },
       signal: controller.signal,
       requestFlags: {
-        hideToken: true,
         suppressWarnings: true,
         ignoreMaxUrlLength: true
       },
@@ -78,7 +73,6 @@ describe("normalizeDeprecatedRequestOptions", () => {
     });
 
     expect(normalized.requestFlags).toEqual({
-      hideToken: true,
       suppressWarnings: true,
       ignoreMaxUrlLength: true
     });
