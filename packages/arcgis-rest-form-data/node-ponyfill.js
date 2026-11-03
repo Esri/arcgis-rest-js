@@ -1,7 +1,9 @@
 const NodeFormData = require("formdata-node");
 
+const exists = globalThis.FormData && globalThis.File && globalThis.Blob;
+
 module.exports = {
-  FormData: globalThis.FormData || NodeFormData.FormData,
-  File: globalThis.File || NodeFormData.File,
-  Blob: globalThis.Blob || NodeFormData.Blob
+  FormData: exists ? globalThis.FormData : NodeFormData.FormData,
+  File: exists ? globalThis.File : NodeFormData.File,
+  Blob: exists ? globalThis.Blob : NodeFormData.Blob
 };
