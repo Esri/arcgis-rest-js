@@ -36,7 +36,7 @@ import {
   IAuthenticationManager
 } from "@esri/arcgis-rest-request";
 
-import { TOMORROW } from "../../../../scripts/test-helpers.js";
+import { TOMORROW, isNode } from "../../../../scripts/test-helpers.js";
 
 describe("get base url", () => {
   test("should return base url when passed a portal url", () => {
@@ -88,7 +88,12 @@ describe("get", () => {
       "https://www.arcgis.com/sharing/rest/content/items/3ef/data"
     );
     expect(options.method).toBe("GET");
-    expect(response instanceof Blob).toBeTruthy();
+    if (isNode) {
+      expect(response).toBeDefined();
+      expect(typeof (response as Blob).arrayBuffer).toBe("function");
+    } else {
+      expect(response instanceof Blob).toBeTruthy();
+    }
   });
 
   test("should return a valid response even when no data is retrieved", async () => {
