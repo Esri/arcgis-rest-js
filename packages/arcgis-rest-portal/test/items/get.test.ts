@@ -89,9 +89,11 @@ describe("get", () => {
     );
     expect(options.method).toBe("GET");
     if (isNode) {
+      // validate payload behavior for Node runtime instead of object equality
       expect(response).toBeDefined();
       expect(typeof (response as Blob).arrayBuffer).toBe("function");
     } else {
+      // validate object identity in browser
       expect(response instanceof Blob).toBeTruthy();
     }
   });

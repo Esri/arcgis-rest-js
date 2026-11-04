@@ -1,9 +1,12 @@
 const NodeFormData = require("formdata-node");
 
-const exists = globalThis.FormData && globalThis.File && globalThis.Blob;
+const useNativeNodeLibraries =
+  globalThis.FormData && globalThis.File && globalThis.Blob;
 
 module.exports = {
-  FormData: exists ? globalThis.FormData : NodeFormData.FormData,
-  File: exists ? globalThis.File : NodeFormData.File,
-  Blob: exists ? globalThis.Blob : NodeFormData.Blob
+  FormData: useNativeNodeLibraries
+    ? globalThis.FormData
+    : NodeFormData.FormData,
+  File: useNativeNodeLibraries ? globalThis.File : NodeFormData.File,
+  Blob: useNativeNodeLibraries ? globalThis.Blob : NodeFormData.Blob
 };

@@ -199,10 +199,12 @@ describe("search", () => {
       if (params.get) {
         expect(params.get("token")).toEqual("fake-token");
         expect(params.get("f")).toEqual("json");
+        // validate file payload behavior for both runtimes instead of object equality
         const uploadedFile = params.get("file") as File;
         expect(uploadedFile).toBeTruthy();
         expect(typeof uploadedFile.text).toBe("function");
         expect(await uploadedFile.text()).toEqual("foo");
+        // validate object identity in browser environment
         if (!isNode) {
           expect(uploadedFile).toEqual(file);
         }
@@ -238,10 +240,12 @@ describe("search", () => {
       if (params.get) {
         expect(params.get("token")).toEqual("fake-token");
         expect(params.get("f")).toEqual("json");
+        // validate file payload behavior for both runtimes instead of strict object equality
         const uploadedFile = params.get("file") as File;
         expect(uploadedFile).toBeTruthy();
         expect(typeof uploadedFile.text).toBe("function");
         expect(await uploadedFile.text()).toEqual("foo");
+        // validate object identity in browser environment
         if (!isNode) {
           expect(uploadedFile).toEqual(file);
         }
