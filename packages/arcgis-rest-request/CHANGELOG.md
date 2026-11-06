@@ -1,5 +1,14 @@
 # @esri/arcgis-rest-request Changelog
 
+## 4.11.1
+
+### Patch Changes
+
+- ef3d4db: publish lts-v4.x maintenance branch
+- Updated dependencies [ef3d4db]
+  - @esri/arcgis-rest-fetch@4.11.1
+  - @esri/arcgis-rest-form-data@4.11.1
+
 ## 4.11.0
 
 ### Patch Changes
