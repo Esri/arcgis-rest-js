@@ -140,7 +140,7 @@ describe("search", () => {
       start: 22,
       sortField: "title",
       sortOrder: "desc",
-      httpMethod: "POST"
+      fetchOptions: { method: "POST" }
     });
     expect(fetchMock.called()).toEqual(true);
     const [url, options] = fetchMock.lastCall("*");
@@ -165,7 +165,7 @@ describe("search", () => {
       start: 22,
       sortField: "title",
       sortOrder: "desc",
-      httpMethod: "POST"
+      fetchOptions: { method: "POST" }
     });
     expect(fetchMock.called()).toEqual(true);
     const [url, options] = fetchMock.lastCall("*");

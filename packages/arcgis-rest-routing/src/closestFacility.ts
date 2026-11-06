@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  processOptions,
   ILocation,
   IPoint,
   IFeature,
@@ -146,23 +146,26 @@ export function closestFacility(
     ...requestOptions.params
   };
 
-  const options = appendCustomParams<IClosestFacilityOptions>(requestOptions, [
-    "returnCFRoutes",
-    // "travelDirection",
-    "barriers",
-    "polylineBarriers",
-    "polygonBarriers",
-    "returnDirections",
-    "directionsOutputType",
-    "directionsLengthUnits",
-    "outputLines",
-    "returnFacilities",
-    "returnIncidents",
-    "returnBarriers",
-    "returnPolylineBarriers",
-    "returnPolygonBarriers",
-    "preserveObjectID"
-  ]);
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: [
+      "returnCFRoutes",
+      // "travelDirection",
+      "barriers",
+      "polylineBarriers",
+      "polygonBarriers",
+      "returnDirections",
+      "directionsOutputType",
+      "directionsLengthUnits",
+      "outputLines",
+      "returnFacilities",
+      "returnIncidents",
+      "returnBarriers",
+      "returnPolylineBarriers",
+      "returnPolygonBarriers",
+      "preserveObjectID"
+    ],
+    extractKeys: []
+  });
 
   // Set travelDirection
   if (requestOptions.travelDirection) {

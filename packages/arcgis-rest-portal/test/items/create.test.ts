@@ -12,11 +12,7 @@ import {
 import { ItemSuccessResponse } from "../mocks/items/item.js";
 
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
-import {
-  ArcGISIdentityManager,
-  encodeParam,
-  File
-} from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 
 describe("search", () => {
   afterEach(() => {

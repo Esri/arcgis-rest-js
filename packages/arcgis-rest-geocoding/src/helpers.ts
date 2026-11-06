@@ -47,9 +47,11 @@ export function getGeocodeService(
     (requestOptions && requestOptions.endpoint) || ARCGIS_ONLINE_GEOCODING_URL;
 
   const options: IEndpointOptions = {
-    httpMethod: "GET",
-    maxUrlLength: 2000,
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   };
 
   return request(url, options);

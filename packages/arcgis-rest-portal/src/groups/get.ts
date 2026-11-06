@@ -4,7 +4,7 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams,
+  processOptions,
   IGroup,
   IUser
 } from "@esri/arcgis-rest-request";
@@ -61,8 +61,11 @@ export function getGroup(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${id}`;
   // default to a GET request
   const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   };
   return request(url, options);
 }
@@ -85,8 +88,11 @@ export function getGroupCategorySchema(
 
   // default to a GET request
   const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   };
   return request(url, options);
 }
@@ -106,9 +112,12 @@ export function getGroupContent(
 
   // default to a GET request
   const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
     params: { start: 1, num: 100 },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   } as IGetGroupContentOptions;
 
   // is this the most concise way to mixin with the defaults above?
@@ -133,8 +142,11 @@ export function getGroupUsers(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${id}/users`;
   // default to a GET request
   const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   };
   return request(url, options);
 }
@@ -178,12 +190,22 @@ export function searchGroupUsers(
   searchOptions?: ISearchGroupUsersOptions
 ): Promise<ISearchGroupUsersResult> {
   const url = `${getPortalUrl(searchOptions)}/community/groups/${id}/userlist`;
-  const options = appendCustomParams<ISearchGroupUsersOptions>(
-    searchOptions || {},
-    ["name", "num", "start", "sortField", "sortOrder", "joined", "memberType"],
-    {
-      httpMethod: "GET"
+  const { requestOptions: options } = processOptions(searchOptions || {}, {
+    paramKeys: [
+      "name",
+      "num",
+      "start",
+      "sortField",
+      "sortOrder",
+      "joined",
+      "memberType"
+    ],
+    extractKeys: [],
+    defaultOptions: {
+      fetchOptions: {
+        method: "GET"
+      }
     }
-  );
+  });
   return request(url, options);
 }

@@ -7,7 +7,6 @@ import {
   requiresFormData,
   processParams
 } from "../../src/utils/process-params.js";
-import { FormData } from "formdata-node";
 
 export async function attachmentFile(): Promise<any> {
   // if in browser environment use File API

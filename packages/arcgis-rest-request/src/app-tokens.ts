@@ -38,7 +38,7 @@ export function exchangeToken(
     }
   } as IRequestOptions;
   // make the request and return the token
-  return request(url, ro).then((response) => response.token);
+  return request<{ token: string }>(url, ro).then((response) => response.token);
 }
 
 /**

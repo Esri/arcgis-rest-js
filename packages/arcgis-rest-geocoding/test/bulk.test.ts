@@ -66,8 +66,8 @@ describe("geocode", () => {
   test("should throw an error when a bulk geocoding request is made without a token", async () => {
     fetchMock.once("*", GeocodeAddresses);
 
-    await expect(bulkGeocode({ addresses })).rejects.toEqual(
-      "bulk geocoding using the ArcGIS service requires authentication"
+    await expect(bulkGeocode({ addresses })).rejects.toThrowError(
+      "bulk geocoding using the ArcGIS service requires authentication."
     );
   });
 
@@ -178,35 +178,5 @@ describe("geocode", () => {
       )}`
     );
     expect(response.spatialReference.latestWkid).toEqual(4326);
-  });
-
-  test("should support rawResponse", async () => {
-    fetchMock.once("*", GeocodeAddresses);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
-    const response: any = await bulkGeocode({
-      addresses,
-      authentication: MOCK_AUTH,
-      rawResponse: true
-    });
-    expect(fetchMock.called()).toEqual(true);
-    const [url, options] = fetchMock.lastCall("*");
-    expect(url).toEqual(
-      "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
-    );
-    expect(options.method).toBe("POST");
-    expect(response.status).toBe(200);
-    expect(response.ok).toBe(true);
-    expect(response.body.Readable).not.toBe(null);
-    const raw = await response.json();
-    expect(raw).toEqual(GeocodeAddresses);
-    // this used to work with isomorphic-fetch
-    // expect(response instanceof Response).toBe(true);
   });
 });

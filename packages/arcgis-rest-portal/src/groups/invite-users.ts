@@ -114,7 +114,9 @@ function _sendSafeRequest(
   url: string,
   requestOptions: IRequestOptions
 ): Promise<IInviteGroupUsersResult> {
-  return request(url, requestOptions).catch((error) => ({ errors: [error] }));
+  return request<IInviteGroupUsersResult>(url, requestOptions).catch(
+    (error): IInviteGroupUsersResult => ({ success: false, errors: [error] })
+  );
 }
 
 /**

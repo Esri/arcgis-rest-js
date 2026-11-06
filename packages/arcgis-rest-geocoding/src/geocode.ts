@@ -4,11 +4,12 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  processOptions,
   IExtent,
   ISpatialReference,
   IPoint,
-  warn
+  warn,
+  rawRequest
 } from "@esri/arcgis-rest-request";
 
 import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers.js";
@@ -93,9 +94,9 @@ export interface IGeocodeResponse {
  * ```
  *
  * @param address String representing the address or point of interest or RequestOptions to pass to the endpoint.
- * @returns A Promise that will resolve with address candidates for the request. The spatial reference will be added to candidate locations and extents unless `rawResponse: true` was passed.
+ * @returns A Promise that will resolve with address candidates for the request. The spatial reference will be added to candidate locations and extents.
  */
-export function geocode(
+export async function geocode(
   address: string | IGeocodeOptions
 ): Promise<IGeocodeResponse> {
   let options: IGeocodeOptions = {};
@@ -106,9 +107,8 @@ export function geocode(
     endpoint = ARCGIS_ONLINE_GEOCODING_URL;
   } else {
     endpoint = address.endpoint || ARCGIS_ONLINE_GEOCODING_URL;
-    options = appendCustomParams<IGeocodeOptions>(
-      address,
-      [
+    const { requestOptions: processedOptions } = processOptions(address, {
+      paramKeys: [
         "singleLine",
         "address",
         "address2",
@@ -123,10 +123,11 @@ export function geocode(
         "outFields",
         "magicKey"
       ],
-      { params: { ...address.params } }
-    );
+      extractKeys: []
+    });
+    options = processedOptions;
 
-    if (options.params.postal && typeof options.params.postal === "number") {
+    if (options.params?.postal && typeof options.params.postal !== "string") {
       warn(
         "The postal code should be a string. " +
           "Issues can arise when using it as a number, especially if they start with zero."
@@ -134,46 +135,43 @@ export function geocode(
     }
   }
 
-  // add spatialReference property to individual matches
-  return request(`${cleanUrl(endpoint)}/findAddressCandidates`, options).then(
-    (response) => {
-      if (typeof address !== "string" && address.rawResponse) {
-        return response;
-      }
-      const sr: ISpatialReference = response.spatialReference;
-      response.candidates.forEach(function (candidate: {
-        location: IPoint;
-        extent?: IExtent;
-      }) {
-        candidate.location.spatialReference = sr;
-        if (candidate.extent) {
-          candidate.extent.spatialReference = sr;
-        }
-      });
-
-      // geoJson
-      if (sr.wkid === 4326) {
-        const features = response.candidates.map((candidate: any) => {
-          return {
-            type: "Feature",
-            geometry: arcgisToGeoJSON(candidate.location),
-            properties: Object.assign(
-              {
-                address: candidate.address,
-                score: candidate.score
-              },
-              candidate.attributes
-            )
-          };
-        });
-
-        response.geoJson = {
-          type: "FeatureCollection",
-          features
-        };
-      }
-
-      return response;
-    }
+  const response = await request<IGeocodeResponse>(
+    `${cleanUrl(endpoint)}/findAddressCandidates`,
+    options
   );
+  const sr: ISpatialReference = response.spatialReference;
+  // add spatialReference property to individual matches
+  response.candidates.forEach(function (candidate: {
+    location: IPoint;
+    extent?: IExtent;
+  }) {
+    candidate.location.spatialReference = sr;
+    if (candidate.extent) {
+      candidate.extent.spatialReference = sr;
+    }
+  });
+
+  // geoJson
+  if (sr.wkid === 4326) {
+    const features = response.candidates.map((candidate: any) => {
+      return {
+        type: "Feature",
+        geometry: arcgisToGeoJSON(candidate.location),
+        properties: Object.assign(
+          {
+            address: candidate.address,
+            score: candidate.score
+          },
+          candidate.attributes
+        )
+      };
+    });
+
+    response.geoJson = {
+      type: "FeatureCollection",
+      features
+    };
+  }
+
+  return response;
 }

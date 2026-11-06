@@ -1,6 +1,6 @@
 {
   "out": "typedoc",
-  "json": "docs/build/4/typedoc.json",
+  "json": "docs/build/5/typedoc.json",
   "entryPointStrategy": "packages",
   "entryPoints": [
     "./packages/arcgis-rest-request/",

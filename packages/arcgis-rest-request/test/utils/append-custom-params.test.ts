@@ -5,10 +5,25 @@
  */
 
 import { appendCustomParams } from "../../src/index.js";
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 
 describe("appendCustomParams", () => {
-  test("merges custom options and base options, handles all value types, and omits invalid keys", () => {
+  test("warns once that appendCustomParams is deprecated", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {
+      // no-op
+    });
+
+    appendCustomParams({ params: {}, f: "json" } as any, ["f"]);
+    appendCustomParams({ params: {}, f: "json" } as any, ["f"]);
+
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy.mock.calls[0][0]).toContain("appendCustomParams()");
+    expect(warnSpy.mock.calls[0][0]).toContain("deprecated");
+
+    warnSpy.mockRestore();
+  });
+
+  test("merges custom options and base options, handles all value types, omits invalid keys, and normalizes legacy request options", () => {
     // this test should cover:
     // - omit keys not in keys
     // - deconstruct and merge customOptions into params
@@ -50,26 +65,62 @@ describe("appendCustomParams", () => {
       a: 1
     });
 
-    // baseOptions keys should be present
-    expect(result.httpMethod).toBe("POST");
-    expect(result.credentials).toBe("include");
+    // baseOptions keys should be normalized into fetchOptions
+    expect(result.fetchOptions).toEqual({
+      method: "POST",
+      credentials: "include",
+      headers: {}
+    });
+
+    // legacy keys should be normalized and removed
+    expect(result.httpMethod).toBeUndefined();
+    expect(result.credentials).toBeUndefined();
 
     // result should only retain keys listed in requestOptionsKeys
     Object.keys(result).forEach((key) => {
       expect([
         "params",
-        "httpMethod",
-        "rawResponse",
         "authentication",
-        "hideToken",
-        "portal",
-        "credentials",
-        "maxUrlLength",
-        "headers",
-        "signal",
-        "suppressWarnings",
-        "request"
+        "requestFlags",
+        "fetchOptions",
+        "portal"
       ]).toContain(key);
     });
+  });
+
+  test("does not warn when suppressWarnings is true", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {
+      // no-op
+    });
+
+    appendCustomParams(
+      {
+        params: {},
+        f: "json",
+        suppressWarnings: true
+      } as any,
+      ["f"]
+    );
+
+    expect(warnSpy).not.toHaveBeenCalled();
+    warnSpy.mockRestore();
+  });
+
+  test("does not warn when requestFlags.suppressWarnings is true", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {
+      // no-op
+    });
+
+    appendCustomParams(
+      {
+        params: {},
+        f: "json",
+        requestFlags: { suppressWarnings: true }
+      } as any,
+      ["f"]
+    );
+
+    expect(warnSpy).not.toHaveBeenCalled();
+    warnSpy.mockRestore();
   });
 });

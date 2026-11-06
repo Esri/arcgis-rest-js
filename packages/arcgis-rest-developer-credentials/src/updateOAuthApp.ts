@@ -8,7 +8,7 @@ import {
   appToOAuthAppProperties
 } from "./shared/helpers.js";
 import { getItem, getPortalUrl } from "@esri/arcgis-rest-portal";
-import { appendCustomParams, request } from "@esri/arcgis-rest-request";
+import { processOptions, request } from "@esri/arcgis-rest-request";
 import {
   IApp,
   IGetAppInfoOptions,
@@ -50,7 +50,10 @@ import { getRegisteredAppInfo } from "./shared/getRegisteredAppInfo.js";
 export async function updateOAuthApp(
   requestOptions: IUpdateOAuthOptions
 ): Promise<IOAuthApp> {
-  requestOptions.httpMethod = "POST";
+  requestOptions.fetchOptions = {
+    ...requestOptions.fetchOptions,
+    method: "POST"
+  };
 
   // get app
   const baseRequestOptions = extractBaseRequestOptions(requestOptions); // get base requestOptions snapshot
@@ -67,10 +70,13 @@ export async function updateOAuthApp(
   }
 
   const clientId = appResponse.client_id;
-  const options = appendCustomParams({ ...appResponse, ...requestOptions }, [
-    "redirect_uris"
-  ]);
-  options.params.f = "json";
+  const { requestOptions: options } = processOptions(
+    { ...appResponse, ...requestOptions },
+    {
+      paramKeys: ["redirect_uris"],
+      extractKeys: []
+    }
+  );
   options.params.appType = "multiple";
 
   // encode special params value (e.g. array type...) in advance in order to make encodeQueryString() works correctly

@@ -17,7 +17,7 @@ import { ISearchOptions } from "../util/search.js";
  * ```
  
  *
- * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
+ * @param requestOptions - Options for the request.
  * @returns Promise that will resolve with true/false
  */
 export function isItemSharedWithGroup(
@@ -29,7 +29,7 @@ export function isItemSharedWithGroup(
     num: 10,
     sortField: "title",
     authentication: requestOptions.authentication,
-    httpMethod: "POST"
+    fetchOptions: { method: "POST" }
   } as ISearchOptions;
 
   return searchItems(searchOpts).then((searchResponse) => {

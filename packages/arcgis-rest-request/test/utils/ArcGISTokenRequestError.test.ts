@@ -23,7 +23,9 @@ describe("ArcGISTokenRequestError", () => {
         params: {
           f: "json"
         },
-        httpMethod: "POST"
+        fetchOptions: {
+          method: "POST"
+        }
       }
     );
 
@@ -38,7 +40,7 @@ describe("ArcGISTokenRequestError", () => {
     expect(error.response).toEqual(RefreshTokenError);
     expect(error.url).toBe("https://example.com");
     expect(error.options.params).toEqual({ f: "json" });
-    expect(error.options.httpMethod).toEqual("POST");
+    expect(error.options.fetchOptions?.method).toEqual("POST");
   });
 
   test("should still format without a message, code or response", () => {

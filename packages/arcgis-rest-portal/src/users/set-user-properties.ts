@@ -24,12 +24,12 @@ export async function setUserProperties(
     requestOptions
   )}/community/users/${encodeURIComponent(username)}/setProperties`;
   const options: IAuthenticatedRequestOptions = {
-    httpMethod: "POST",
+    fetchOptions: { method: "POST" },
     params: { properties },
     ...requestOptions
   };
   try {
-    const response = await request(url, options);
+    const response = await request<{ success: boolean }>(url, options);
     if (!response.success) {
       throw new Error("Success was false");
     }

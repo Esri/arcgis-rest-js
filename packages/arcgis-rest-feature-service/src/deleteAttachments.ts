@@ -38,16 +38,15 @@ export interface IDeleteAttachmentsOptions extends IGetLayerOptions {
 export function deleteAttachments(
   requestOptions: IDeleteAttachmentsOptions
 ): Promise<{ deleteAttachmentResults: IEditFeatureResult[] }> {
+  const url = `${cleanUrl(requestOptions.url)}/${
+    requestOptions.featureId
+  }/deleteAttachments`;
   const options: IDeleteAttachmentsOptions = {
-    params: {},
-    ...requestOptions
+    ...requestOptions,
+    params: {
+      ...(requestOptions.params || {}),
+      attachmentIds: requestOptions.attachmentIds
+    }
   };
-
-  // `attachmentIds` --> params: {}
-  options.params.attachmentIds = requestOptions.attachmentIds;
-
-  return request(
-    `${cleanUrl(options.url)}/${options.featureId}/deleteAttachments`,
-    options
-  );
+  return request(url, options);
 }

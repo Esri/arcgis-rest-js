@@ -34,7 +34,9 @@ describe("geocode", () => {
   test("should make POST request for metadata from the World Geocoding Service", async () => {
     fetchMock.once("*", SharingInfo);
 
-    const response = await getGeocodeService({ httpMethod: "POST" });
+    const response = await getGeocodeService({
+      fetchOptions: { method: "POST" }
+    });
     expect(fetchMock.called()).toEqual(true);
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toEqual(
@@ -66,5 +68,18 @@ describe("geocode", () => {
     expect(response.serviceDescription).toEqual(
       "Sample geocoder for San Diego, California, USA"
     );
+  });
+
+  test("should retrieve metadata from world geocoder when options are provided without endpoint", async () => {
+    fetchMock.once("*", SharingInfo);
+
+    const response = await getGeocodeService({ params: {} });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/?f=json"
+    );
+    expect(options.method).toBe("GET");
+    expect(response.currentVersion).toEqual(10.41);
   });
 });

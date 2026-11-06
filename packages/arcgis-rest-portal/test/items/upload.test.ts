@@ -11,7 +11,6 @@ import {
 import { ItemSuccessResponse } from "../mocks/items/item.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW, attachmentFile } from "../../../../scripts/test-helpers.js";
-import { FormData } from "@esri/arcgis-rest-form-data";
 
 describe("search", () => {
   afterEach(() => {
@@ -78,6 +77,35 @@ describe("search", () => {
       expect(options.body).toContain("token=fake-token");
     });
 
+    test("should commit upload using provided params without auto-merging item fields", async () => {
+      fetchMock.once("*", ItemSuccessResponse);
+
+      await commitItemUpload({
+        id: "3ef",
+        item: {
+          title: "test",
+          type: "PDF"
+        },
+        params: {
+          someonePutAParamInHere: true
+        },
+        ...MOCK_USER_REQOPTS
+      });
+
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/commit"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("someonePutAParamInHere=true");
+      expect(options.body).toContain("token=fake-token");
+      // should not contain item data, since providing params precludes auto-merging item fields
+      expect(options.body).not.toContain("title=test");
+      expect(options.body).not.toContain("type=PDF");
+    });
+
     test("should cancel the item upload", async () => {
       fetchMock.once("*", ItemSuccessResponse);
 
@@ -139,7 +167,11 @@ describe("search", () => {
       if (params.get) {
         expect(params.get("token")).toEqual("fake-token");
         expect(params.get("f")).toEqual("json");
-        expect(params.get("file")).toEqual(file);
+        const uploaded = params.get("file") as File;
+        expect(uploaded).toBeTruthy();
+        expect(uploaded.size).toBe(file.size);
+        expect(uploaded.type).toBe(file.type);
+        expect(await uploaded.text()).toEqual(await file.text());
       }
     });
 
@@ -170,7 +202,11 @@ describe("search", () => {
       if (params.get) {
         expect(params.get("token")).toEqual("fake-token");
         expect(params.get("f")).toEqual("json");
-        expect(params.get("file")).toEqual(file);
+        const uploaded = params.get("file") as File;
+        expect(uploaded).toBeTruthy();
+        expect(uploaded.size).toBe(file.size);
+        expect(uploaded.type).toBe(file.type);
+        expect(await uploaded.text()).toEqual(await file.text());
       }
     });
 
