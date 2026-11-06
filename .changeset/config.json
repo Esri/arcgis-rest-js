@@ -5,7 +5,7 @@
   "fixed": [["@esri/arcgis-rest-*"]],
   "linked": [],
   "access": "public",
-  "baseBranch": "main",
+  "baseBranch": "4.x",
   "updateInternalDependencies": "patch",
   "ignore": [],
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
