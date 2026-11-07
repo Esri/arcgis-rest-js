@@ -1,5 +1,14 @@
 # @esri/arcgis-rest-developer-credentials Changelog
 
+## 4.11.1
+
+### Patch Changes
+
+- 1c0d7e5: Added native `FormData` support for Node versions 22 and 24.
+- Updated dependencies [1c0d7e5]
+  - @esri/arcgis-rest-portal@4.11.1
+  - @esri/arcgis-rest-request@4.11.1
+
 ## 4.11.0
 
 ### Patch Changes

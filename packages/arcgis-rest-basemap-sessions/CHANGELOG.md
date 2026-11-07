@@ -1,5 +1,11 @@
 # @esri/arcgis-rest-basemap-sessions Changelog
 
+## 4.11.1
+
+### Patch Changes
+
+- 1c0d7e5: Added native `FormData` support for Node versions 22 and 24.
+
 ## 4.11.0
 
 ## 4.10.3
