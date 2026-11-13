@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 import type { ServerResponse } from "http";
+import mitt from "mitt";
 import {
   ArcGISAuthError,
   request,
@@ -37,6 +38,28 @@ function isCredential(credential: any): credential is ICredential {
     /* istanbul ignore next -- @preserve */
     typeof credential.expires === "number"
   );
+}
+
+/**
+ * The payload passed to listeners of the `tokenUpdated` event of {@linkcode ArcGISIdentityManager}.
+ */
+export interface IArcGISIdentityManagerTokenUpdatedEvent {
+  /**
+   * The new `token`.
+   */
+  token: string;
+  /**
+   * The expiration date of the new `token`.
+   */
+  tokenExpires: Date;
+  /**
+   * The current `refreshToken`. This will only be different from the previous value when the `refreshToken` was exchanged for a new one.
+   */
+  refreshToken?: string;
+  /**
+   * The expiration date of the current `refreshToken`.
+   */
+  refreshTokenExpires?: Date;
 }
 
 /**
@@ -299,6 +322,7 @@ export interface IArcGISIdentityManagerOptions {
  *
  * * {@linkcode ArcGISIdentityManager.serialize} can be used to create a JSON object representing an instance of `ArcGISIdentityManager`
  * * {@linkcode ArcGISIdentityManager.deserialize} will create a new `ArcGISIdentityManager` from a JSON object created with {@linkcode ArcGISIdentityManager.serialize}
+ * * {@linkcode ArcGISIdentityManager.on} can be used to listen for the `tokenUpdated` event, which fires when the token or refresh token changes so they can be persisted
  * * {@linkcode ArcGISIdentityManager.destroy} or {@linkcode ArcGISIdentityManager.signOut} will invalidate any tokens in use by the  `ArcGISIdentityManager`.
  */
 export class ArcGISIdentityManager
@@ -1090,6 +1114,11 @@ export class ArcGISIdentityManager
 
   private _hostHandler: any;
 
+  /**
+   * Internal instance of [`mitt`](https://github.com/developit/mitt) used for event handlers. It is recommended to use {@linkcode ArcGISIdentityManager.on}, {@linkcode ArcGISIdentityManager.off} or {@linkcode ArcGISIdentityManager.once} instead of `emitter.`
+   */
+  private emitter: any;
+
   constructor(options: IArcGISIdentityManagerOptions) {
     super(options);
     this.clientId = options.clientId;
@@ -1123,6 +1152,7 @@ export class ArcGISIdentityManager
       };
     }
     this._pendingTokenRequests = {};
+    this.emitter = mitt();
   }
 
   /**
@@ -1675,6 +1705,71 @@ export class ArcGISIdentityManager
   }
 
   /**
+   * Listens for the `tokenUpdated` event. This event is emitted whenever the {@linkcode ArcGISIdentityManager.token}
+   * (and possibly the {@linkcode ArcGISIdentityManager.refreshToken}) change, for example after the manager automatically
+   * refreshes an expired token, so you can persist the new values.
+   *
+   * ```js
+   * manager.on("tokenUpdated", () => {
+   *   database.save(manager.serialize());
+   * });
+   * ```
+   *
+   * @param eventName The name of the event to listen for. Currently only `tokenUpdated` is emitted.
+   * @param handler A function that is called with the updated credentials when the event is emitted.
+   */
+  public on(
+    eventName: "tokenUpdated",
+    handler: (e: IArcGISIdentityManagerTokenUpdatedEvent) => void
+  ) {
+    this.emitter.on(eventName, handler);
+  }
+
+  /**
+   * Listens for an event once. The handler is removed after it is called the first time.
+   * Handlers added with this method cannot be removed with {@linkcode ArcGISIdentityManager.off}.
+   *
+   * @param eventName The name of the event to listen for.
+   * @param handler A function that is called with the updated credentials when the event is emitted.
+   */
+  public once(
+    eventName: "tokenUpdated",
+    handler: (e: IArcGISIdentityManagerTokenUpdatedEvent) => void
+  ) {
+    const fn = (e: IArcGISIdentityManagerTokenUpdatedEvent) => {
+      this.emitter.off(eventName, fn);
+      handler(e);
+    };
+
+    this.emitter.on(eventName, fn);
+  }
+
+  /**
+   * Removes a handler previously added with {@linkcode ArcGISIdentityManager.on}.
+   *
+   * @param eventName The name of the event the handler was added for.
+   * @param handler The handler function to remove.
+   */
+  public off(
+    eventName: "tokenUpdated",
+    handler: (e: IArcGISIdentityManagerTokenUpdatedEvent) => void
+  ) {
+    this.emitter.off(eventName, handler);
+  }
+
+  /**
+   * Emits the `tokenUpdated` event with the current credentials.
+   */
+  private emitTokenUpdated() {
+    this.emitter.emit("tokenUpdated", {
+      token: this._token,
+      tokenExpires: this._tokenExpires,
+      refreshToken: this._refreshToken,
+      refreshTokenExpires: this._refreshTokenExpires
+    });
+  }
+
+  /**
    * Update the stored {@linkcode ArcGISIdentityManager.token} and {@linkcode ArcGISIdentityManager.tokenExpires} properties. This method is used internally when refreshing tokens.
    * You may need to call this if you want update the token with a new token from an external source.
    *
@@ -1685,6 +1780,8 @@ export class ArcGISIdentityManager
   updateToken(newToken: string, newTokenExpiration: Date) {
     this._token = newToken;
     this._tokenExpires = newTokenExpiration;
+
+    this.emitTokenUpdated();
 
     return this;
   }
@@ -1710,6 +1807,9 @@ export class ArcGISIdentityManager
         this._tokenExpires = response.expires;
         this._refreshToken = response.refreshToken;
         this._refreshTokenExpires = response.refreshTokenExpires;
+
+        this.emitTokenUpdated();
+
         return this;
       })
       .catch((e) => {
