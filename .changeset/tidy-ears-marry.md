@@ -44,6 +44,6 @@ Web API Fetch options are moved under `fetchOptions`:
 
 ## Bugfixes
 
-- Fixed issue witn `findElevationAtManyPoints` where coordinates were not being passed consistently.
+- Fixed issue with `findElevationAtManyPoints` where coordinates were not being passed consistently.
 
 For more complete information and full migration guide to REST JS v5 go to https://developers.arcgis.com/arcgis-rest-js/release-notes/v5-release-notes/
