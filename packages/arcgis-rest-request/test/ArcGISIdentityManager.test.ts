@@ -697,6 +697,139 @@ describe("ArcGISIdentityManager", () => {
     });
   });
 
+  describe("tokenUpdated event", () => {
+    test("should emit when the token is refreshed with a username and password", async () => {
+      const session = new ArcGISIdentityManager({
+        username: "c@sey",
+        password: "123456"
+      });
+      const handler = vi.fn();
+      session.on("tokenUpdated", handler);
+
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/generateToken", {
+        token: "token",
+        expires: TOMORROW.getTime(),
+        username: " c@sey"
+      });
+
+      await session.refreshCredentials();
+
+      expect(handler).toHaveBeenCalledTimes(1);
+      expect(handler).toHaveBeenCalledWith({
+        token: "token",
+        tokenExpires: TOMORROW,
+        refreshToken: undefined,
+        refreshTokenExpires: undefined
+      });
+    });
+
+    test("should emit when the token is refreshed with a refresh token", async () => {
+      const session = new ArcGISIdentityManager({
+        clientId: "clientId",
+        token: "token",
+        refreshToken: "refreshToken",
+        refreshTokenExpires: FIVE_DAYS_FROM_NOW,
+        redirectUri: "https://example-app.com/redirect-uri"
+      });
+      const handler = vi.fn();
+      session.on("tokenUpdated", handler);
+
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        access_token: "newToken",
+        expires_in: 60,
+        username: "c@sey"
+      });
+
+      await session.refreshCredentials();
+
+      expect(handler).toHaveBeenCalledTimes(1);
+      expect(handler.mock.calls[0][0]).toMatchObject({
+        token: "newToken",
+        refreshToken: "refreshToken",
+        refreshTokenExpires: FIVE_DAYS_FROM_NOW
+      });
+    });
+
+    test("should emit the new refresh token when the refresh token is exchanged", async () => {
+      const session = new ArcGISIdentityManager({
+        clientId: "clientId",
+        token: "token",
+        refreshToken: "refreshToken",
+        refreshTokenExpires: new Date(Date.now() + 1000 * 60 * 60),
+        redirectUri: "https://example-app.com/redirect-uri"
+      });
+      const handler = vi.fn();
+      session.on("tokenUpdated", handler);
+
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        access_token: "newToken",
+        expires_in: 60,
+        username: "c@sey",
+        refresh_token: "newRefreshToken",
+        refresh_token_expires_in: 1209600
+      });
+
+      await session.refreshCredentials();
+
+      expect(handler).toHaveBeenCalledTimes(1);
+      const event = handler.mock.calls[0][0];
+      expect(event.token).toBe("newToken");
+      expect(event.refreshToken).toBe("newRefreshToken");
+      expect(event.refreshTokenExpires).toBe(session.refreshTokenExpires);
+    });
+
+    test("should emit when updateToken is called", () => {
+      const session = new ArcGISIdentityManager({
+        clientId: "id",
+        token: "token",
+        tokenExpires: YESTERDAY
+      });
+      const handler = vi.fn();
+      session.on("tokenUpdated", handler);
+
+      session.updateToken("newToken", TOMORROW);
+
+      expect(handler).toHaveBeenCalledWith({
+        token: "newToken",
+        tokenExpires: TOMORROW,
+        refreshToken: undefined,
+        refreshTokenExpires: undefined
+      });
+    });
+
+    test("should not emit after a handler is removed with off", () => {
+      const session = new ArcGISIdentityManager({ token: "token" });
+      const handler = vi.fn();
+      session.on("tokenUpdated", handler);
+      session.off("tokenUpdated", handler);
+
+      session.updateToken("newToken", TOMORROW);
+
+      expect(handler).not.toHaveBeenCalled();
+    });
+
+    test("should only call handlers added with once a single time", () => {
+      const session = new ArcGISIdentityManager({ token: "token" });
+      const handler = vi.fn();
+      session.once("tokenUpdated", handler);
+
+      session.updateToken("newToken", TOMORROW);
+      session.updateToken("newerToken", TOMORROW);
+
+      expect(handler).toHaveBeenCalledTimes(1);
+      expect(handler.mock.calls[0][0].token).toBe("newToken");
+    });
+
+    test("should not include event handlers when serialized", () => {
+      const session = new ArcGISIdentityManager({ token: "token" });
+      session.on("tokenUpdated", vi.fn());
+
+      expect(Object.keys(JSON.parse(session.serialize()))).not.toContain(
+        "emitter"
+      );
+    });
+  });
+
   describe(".refreshCredentials()", () => {
     test("should refresh with a username and password if expired", async () => {
       const session = new ArcGISIdentityManager({
