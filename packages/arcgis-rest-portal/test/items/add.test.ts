@@ -12,7 +12,11 @@ import {
 
 import { ItemSuccessResponse } from "../mocks/items/item.js";
 
-import { attachmentFile, TOMORROW } from "../../../../scripts/test-helpers.js";
+import {
+  attachmentFile,
+  TOMORROW,
+  isNode
+} from "../../../../scripts/test-helpers.js";
 import { encodeParam, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 describe("search", () => {

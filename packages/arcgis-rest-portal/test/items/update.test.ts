@@ -18,7 +18,11 @@ import {
   UpdateItemInfoResponse
 } from "../mocks/items/resources.js";
 
-import { attachmentFile, TOMORROW } from "../../../../scripts/test-helpers.js";
+import {
+  attachmentFile,
+  TOMORROW,
+  isNode
+} from "../../../../scripts/test-helpers.js";
 import { encodeParam, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 describe("search", () => {
