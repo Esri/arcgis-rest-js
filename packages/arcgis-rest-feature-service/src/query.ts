@@ -5,7 +5,6 @@ import {
   request,
   cleanUrl,
   processOptions,
-  ProcessOptionsResult,
   ISpatialReference,
   IFeatureSet,
   IFeature,
@@ -24,7 +23,7 @@ import {
   IFeatureServiceDefinition
 } from "./helpers.js";
 import pbfToGeoJSON, {
-  EsriGeoJSONFeatureCollection
+  type EsriGeoJSONFeatureCollection
 } from "./pbf-parser/geoJSONPbfParser.js";
 import pbfToArcGIS from "./pbf-parser/arcGISPbfParser.js";
 

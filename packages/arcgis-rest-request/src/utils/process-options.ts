@@ -1,28 +1,37 @@
 /* Copyright (c) 2026 Environmental Systems Research Institute, Inc. */
 import { ILegacyRequestOptions, IRequestOptions } from "./IRequestOptions.js";
 
-// use PureRequestOptions to explicitly only support v5 requestOptions until legacy requestOptions are removed from IRequestOptions
-type PureRequestOptions = Omit<IRequestOptions, keyof ILegacyRequestOptions>;
+/*
+ * use PureRequestOptions to explicitly only support v5 requestOptions until legacy requestOptions are removed from IRequestOptions
+ */
+export type PureRequestOptions = Omit<
+  IRequestOptions,
+  keyof ILegacyRequestOptions
+>;
 
-// using ExtractableKey to explicitly define that only non-IRequestOptions keys can be extracted to help avoid duplicate exports in props
-type ExtractableKey<T extends IRequestOptions> = Exclude<
+/**
+ * using ExtractableKey to explicitly define that only non-IRequestOptions keys can be extracted to help avoid duplicate exports in props
+ */
+export type ExtractableKey<T extends IRequestOptions> = Exclude<
   keyof T,
   keyof IRequestOptions
 >;
 
 // All the keys of properties that are optional in an interface extending IRequestOptions.
-type OptionalKeys<T> = {
+export type OptionalKeys<T> = {
   [K in keyof T]-?: {} extends Pick<T, K> ? K : never;
 }[keyof T];
 
 // All the keys of properties that are required in an interface extending IRequestOptions.
-type RequiredKeys<T> = Exclude<keyof T, OptionalKeys<T>>;
+export type RequiredKeys<T> = Exclude<keyof T, OptionalKeys<T>>;
 
-// The union of optional and required keys specified in extractKeys in ProcessOptionsConfig.
-// This type is used to ensure a strict and dynamically-typed result of processOptions() that correctly preserves
-// the original optional/required status of the extracted keys on the original interface before and after the processed result.
-// This type is constructed by assigning all extracted properties of T as optional and overwriting the required ones as required.
-type ExtractedProps<
+/**
+ * The union of optional and required keys specified in extractKeys in ProcessOptionsConfig.
+ * This type is used to ensure a strict and dynamically-typed result of processOptions() that correctly preserves
+ * the original optional/required status of the extracted keys on the original interface before and after the processed result.
+ * This type is constructed by assigning all extracted properties of T as optional and overwriting the required ones as required.
+ */
+export type ExtractedProps<
   T extends IRequestOptions,
   ToExtractKeys extends readonly ExtractableKey<T>[]
 > = Partial<Pick<T, ToExtractKeys[number]>> &
@@ -45,7 +54,7 @@ export type ProcessOptionsResult<
   requestOptions: IRequestOptions;
 } & ExtractedProps<T, ToExtractKeys>;
 
-interface ProcessOptionsConfig<
+export interface ProcessOptionsConfig<
   T extends IRequestOptions,
   ToExtractKeys extends readonly ExtractableKey<T>[]
 > {
