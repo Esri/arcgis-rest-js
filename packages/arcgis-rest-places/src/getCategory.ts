@@ -1,6 +1,6 @@
 import {
   request,
-  appendCustomParams,
+  processOptions,
   IRequestOptions
 } from "@esri/arcgis-rest-request";
 
@@ -9,7 +9,7 @@ import { baseUrl } from "./utils.js";
 import { IconOptions } from "./iconOptions.js";
 
 // determine the list of allowed params we want to allow as options
-// this should match the array given to appendCustomParams below
+// this should match the array given to processOptions below
 type queryParams = operations["categoriesCategoryIdGet"]["parameters"]["query"];
 
 // get the correct type of the response format
@@ -21,11 +21,18 @@ type successResponse =
  */
 export interface IGetCategoryResponse extends successResponse {}
 
+type IRequestOptionsWithoutHttpMethod = Omit<
+  IRequestOptions,
+  "fetchOptions"
+> & {
+  fetchOptions?: Omit<RequestInit, "method">;
+};
+
 /**
  * Options for {@linkcode getCategory}.
  */
 export interface IGetCategoryOptions
-  extends Omit<IRequestOptions, "httpMethod">,
+  extends IRequestOptionsWithoutHttpMethod,
     queryParams {
   categoryId: string;
   icon?: IconOptions;
@@ -56,19 +63,19 @@ export function getCategory(
 ): Promise<IGetCategoryResponse> {
   const { categoryId } = requestOptions;
 
-  const options = appendCustomParams<IGetCategoryOptions>(
-    requestOptions,
-    ["icon"],
-    {
-      ...requestOptions
-    }
-  );
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: ["icon"],
+    extractKeys: []
+  });
 
   return request(
     requestOptions.endpoint || `${baseUrl}/categories/${categoryId}`,
     {
       ...options,
-      httpMethod: "GET"
+      fetchOptions: {
+        ...options.fetchOptions,
+        method: "GET"
+      }
     }
   );
 }

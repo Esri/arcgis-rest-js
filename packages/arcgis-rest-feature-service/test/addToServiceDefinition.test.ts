@@ -234,7 +234,9 @@ describe("add to feature service", () => {
           params: expect.objectContaining({
             addToDefinition: { layers: [layerDescriptionFail] }
           }),
-          httpMethod: "POST"
+          fetchOptions: expect.objectContaining({
+            method: "POST"
+          })
         })
       });
     });
@@ -258,7 +260,9 @@ describe("add to feature service", () => {
           params: expect.objectContaining({
             addToDefinition: { tables: [tableDescriptionFail] }
           }),
-          httpMethod: "POST"
+          fetchOptions: expect.objectContaining({
+            method: "POST"
+          })
         })
       });
     });
@@ -286,7 +290,9 @@ describe("add to feature service", () => {
               layers: [layerDescriptionFail]
             }
           }),
-          httpMethod: "POST"
+          fetchOptions: expect.objectContaining({
+            method: "POST"
+          })
         })
       });
     });

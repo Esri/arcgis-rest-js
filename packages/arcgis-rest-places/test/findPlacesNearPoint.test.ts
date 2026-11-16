@@ -1,6 +1,6 @@
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
 import { findPlacesNearPoint, IconOptions } from "../src/index.js";
-import { describe, test, expect, afterEach } from "vitest";
+import { describe, test, expect, afterEach, vi } from "vitest";
 import fetchMock, { MockCall } from "fetch-mock";
 import {
   placeNearPointMockNoMoreResults,
@@ -60,8 +60,7 @@ describe("findPlacesNearPoint()", () => {
     fetchMock.mock("*", placeNearPointMockNoMoreResults);
 
     if (!firstPageResponse.nextPage) {
-      fail("Expected next page function");
-      return;
+      throw new Error("Expected next page function");
     }
 
     const nextPage = await firstPageResponse.nextPage();
@@ -109,5 +108,122 @@ describe("findPlacesNearPoint()", () => {
 
     const [url, options] = fetchMock.lastCall("*") as MockCall;
     expect(url).toContain("&icon=cim");
+  });
+
+  test("verify abort signal is passed through to request", async () => {
+    fetchMock.mock("*", placeNearPointMockNoMoreResults);
+
+    // legacy case: abort signal is a top-level option
+    const legacyAbortController = new AbortController();
+    await findPlacesNearPoint({
+      x: -73.735152,
+      y: 40.9384275,
+      radius: 1600 * 5, // 5 miles in meters
+      categoryIds: ["4d4b7105d754a06372d81259"], // Schools
+      authentication: MOCK_AUTH,
+      signal: legacyAbortController.signal
+    });
+
+    const [, legacyOptions] = fetchMock.lastCall("*") as MockCall;
+    expect((legacyOptions as RequestInit).signal).toBe(
+      legacyAbortController.signal
+    );
+
+    // default case uses fetchOptions.signal
+    const abortController = new AbortController();
+    await findPlacesNearPoint({
+      x: -73.735152,
+      y: 40.9384275,
+      radius: 1600 * 5, // 5 miles in meters
+      categoryIds: ["4d4b7105d754a06372d81259"], // Schools
+      authentication: MOCK_AUTH,
+      fetchOptions: {
+        signal: abortController.signal
+      }
+    });
+
+    const [, options] = fetchMock.lastCall("*") as MockCall;
+    expect((options as RequestInit).signal).toBe(abortController.signal);
+  });
+
+  test("verify abort signal should reject with AbortError when request is aborted", async () => {
+    fetchMock.mock("*", (_url, options) => {
+      return new Promise((_resolve, reject) => {
+        const signal = (options as RequestInit)?.signal as
+          | AbortSignal
+          | undefined;
+        if (!signal) {
+          reject(new Error("Missing AbortSignal in request options"));
+          return;
+        }
+        signal.addEventListener(
+          "abort",
+          () => {
+            reject(signal.reason);
+          },
+          { once: true }
+        );
+      });
+    });
+
+    // test legacy top level option
+
+    const legacyAbortController = new AbortController();
+    const legacyPromise = findPlacesNearPoint({
+      x: -73.735152,
+      y: 40.9384275,
+      radius: 1600 * 5,
+      categoryIds: ["4d4b7105d754a06372d81259"],
+      authentication: MOCK_AUTH,
+      signal: legacyAbortController.signal
+    });
+
+    legacyAbortController.abort("help, I was aborted");
+    await expect(legacyPromise).rejects.toMatchObject({
+      name: "AbortError"
+    });
+
+    // test signal in fetchOptions
+
+    const fetchOptionsAbortController = new AbortController();
+    const fetchOptionsPromise = findPlacesNearPoint({
+      x: -73.735152,
+      y: 40.9384275,
+      radius: 1600 * 5,
+      categoryIds: ["4d4b7105d754a06372d81259"],
+      authentication: MOCK_AUTH,
+      fetchOptions: {
+        signal: fetchOptionsAbortController.signal
+      }
+    });
+
+    fetchOptionsAbortController.abort("I should have been aborted");
+    await expect(fetchOptionsPromise).rejects.toMatchObject({
+      name: "AbortError"
+    });
+  });
+
+  test("should console log a warning about deprecated options when using legacy top-level request options", async () => {
+    const consoleWarnSpy = vi
+      .spyOn(console, "warn")
+      .mockImplementation(() => {});
+
+    fetchMock.mock("*", placeNearPointMockNoMoreResults);
+
+    await findPlacesNearPoint({
+      x: -3.1883,
+      y: 55.9533,
+      radius: 10,
+      authentication: MOCK_AUTH,
+      credentials: "include"
+    });
+
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect.stringContaining(
+        "credentials is deprecated as a top-level request option"
+      )
+    );
+
+    consoleWarnSpy.mockRestore();
   });
 });

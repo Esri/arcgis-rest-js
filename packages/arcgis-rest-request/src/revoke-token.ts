@@ -48,14 +48,17 @@ export function revokeToken(
 
   const options: IRequestOptions = {
     ...requestOptions,
-    httpMethod: "POST",
+    fetchOptions: {
+      ...requestOptions.fetchOptions,
+      method: "POST"
+    },
     params: {
       client_id: clientId,
       auth_token: token
     }
   };
 
-  return request(url, options).then((response) => {
+  return request<IRevokeTokenResponse>(url, options).then((response) => {
     if (!response.success) {
       throw new ArcGISRequestError(
         "Unable to revoke token",

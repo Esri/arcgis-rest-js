@@ -43,17 +43,17 @@ export interface IUpdateAttachmentOptions extends IGetLayerOptions {
 export function updateAttachment(
   requestOptions: IUpdateAttachmentOptions
 ): Promise<{ updateAttachmentResult: IEditFeatureResult }> {
-  const options: IUpdateAttachmentOptions = {
-    params: {},
-    ...requestOptions
-  };
-
-  // `attachment` and `attachmentId` --> params: {}
-  options.params.attachment = requestOptions.attachment;
-  options.params.attachmentId = requestOptions.attachmentId;
-
   return request(
-    `${cleanUrl(options.url)}/${options.featureId}/updateAttachment`,
-    options
+    `${cleanUrl(requestOptions.url)}/${
+      requestOptions.featureId
+    }/updateAttachment`,
+    {
+      ...requestOptions,
+      params: {
+        ...(requestOptions.params || {}),
+        attachment: requestOptions.attachment,
+        attachmentId: requestOptions.attachmentId
+      }
+    }
   );
 }

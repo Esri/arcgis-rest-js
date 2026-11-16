@@ -80,7 +80,7 @@ export const exportItem = (
     )
     .then((url) =>
       request(url, {
-        httpMethod: "POST",
+        fetchOptions: { method: "POST" },
         authentication,
         params: {
           itemId,

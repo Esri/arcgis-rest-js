@@ -40,7 +40,7 @@
     "dev:esm": "tsc -w --outDir ./dist/esm --declaration"
   },
   "engines": {
-    "node": ">=12.20.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

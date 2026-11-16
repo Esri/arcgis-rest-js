@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  processOptions,
   ILocation,
   IPoint,
   IFeatureSet
@@ -96,17 +96,20 @@ export function serviceArea(
     ...requestOptions.params
   };
 
-  const options = appendCustomParams<IServiceAreaOptions>(requestOptions, [
-    "barriers",
-    "polylineBarriers",
-    "polygonBarriers",
-    "outputLines",
-    "returnFacilities",
-    "returnBarriers",
-    "returnPolylineBarriers",
-    "returnPolygonBarriers",
-    "preserveObjectID"
-  ]);
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: [
+      "barriers",
+      "polylineBarriers",
+      "polygonBarriers",
+      "outputLines",
+      "returnFacilities",
+      "returnBarriers",
+      "returnPolylineBarriers",
+      "returnPolygonBarriers",
+      "preserveObjectID"
+    ],
+    extractKeys: []
+  });
 
   // Set travelDirection
   if (requestOptions.travelDirection) {

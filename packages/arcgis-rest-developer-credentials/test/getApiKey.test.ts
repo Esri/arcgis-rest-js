@@ -211,7 +211,7 @@ describe("getApiKey()", () => {
     const apiKeyResponse = await getApiKey({
       itemId: "cddcacee5848488bb981e6c6ff91ab79",
       authentication: authOnline,
-      httpMethod: "GET"
+      fetchOptions: { method: "GET" }
     });
 
     // verify first fetch

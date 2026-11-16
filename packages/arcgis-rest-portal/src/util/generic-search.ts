@@ -4,7 +4,7 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams,
+  processOptions,
   IGroup,
   IUser
 } from "@esri/arcgis-rest-request";
@@ -29,16 +29,15 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
   let options: IRequestOptions;
   if (typeof search === "string" || search instanceof SearchQueryBuilder) {
     options = {
-      httpMethod: "GET",
+      fetchOptions: { method: "GET" },
       params: {
         q: search
       }
     };
   } else {
     // searchUserAccess has one (known) valid value: "groupMember"
-    options = appendCustomParams<ISearchOptions>(
-      search,
-      [
+    const { requestOptions } = processOptions(search, {
+      paramKeys: [
         "q",
         "num",
         "start",
@@ -52,10 +51,12 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
         "categories",
         "categoryFilters"
       ],
-      {
-        httpMethod: "GET"
+      extractKeys: [],
+      defaultOptions: {
+        fetchOptions: { method: "GET" }
       }
-    );
+    });
+    options = requestOptions;
   }
 
   let path;
@@ -92,7 +93,7 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
   const url = getPortalUrl(options) + path;
 
   // send the request
-  return request(url, options).then((r) => {
+  return request<ISearchResult<T>>(url, options).then((r) => {
     if (r.nextStart && r.nextStart !== -1) {
       r.nextPage = function () {
         let newOptions: ISearchOptions;

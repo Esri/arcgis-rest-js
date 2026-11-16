@@ -69,7 +69,9 @@ describe("ArcGISRequestError", () => {
         ArcGISAuthError,
         "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem",
         {
-          httpMethod: "POST",
+          fetchOptions: {
+            method: "POST"
+          },
           params: {
             title: "Test Map",
             tags: "foo",
@@ -108,7 +110,9 @@ describe("ArcGISRequestError", () => {
         ArcGISAuthError,
         "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem",
         {
-          httpMethod: "POST",
+          fetchOptions: {
+            method: "POST"
+          },
           params: {
             title: "Test Map",
             tags: "foo",
@@ -148,7 +152,9 @@ describe("ArcGISRequestError", () => {
         ArcGISAuthError,
         requestUrl,
         {
-          httpMethod: "POST",
+          fetchOptions: {
+            method: "POST"
+          },
           params: {
             type: "Web Map",
             f: "json"

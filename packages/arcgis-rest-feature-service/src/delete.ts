@@ -1,11 +1,7 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  cleanUrl,
-  appendCustomParams
-} from "@esri/arcgis-rest-request";
+import { request, cleanUrl, processOptions } from "@esri/arcgis-rest-request";
 
 import {
   ISharedEditOptions,
@@ -47,17 +43,16 @@ export function deleteFeatures(
   const url = `${cleanUrl(requestOptions.url)}/deleteFeatures`;
 
   // edit operations POST only
-  const options = appendCustomParams<IDeleteFeaturesOptions>(
-    requestOptions,
-    [
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: [
       "where",
       "objectIds",
       "gdbVersion",
       "returnEditMoment",
       "rollbackOnFailure"
     ],
-    { params: { ...requestOptions.params } }
-  );
+    extractKeys: []
+  });
 
   return request(url, options);
 }

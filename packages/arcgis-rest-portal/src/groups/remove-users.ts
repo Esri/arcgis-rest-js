@@ -61,7 +61,9 @@ export function removeGroupUsers(
       users,
       params: { users }
     };
-    return request(url, options).catch((error) => ({ errors: [error] }));
+    return request<IRemoveGroupUsersResult>(url, options).catch(
+      (error): IRemoveGroupUsersResult => ({ errors: [error] })
+    );
   };
   // the ArcGIS REST API only allows to add no more than 25 users per request,
   // see https://developers.arcgis.com/rest/users-groups-and-items/remove-users-from-group.htm
@@ -69,16 +71,15 @@ export function removeGroupUsers(
     safeSend(usersChunk)
   );
   return Promise.all(promises).then((results) => {
-    const filtered = (propName: string) =>
-      results
-        .filter((result) => result[propName])
-        .reduce(
-          (collection, result) => collection.concat(result[propName]),
-          []
-        );
-    const errors = filtered("errors");
+    const errors = results.reduce<ArcGISRequestError[]>(
+      (collection, result) => collection.concat(result.errors || []),
+      []
+    );
     const consolidated: IRemoveGroupUsersResult = {
-      notRemoved: filtered("notRemoved")
+      notRemoved: results.reduce<string[]>(
+        (collection, result) => collection.concat(result.notRemoved || []),
+        []
+      )
     };
     return errors.length ? { ...consolidated, errors } : consolidated;
   });

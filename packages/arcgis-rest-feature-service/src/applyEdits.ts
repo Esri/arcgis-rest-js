@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  processOptions,
   IFeature
 } from "@esri/arcgis-rest-request";
 
@@ -80,9 +80,8 @@ export function applyEdits(
   const url = `${cleanUrl(requestOptions.url)}/applyEdits`;
 
   // edit operations are POST only
-  const options = appendCustomParams<IApplyEditsOptions>(
-    requestOptions,
-    [
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: [
       "adds",
       "updates",
       "deletes",
@@ -93,8 +92,8 @@ export function applyEdits(
       "rollbackOnFailure",
       "trueCurveClient"
     ],
-    { params: { ...requestOptions.params } }
-  );
+    extractKeys: []
+  });
 
   return request(url, options);
 }

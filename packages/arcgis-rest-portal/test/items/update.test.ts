@@ -24,7 +24,6 @@ import {
   isNode
 } from "../../../../scripts/test-helpers.js";
 import { encodeParam, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import { FormData } from "@esri/arcgis-rest-form-data";
 
 describe("search", () => {
   afterEach(() => {
@@ -305,7 +304,11 @@ describe("search", () => {
       if (params.get) {
         expect(params.get("token")).toEqual("fake-token");
         expect(params.get("f")).toEqual("json");
-        expect(params.get("file")).toEqual(file);
+        const uploaded = params.get("file") as File;
+        expect(uploaded).toBeTruthy();
+        expect(uploaded.size).toBe(file.size);
+        expect(uploaded.type).toBe(file.type);
+        expect(await uploaded.text()).toEqual(await file.text());
       }
     });
 
@@ -358,16 +361,13 @@ describe("search", () => {
       if (params.get) {
         expect(params.get("token")).toEqual("fake-token");
         expect(params.get("f")).toEqual("json");
-        // validate file payload behavior for both runtimes instead of object equality
-        const uploadedFile = params.get("file") as File;
-        expect(uploadedFile).toBeTruthy();
-        expect(typeof uploadedFile.text).toBe("function");
-        expect(await uploadedFile.text()).toEqual("foo");
-        // validate file object identity in browser runtime
-        if (!isNode) {
-          expect(uploadedFile).toEqual(file);
-        }
+        const uploaded = params.get("file") as File;
+        expect(uploaded).toBeTruthy();
+        expect(uploaded.size).toBe(file.size);
+        expect(uploaded.type).toBe(file.type);
+        expect(await uploaded.text()).toEqual(await file.text());
         expect(params.get("fileName")).toEqual("thebigkahuna");
+        expect(uploaded.name).toBe(params.get("fileName"));
       }
     });
 

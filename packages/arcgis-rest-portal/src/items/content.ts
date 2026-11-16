@@ -58,7 +58,7 @@ export const getUserContent = (
     )
     .then((url) =>
       request(url, {
-        httpMethod: "GET",
+        fetchOptions: { method: "GET" },
         authentication,
         params: {
           start,

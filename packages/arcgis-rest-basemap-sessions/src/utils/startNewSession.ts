@@ -23,7 +23,7 @@ export function startNewSession({
   duration = DEFAULT_DURATION
 }: IRequestNewSessionParams): Promise<IStartSessionResponse> {
   return request(startSessionUrl, {
-    httpMethod: "GET",
+    fetchOptions: { method: "GET" },
     authentication: authentication,
     params: { styleFamily, durationSeconds: duration }
   });

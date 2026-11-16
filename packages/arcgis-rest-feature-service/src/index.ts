@@ -22,6 +22,7 @@ export * from "./queryRelated.js";
 export * from "./update.js";
 export * from "./updateAttachment.js";
 export * from "./updateServiceDefinition.js";
+export type { EsriGeoJSONFeatureCollection } from "./pbf-parser/geoJSONPbfParser.js";
 
 // Types that are used in this package are re-exported for convenience and
 // to make the links work correctly in the documentation pages.

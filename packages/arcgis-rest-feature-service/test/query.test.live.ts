@@ -3,9 +3,11 @@ import { describe, afterEach, test, expect } from "vitest";
 import {
   IQueryAllFeaturesOptions,
   IQueryFeaturesOptions,
+  IQueryFeaturesRawOptions,
   IQueryFeaturesResponse,
   queryAllFeatures,
-  queryFeatures
+  queryFeatures,
+  queryFeaturesRaw
 } from "../src/index.js";
 import pbfToArcGIS from "../src/pbf-parser/arcGISPbfParser.js";
 import { readEnvironmentFileToJSON } from "./utils/readFileArrayBuffer.js";
@@ -30,7 +32,9 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
     describe("with pbf-as-geojson", () => {
       // LIVE TEST: should decode a valid pbf-as-geojson response from public server without api key without fetchmock
       test("LIVE TEST (valid): should query pbf-as-geojson features from live server and decode into geojson from arrayBuffer (no geometries)", async () => {
-        const testPublicFeatureServer: IQueryFeaturesOptions = {
+        const testPublicFeatureServer: IQueryFeaturesOptions & {
+          f: "pbf-as-geojson";
+        } = {
           url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
           f: "pbf-as-geojson",
           objectIds: [49481],
@@ -49,18 +53,18 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         };
 
         const geojson = await queryFeatures(testPublicFeatureServer);
-        expect((geojson as any).features.length).toBe(1);
-        expect((geojson as any).features[0].properties.OBJECTID).toBe(49481);
-        expect((geojson as any).features[0].properties.County).toBe(
-          "Nassau County"
-        );
-        expect((geojson as any).features[0].id).toBe(49481);
-        expect((geojson as any).properties.exceededTransferLimit).toBeDefined();
+        expect(geojson.features.length).toBe(1);
+        expect(geojson.features[0].properties.OBJECTID).toBe(49481);
+        expect(geojson.features[0].properties.County).toBe("Nassau County");
+        expect(geojson.features[0].id).toBe(49481);
+        expect(geojson.properties.exceededTransferLimit).toBeDefined();
       });
 
       // testing public service with geometries without auth token (testing authenticated response requires api key for live testing)
       test("LIVE TEST (valid): should query pbf-as-geojson features from live service (with geometries)", async () => {
-        const docsPbfOptions: IQueryFeaturesOptions = {
+        const docsPbfOptions: IQueryFeaturesOptions & {
+          f: "pbf-as-geojson";
+        } = {
           url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
           f: "pbf-as-geojson",
           where: "1=1",
@@ -70,19 +74,17 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         };
 
         const geojson = await queryFeatures(docsPbfOptions);
-        expect((geojson as any).features.length).toBe(3);
-        expect((geojson as any).features[0]).toHaveProperty("properties");
-        expect((geojson as any).features[0].geometry).toHaveProperty("type");
-        expect((geojson as any).features[0].geometry).toHaveProperty(
-          "coordinates"
-        );
+        expect(geojson.features.length).toBe(3);
+        expect(geojson.features[0]).toHaveProperty("properties");
+        expect(geojson.features[0].geometry).toHaveProperty("type");
+        expect(geojson.features[0].geometry).toHaveProperty("coordinates");
         // expect polygon coordinates to be in lat/lon
-        const coords = (geojson as any).features[0].geometry.coordinates[0][0];
+        const coords = geojson.features[0].geometry.coordinates[0][0];
         expect(coords[0]).toBeLessThan(180);
         expect(coords[0]).toBeGreaterThan(-180);
         expect(coords[1]).toBeLessThan(90);
         expect(coords[1]).toBeGreaterThan(-90);
-        expect((geojson as any).properties.exceededTransferLimit).toBeDefined();
+        expect(geojson.properties.exceededTransferLimit).toBeDefined();
       });
 
       test("LIVE TEST w/fetch-mock (valid): should query pbf-as-geojson features from public service through fetchmock without corrupting the array buffer (test fetchmock)", async () => {
@@ -218,25 +220,27 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
       });
 
       test("LIVE TEST (file integrity): feature service geojson json should match file json geojson, and should equal pbf-as-geojson object", async () => {
-        const parksPolygonsPbfOptions: IQueryFeaturesOptions = {
+        const parksPolygonsPbfOptions: IQueryFeaturesOptions & {
+          f: "geojson";
+        } = {
           url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/Parks_and_Open_Space_Styled/FeatureServer/0`,
           f: "geojson",
           where: "1=1",
           outFields: ["*"],
           resultRecordCount: 1
         };
-        const parksPolygonsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+        const parksPolygonsPbfAsGeoJSONOptions: IQueryFeaturesOptions & {
+          f: "pbf-as-geojson";
+        } = {
           ...parksPolygonsPbfOptions,
           f: "pbf-as-geojson"
         };
         // query pure geojson
-        const geoJSON = (await queryFeatures(
-          parksPolygonsPbfOptions
-        )) as GeoJSON.FeatureCollection;
+        const geoJSON = await queryFeatures(parksPolygonsPbfOptions);
         // query pbf-as-geojson
-        const pbfGeojson = (await queryFeatures(
+        const pbfGeojson = await queryFeatures(
           parksPolygonsPbfAsGeoJSONOptions
-        )) as GeoJSON.FeatureCollection;
+        );
         // query file io geojson for comparison
         const fileGeoJSON = await readEnvironmentFileToJSON(
           "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPolygonResponse.json"
@@ -245,16 +249,17 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         expect(geoJSON).toEqual(fileGeoJSON);
 
         // check coordinates equality (5 decimal places) separately due to precision issues
-        const geoJSONCoords = (geoJSON.features[0].geometry as any).coordinates;
-        const pbfGeoJSONCoords = (pbfGeojson.features[0].geometry as any)
-          .coordinates;
+        const geoJSONGeometry = geoJSON.features[0].geometry;
+        const pbfGeoJSONGeometry = pbfGeojson.features[0].geometry;
+        const geoJSONCoords = geoJSONGeometry.coordinates;
+        const pbfGeoJSONCoords = pbfGeoJSONGeometry.coordinates;
 
         const tolerance = CoordinateToleranceEnum.EPSG_4326; // .11 millimeters at the equator in EPSG:4326
         const maxDrift = maxDifference(geoJSONCoords, pbfGeoJSONCoords);
         expect(maxDrift?.diff).toBeLessThan(tolerance);
         // check full object equality without precision conflicts from coordinates
-        (geoJSON.features[0].geometry as any).coordinates = [];
-        (pbfGeojson.features[0].geometry as any).coordinates = [];
+        geoJSONGeometry.coordinates = [];
+        pbfGeoJSONGeometry.coordinates = [];
         expect(geoJSON).toEqual(pbfGeojson);
       });
 
@@ -281,23 +286,27 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
       });
 
       test("LIVE TEST (output equality): LINE pbf-as-geojson response should match geojson LINE response", async () => {
-        const trailsLinesPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+        const trailsLinesPbfAsGeoJSONOptions: IQueryFeaturesOptions & {
+          f: "pbf-as-geojson";
+        } = {
           url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0`,
           f: "pbf-as-geojson",
           where: "1=1",
           outFields: ["*"],
           resultRecordCount: 1
         };
-        const trailsLinesGeoJSONOptions: IQueryFeaturesOptions = {
+        const trailsLinesGeoJSONOptions: IQueryFeaturesOptions & {
+          f: "geojson";
+        } = {
           ...trailsLinesPbfAsGeoJSONOptions,
           f: "geojson"
         };
 
         const [geojsonLineResponse, pbfAsGeoJSONLineResponse] =
-          (await Promise.all([
+          await Promise.all([
             queryFeatures(trailsLinesGeoJSONOptions),
             queryFeatures(trailsLinesPbfAsGeoJSONOptions)
-          ])) as [any, any];
+          ]);
 
         const geoJSONCoords =
           geojsonLineResponse.features[0].geometry.coordinates;
@@ -333,23 +342,27 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
       });
 
       test("LIVE TEST (output equality): POLYGON pbf-as-geojson response should match geojson POLYGON response", async () => {
-        const parcelsPolygonPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+        const parcelsPolygonPbfAsGeoJSONOptions: IQueryFeaturesOptions & {
+          f: "pbf-as-geojson";
+        } = {
           url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0`,
           f: "pbf-as-geojson",
           where: "1=1",
           outFields: ["*"],
           resultRecordCount: 1
         };
-        const parcelsPolygonGeoJSONOptions: IQueryFeaturesOptions = {
+        const parcelsPolygonGeoJSONOptions: IQueryFeaturesOptions & {
+          f: "geojson";
+        } = {
           ...parcelsPolygonPbfAsGeoJSONOptions,
           f: "geojson"
         };
 
         const [geojsonPolygonResponse, pbfAsGeoJSONPolygonResponse] =
-          (await Promise.all([
+          await Promise.all([
             queryFeatures(parcelsPolygonGeoJSONOptions),
             queryFeatures(parcelsPolygonPbfAsGeoJSONOptions)
-          ])) as [any, any];
+          ]);
 
         const geoJSONCoords =
           geojsonPolygonResponse.features[0].geometry.coordinates;
@@ -367,7 +380,9 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
       });
 
       test("LIVE TEST (output equality, multiple features): standard pbf-as-geojson response should match standard geojson response", async () => {
-        const geojsonOptions: IQueryFeaturesOptions = {
+        const geojsonOptions: IQueryFeaturesOptions & {
+          f: "geojson";
+        } = {
           url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
           f: "geojson",
           where: "1=1",
@@ -375,7 +390,9 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           resultOffset: 0,
           resultRecordCount: 3
         };
-        const pbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+        const pbfAsGeoJSONOptions: IQueryFeaturesOptions & {
+          f: "pbf-as-geojson";
+        } = {
           ...geojsonOptions,
           f: "pbf-as-geojson"
         };
@@ -394,27 +411,27 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           "FeatureCollection"
         );
         // should have same exceededTransferLimit value
-        expect((geojsonResponse as any).properties).toEqual(
-          (pbfAsGeoJSONResponse as any).properties
+        expect(geojsonResponse.properties).toEqual(
+          pbfAsGeoJSONResponse.properties
         );
-        expect((geojsonResponse as any).features[0].properties).toEqual(
-          (pbfAsGeoJSONResponse as any).features[0].properties
+        expect(geojsonResponse.features[0].properties).toEqual(
+          pbfAsGeoJSONResponse.features[0].properties
         );
-        expect((geojsonResponse as any).features[1].properties).toEqual(
-          (pbfAsGeoJSONResponse as any).features[1].properties
+        expect(geojsonResponse.features[1].properties).toEqual(
+          pbfAsGeoJSONResponse.features[1].properties
         );
-        expect((geojsonResponse as any).features[2].properties).toEqual(
-          (pbfAsGeoJSONResponse as any).features[2].properties
+        expect(geojsonResponse.features[2].properties).toEqual(
+          pbfAsGeoJSONResponse.features[2].properties
         );
 
         // should have matching feature count
-        expect((pbfAsGeoJSONResponse as any).features.length).toBe(3);
-        expect((geojsonResponse as any).features.length).toBe(3);
-        for (let i = 0; i < (geojsonResponse as any).features.length; i++) {
-          const geoJSONCoords = (geojsonResponse as any).features[i].geometry
-            .coordinates;
-          const pbfGeoJSONCoords = (pbfAsGeoJSONResponse as any).features[i]
-            .geometry.coordinates;
+        expect(pbfAsGeoJSONResponse.features.length).toBe(3);
+        expect(geojsonResponse.features.length).toBe(3);
+        for (let i = 0; i < geojsonResponse.features.length; i++) {
+          const geoJSONCoords =
+            geojsonResponse.features[i].geometry.coordinates;
+          const pbfGeoJSONCoords =
+            pbfAsGeoJSONResponse.features[i].geometry.coordinates;
 
           const tolerance = CoordinateToleranceEnum.EPSG_4326; // .11 millimeters at the equator in EPSG:4326;
           const maxDrift = maxDifference(geoJSONCoords, pbfGeoJSONCoords);
@@ -425,7 +442,9 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
 
     describe("with pbf-as-arcgis", () => {
       test("LIVE TEST (valid): should fetch live pbf-as-arcgis response (convert pbf buffer to geojson to arcgis)", async () => {
-        const docsPbfOptions: IQueryFeaturesOptions = {
+        const docsPbfOptions: IQueryFeaturesOptions & {
+          f: "pbf-as-arcgis";
+        } = {
           url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
           f: "pbf-as-arcgis",
           where: "1=1",
@@ -436,22 +455,21 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
 
         const response = await queryFeatures(docsPbfOptions);
 
-        expect((response as any).features.length).toBe(3);
-        expect((response as any).features[0]).toHaveProperty("attributes");
-        expect((response as any).features[0]).toHaveProperty("geometry");
+        expect(response.features.length).toBe(3);
+        expect(response.features[0]).toHaveProperty("attributes");
+        expect(response.features[0]).toHaveProperty("geometry");
       });
 
       test("LIVE TEST: should decode POINT pbf to arcgis", async () => {
-        const zipCodePointsPbfOptions: IQueryFeaturesOptions = {
+        const zipCodePointsPbfOptions: IQueryFeaturesRawOptions = {
           url: `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`,
           f: "pbf",
           where: "1=1",
           outFields: ["*"],
-          resultRecordCount: 1,
-          rawResponse: true
+          resultRecordCount: 1
         };
-        const response = await queryFeatures(zipCodePointsPbfOptions);
-        const arrBuffer = await (response as any).arrayBuffer();
+        const response = await queryFeaturesRaw(zipCodePointsPbfOptions);
+        const arrBuffer = await response.arrayBuffer();
         const arcgis = pbfToArcGIS(arrBuffer);
 
         // required properties
@@ -484,16 +502,15 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
       });
 
       test("LIVE TEST: should decode LINE pbf to arcgis", async () => {
-        const trailsLinesPbfOptions: IQueryFeaturesOptions = {
+        const trailsLinesPbfOptions: IQueryFeaturesRawOptions = {
           url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0`,
           f: "pbf",
           where: "1=1",
           outFields: ["*"],
-          resultRecordCount: 1,
-          rawResponse: true
+          resultRecordCount: 1
         };
-        const response = await queryFeatures(trailsLinesPbfOptions);
-        const arrBuffer = await (response as any).arrayBuffer();
+        const response = await queryFeaturesRaw(trailsLinesPbfOptions);
+        const arrBuffer = await response.arrayBuffer();
         const arcgis = pbfToArcGIS(arrBuffer);
 
         // required properties
@@ -518,16 +535,15 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
       });
 
       test("LIVE TEST: should decode POLYGON pbf to arcgis", async () => {
-        const parksPolygonsPbfOptions: IQueryFeaturesOptions = {
+        const parksPolygonsPbfOptions: IQueryFeaturesRawOptions = {
           url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/Parks_and_Open_Space_Styled/FeatureServer/0`,
           f: "pbf",
           where: "1=1",
           outFields: ["*"],
-          resultRecordCount: 1,
-          rawResponse: true
+          resultRecordCount: 1
         };
-        const response = await queryFeatures(parksPolygonsPbfOptions);
-        const arrBuffer = await (response as any).arrayBuffer();
+        const response = await queryFeaturesRaw(parksPolygonsPbfOptions);
+        const arrBuffer = await response.arrayBuffer();
         const arcgis = pbfToArcGIS(arrBuffer);
         // required properties
         expect(arcgis.features.length).toBe(1);
@@ -569,14 +585,18 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
       });
 
       test("LIVE TEST (output equality): should compare pbfToArcGIS POLYGON response with arccgis POLYGON response", async () => {
-        const parksPolygonsJsonOptions: IQueryFeaturesOptions = {
+        const parksPolygonsJsonOptions: IQueryFeaturesOptions & {
+          f: "json";
+        } = {
           url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/Parks_and_Open_Space_Styled/FeatureServer/0`,
           f: "json",
           where: "1=1",
           outFields: ["*"],
           resultRecordCount: 1
         };
-        const parksPolygonsPbfAsArcGISOptions: IQueryFeaturesOptions = {
+        const parksPolygonsPbfAsArcGISOptions: IQueryFeaturesOptions & {
+          f: "pbf-as-arcgis";
+        } = {
           ...parksPolygonsJsonOptions,
           f: "pbf-as-arcgis"
         };
@@ -796,14 +816,13 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         // run time may be longer on slower networks or when data is not cached
         { timeout: 15000 },
         async () => {
-          const docsPbfOptions: IQueryAllFeaturesOptions = {
+          const geojson = await queryAllFeatures({
             url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
             f: "geojson"
-          };
-          const response = await queryAllFeatures(docsPbfOptions);
-          expect((response as any).type).toBe("FeatureCollection");
-          expect((response as any).features.length).toBeGreaterThan(20000);
-          expect((response as any).properties.exceededTransferLimit).toBe(true);
+          });
+          expect(geojson.type).toBe("FeatureCollection");
+          expect(geojson.features.length).toBeGreaterThan(20000);
+          expect(geojson.properties.exceededTransferLimit).toBe(true);
         }
       );
     });
@@ -814,19 +833,17 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         // run time may be longer on slower networks or when data is not cached
         { timeout: 15000 },
         async () => {
-          const docsPbfOptions: IQueryAllFeaturesOptions = {
+          const response = await queryAllFeatures({
             url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
             f: "json"
-          };
+          });
 
-          const response = await queryAllFeatures(docsPbfOptions);
-
-          expect((response as any).features[0]).toHaveProperty("attributes");
-          expect((response as any).features[0]).toHaveProperty("geometry");
+          expect(response.features[0]).toHaveProperty("attributes");
+          expect(response.features[0]).toHaveProperty("geometry");
 
           // assert feature count and exceeded limit
-          expect((response as any).features.length).toBeGreaterThan(20000);
-          expect((response as any).exceededTransferLimit).toBe(true);
+          expect(response.features.length).toBeGreaterThan(20000);
+          expect(response.exceededTransferLimit).toBe(true);
         }
       );
     });
@@ -837,21 +854,22 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         // run time may be longer on slower networks or when data is not cached
         { timeout: 15000 },
         async () => {
-          const docsPbfOptions: IQueryAllFeaturesOptions = {
+          const geojson = await queryAllFeatures({
             url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
             f: "pbf-as-geojson"
-          };
+          });
 
-          const response = await queryAllFeatures(docsPbfOptions);
-          expect((response as any).features.length).toBeGreaterThan(20000);
-          expect((response as any).properties.exceededTransferLimit).toBe(true);
+          expect(geojson.features.length).toBeGreaterThan(20000);
+          expect(geojson.properties.exceededTransferLimit).toBe(true);
         }
       );
       test(
         "LIVE TEST: pbf-as-geojson request should throw an error when an object id field does not exist in the service",
         { timeout: 15000 },
         async () => {
-          const options: IQueryAllFeaturesOptions = {
+          const options: IQueryAllFeaturesOptions & {
+            f: "pbf-as-geojson";
+          } = {
             url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/NYC_Footprints_fgdb/FeatureServer/0",
             where: "HEIGHTROOF > 95",
             outFields: ["OBJECTID", "HEIGHTROOF", "GROUNDELEV", "CNSTRCT_YR"],
@@ -878,22 +896,23 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         // run time may be longer on slower networks or when data is not cached
         { timeout: 15000 },
         async () => {
-          const docsPbfOptions: IQueryAllFeaturesOptions = {
+          const response = await queryAllFeatures({
             url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
             f: "pbf-as-arcgis"
-          };
-          const response = await queryAllFeatures(docsPbfOptions);
-          expect((response as any).features.length).toBeGreaterThan(20000);
-          expect((response as any).exceededTransferLimit).toBe(true);
-          expect((response as any).features[0]).toHaveProperty("attributes");
-          expect((response as any).features[0]).toHaveProperty("geometry");
+          });
+          expect(response.features.length).toBeGreaterThan(20000);
+          expect(response.exceededTransferLimit).toBe(true);
+          expect(response.features[0]).toHaveProperty("attributes");
+          expect(response.features[0]).toHaveProperty("geometry");
         }
       );
       test(
         "LIVE TEST: pbf-as-arcgis request should throw an error when an object id field does not exist in the service",
         { timeout: 15000 },
         async () => {
-          const options: IQueryAllFeaturesOptions = {
+          const options: IQueryAllFeaturesOptions & {
+            f: "pbf-as-arcgis";
+          } = {
             url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/NYC_Footprints_fgdb/FeatureServer/0",
             where: "HEIGHTROOF > 95",
             outFields: ["OBJECTID", "HEIGHTROOF", "GROUNDELEV", "CNSTRCT_YR"],

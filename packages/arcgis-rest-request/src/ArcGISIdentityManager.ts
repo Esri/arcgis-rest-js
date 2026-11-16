@@ -112,6 +112,18 @@ export interface IServerInfo {
   hasServer: boolean;
 }
 
+interface IFederatedServerInfoResponse {
+  owningSystemUrl?: string;
+  authInfo?: {
+    tokenServicesUrl: string;
+  };
+}
+
+interface IGenerateServerTokenResponse {
+  token: string;
+  expires: number;
+}
+
 /**
  * Options for static OAuth 2.0 helper methods on `ArcGISIdentityManager`.
  */
@@ -672,7 +684,7 @@ export class ArcGISIdentityManager
 
       // exchange our auth code for a token + refresh token
       return fetchToken(tokenEndpoint, {
-        httpMethod: "POST",
+        fetchOptions: { method: "POST" },
         params: {
           client_id: clientId,
           code_verifier: codeVerifier,
@@ -1159,7 +1171,7 @@ export class ArcGISIdentityManager
    *   })
    * ```
    *
-   * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
+   * @param requestOptions - Options for the request.
    * @returns A Promise that will resolve with the data from the response.
    */
   public getPortal(requestOptions?: IRequestOptions): Promise<any> {
@@ -1171,11 +1183,14 @@ export class ArcGISIdentityManager
       const url = `${this.portal}/portals/self`;
 
       const options = {
-        httpMethod: "GET",
         authentication: this,
-        ...requestOptions,
-        rawResponse: false
+        ...requestOptions
       } as IRequestOptions;
+
+      options.fetchOptions = {
+        method: "GET",
+        ...requestOptions?.fetchOptions
+      };
 
       this._pendingPortalRequest = request(url, options).then((response) => {
         this._portalInfo = response;
@@ -1446,7 +1461,7 @@ export class ArcGISIdentityManager
 
     this._pendingTokenRequests[root] = this.fetchAuthorizedDomains().then(
       () => {
-        return request(`${root}/rest/info`, {
+        return request<IFederatedServerInfoResponse>(`${root}/rest/info`, {
           credentials: this.getDomainCredentials(url)
         })
           .then((serverInfo) => {
@@ -1465,7 +1480,7 @@ export class ArcGISIdentityManager
                 /**
                  * if the server is federated, use the relevant token endpoint.
                  */
-                return request(
+                return request<IFederatedServerInfoResponse>(
                   `${serverInfo.owningSystemUrl}/sharing/rest/info`,
                   requestOptions
                 );
@@ -1530,7 +1545,7 @@ export class ArcGISIdentityManager
    * Generates a token for a given `serverUrl` using a given `tokenServicesUrl`.
    */
   private generateTokenForServer(tokenServicesUrl: string, serverUrl: string) {
-    return request(tokenServicesUrl, {
+    return request<IGenerateServerTokenResponse>(tokenServicesUrl, {
       params: {
         token: this.token,
         serverUrl,
@@ -1607,14 +1622,14 @@ export class ArcGISIdentityManager
 
     return (
       this.server
-        ? request(`${this.getServerRootUrl(this.server)}/rest/info`).then(
-            (response) => {
-              return request(response.authInfo.tokenServicesUrl, {
-                params,
-                ...requestOptions
-              });
-            }
-          )
+        ? request<IFederatedServerInfoResponse>(
+            `${this.getServerRootUrl(this.server)}/rest/info`
+          ).then((response) => {
+            return request(response.authInfo.tokenServicesUrl, {
+              params,
+              ...requestOptions
+            });
+          })
         : request(`${this.portal}/generateToken`, {
             params,
             ...requestOptions
