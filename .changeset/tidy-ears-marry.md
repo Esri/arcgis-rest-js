@@ -17,7 +17,7 @@
 - Removed support for `rawResponse` from REST JS.
 - Removed support for non-JSON `f` query types from `request()`.
 - Removed `arcgis-rest-fetch` and `arcgis-rest-form-data` compatibility packages. Upgraded REST JS to support Node version 22 and above.
-- Removed `withOptions()` removed from `arcgis-rest-request`.
+- Removed `withOptions()` from `arcgis-rest-request`.
 - Deprecated `rawResponse`.
 - Deprecated `hideToken`.
 - Deprecated `maxUrlLength`.
