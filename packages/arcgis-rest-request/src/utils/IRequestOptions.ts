@@ -75,13 +75,6 @@ export interface IRequestFlags {
    */
   suppressWarnings?: boolean;
   /**
-   * Reserved for response header injection behavior.
-   *
-   * Note: this flag is currently defined for API compatibility/documentation, but is
-   * not actively applied in the current request pipeline.
-   */
-  injectRequestHeaders?: boolean;
-  /**
    * Disables automatic GET -> POST conversion based solely on URL length (2000+ chars).
    */
   ignoreMaxUrlLength?: boolean;
