@@ -5,7 +5,6 @@ import {
   request,
   cleanUrl,
   processOptions,
-  ProcessOptionsResult,
   ISpatialReference,
   IFeatureSet,
   IFeature,
