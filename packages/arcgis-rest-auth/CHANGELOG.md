@@ -1,5 +1,17 @@
 # @esri/arcgis-rest-auth Changelog
 
+## 4.11.2
+
+### Patch Changes
+
+- 33491ba: Added native `FormData` support in Node versions 22 and 24.
+
+  - Updated node ponyfills to load native `FormData` when available.
+  - Updated tests to conditionally verify contents based on runtime.
+
+- Updated dependencies [33491ba]
+  - @esri/arcgis-rest-request@4.11.2
+
 ## 4.11.1
 
 ### Patch Changes
