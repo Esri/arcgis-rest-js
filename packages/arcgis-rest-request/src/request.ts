@@ -300,11 +300,11 @@ function resolveGetRequestPostFallback(options: {
   // encode the parameters into the query string
   const queryParams = encodeQueryString(params);
   // dont append a '?' unless parameters are actually present
-  const urlWithQueryString =
-    queryParams === ""
-      ? /* istanbul ignore next -- @preserve */
-        url
-      : `${url}?${queryParams}`;
+  let urlWithQueryString = `${url}?${queryParams}`;
+  /* istanbul ignore if -- @preserve */
+  if (queryParams === "") {
+    urlWithQueryString = url;
+  }
 
   // if full url would exceed default URL length handling, and customer has not explicitly opted out of that behavior, requires POST
   const exceedsMaxUrlLength =

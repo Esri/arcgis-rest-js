@@ -48,14 +48,13 @@ export interface IStartSessionParams {
  */
 export abstract class BaseSession implements IAuthenticationManager {
   // the static methods for event handlers are used to provide doc via typedoc and do not need to be tested.
-  /* istanbul ignore next -- @preserve */
   /**
    * Event handler for when an error occurs during session management.
    */
-  static readonly error = function error(e: Error): void {};
+  static readonly error =
+    /* istanbul ignore next -- @preserve */ function error(e: Error): void {};
 
   // the static methods for event handlers are used to provide doc via typedoc and do not need to be tested.
-  /* istanbul ignore next -- @preserve */
   /**
    * Event handler for when the current session expires and the session token it no longer valid. This event will only fire if {@linkcode BaseSession.checkingExpirationTime}
    * is `true` which is the default. Once this event fires, {@linkcode BaseSession.checkingExpirationTime} will be set to `false` until the session is refreshed with
@@ -67,15 +66,16 @@ export abstract class BaseSession implements IAuthenticationManager {
    * @param e.endTime - The end time of the session.
    * @param e.expires - The expiration time of the session.
    */
-  static readonly expired = function expired(e: {
-    token: string;
-    startTime: Date;
-    endTime: Date;
-    expires: Date;
-  }): void {};
+  static readonly expired =
+    /* istanbul ignore next -- @preserve */
+    function expired(e: {
+      token: string;
+      startTime: Date;
+      endTime: Date;
+      expires: Date;
+    }): void {};
 
   // the static methods for event handlers are used to provide doc via typedoc and do not need to be tested.
-  /* istanbul ignore next -- @preserve */
   /**
    * Event handler for when a session refreshes and a new `token` is available.
    *
@@ -91,20 +91,22 @@ export abstract class BaseSession implements IAuthenticationManager {
    * @param e.current.endTime - The end time of the current session.
    * @param e.current.expires - The expiration time of the current token.
    */
-  static readonly refreshed = function refreshed(e: {
-    previous: {
-      token: string;
-      startTime: Date;
-      endTime: Date;
-      expires: Date;
-    };
-    current: {
-      token: string;
-      startTime: Date;
-      endTime: Date;
-      expires: Date;
-    };
-  }): void {};
+  static readonly refreshed =
+    /* istanbul ignore next -- @preserve */
+    function refreshed(e: {
+      previous: {
+        token: string;
+        startTime: Date;
+        endTime: Date;
+        expires: Date;
+      };
+      current: {
+        token: string;
+        startTime: Date;
+        endTime: Date;
+        expires: Date;
+      };
+    }): void {};
 
   /**
    * The portal URL that the session is associated with. This generally is not used but exists to implement the `IAuthenticationManager` interface.

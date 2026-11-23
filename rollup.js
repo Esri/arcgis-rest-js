@@ -1,6 +1,5 @@
 import typescript from "@rollup/plugin-typescript";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
-import filesize from "rollup-plugin-filesize";
 import terser from "@rollup/plugin-terser";
 import * as path from "path";
 import * as fs from "fs";
@@ -86,7 +85,6 @@ const basePlugins = function () {
 
 const productionPlugins = function () {
   return [
-    filesize(),
     terser({
       format: {
         comments: function (node, comment) {

@@ -84,11 +84,7 @@ export interface ISignInOptions {
 }
 
 export type AuthenticationProvider =
-  | "arcgis"
-  | "facebook"
-  | "google"
-  | "github"
-  | "apple";
+  "arcgis" | "facebook" | "google" | "github" | "apple";
 
 /**
  * Represents a [credential](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-Credential.html)
@@ -450,17 +446,17 @@ export class ArcGISIdentityManager
 
       win.localStorage.setItem(codeVerifierStorageKey, codeVerifier);
 
-      setupAuth = generateCodeChallenge(codeVerifier, win).then(function (
-        codeChallenge
-      ) {
-        authorizeUrlParams.code_challenge_method = codeChallenge
-          ? "S256"
-          : "plain";
+      setupAuth = generateCodeChallenge(codeVerifier, win).then(
+        function (codeChallenge) {
+          authorizeUrlParams.code_challenge_method = codeChallenge
+            ? "S256"
+            : "plain";
 
-        authorizeUrlParams.code_challenge = codeChallenge
-          ? codeChallenge
-          : codeVerifier;
-      });
+          authorizeUrlParams.code_challenge = codeChallenge
+            ? codeChallenge
+            : codeVerifier;
+        }
+      );
     } else {
       /**
        * If we aren't authenticating with PKCE we can just assign a resolved promise to `setupAuth`
@@ -951,14 +947,17 @@ export class ArcGISIdentityManager
       // at 4.x - 4.5 we were passing .toJSON() instead of .toCredential()
       // so we attempt to handle either payload for backwards compatibility
       // but at the next breaking change we should only support an ICredential
-      return isCredential(credential)
-        ? ArcGISIdentityManager.fromCredential(credential, {
-            hasPortal: true,
-            hasServer: false,
-            server: credential.server
-          } as IServerInfo)
-        : /* istanbul ignore next -- @preserve */
-          new ArcGISIdentityManager(credential);
+      /* istanbul ignore else -- @preserve */
+      if (isCredential(credential)) {
+        return ArcGISIdentityManager.fromCredential(credential, {
+          hasPortal: true,
+          hasServer: false,
+          server: credential.server
+        } as IServerInfo);
+      }
+
+      /* istanbul ignore next -- @preserve */
+      return new ArcGISIdentityManager(credential);
     }
     if (event.data.type === "arcgis:auth:error") {
       const err = new Error(event.data.error.message);
@@ -1612,12 +1611,12 @@ export class ArcGISIdentityManager
       referer: this.referer
         ? this.referer
         : typeof window !== "undefined" &&
-          typeof window.document !== "undefined" &&
-          window.location &&
-          window.location.origin
-        ? window.location.origin
-        : /* istanbul ignore next */
-          NODEJS_DEFAULT_REFERER_HEADER
+            typeof window.document !== "undefined" &&
+            window.location &&
+            window.location.origin
+          ? window.location.origin
+          : /* istanbul ignore next */
+            NODEJS_DEFAULT_REFERER_HEADER
     };
 
     return (
